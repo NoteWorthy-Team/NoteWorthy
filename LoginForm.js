@@ -7,7 +7,7 @@ class LoginForm extends HTMLElement {
 
     renderElement() {
       const login = document.createElement('div')
-      login.className = 'login-container'
+      login.className = 'login-form'
 
       const username = document.createElement('input')
       username.name = 'username'
@@ -24,7 +24,9 @@ class LoginForm extends HTMLElement {
       submit.type = 'submit'
 
       login.appendChild(username)
+      login.appendChild(document.createElement('br'))
       login.appendChild(password)
+      login.appendChild(document.createElement('br'))
       login.appendChild(submit)
 
       document.body.appendChild(login)
