@@ -1,0 +1,41 @@
+/*body css copied from e1, change later*/
+
+body {
+	background-color: #e6ecf0;
+	margin: 0;
+	font-family: "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.nav-bar {
+	background-color: black;
+	overflow: hidden;
+}
+
+.nav-bar a {
+	color: white;
+	padding: 15px;
+	float: right;
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	font-size: 17px;
+}
+
+.login-container {
+	position: relative;
+	text-align: center;
+	border-radius: 5px;
+	background-color: #f2f2f2;
+	padding: 20px;
+} 
+
+/*style input button, will change colours to match colour scheme*/
+input[type=submit] {
+    background-color: #ef2288;
+    color: white;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #a5198e;
+}
