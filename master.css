@@ -1,13 +1,15 @@
 /*body css copied from e1, change later*/
 
 body {
-	background-color: #e6ecf0;
+	background-image: url("samples/sample_background.jpg");
+	/* background-color: #e6ecf0; */
+	background-position: center;
 	margin: 0;
 	font-family: "Helvetica Neue", Helvetica, sans-serif;
 }
 
 .nav-bar {
-	background-color: black;
+	background: rgba(0, 0, 0, 0.5);
 	overflow: hidden;
 }
 
@@ -30,11 +32,12 @@ body {
 	width: 20%;
 	text-align: center;
 	border-radius: 5px;
-	background-color: #f2f2f2;
+	background: rgba(242, 242, 242, 0.6);
 	padding: 20px;
 } 
 
 input {
+	opacity: 1;
 	width: 80%;
 	min-width: 75px;
 	padding: 12px;
