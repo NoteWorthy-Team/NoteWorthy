@@ -1,5 +1,9 @@
 //sampleSubmissions.js
 
+//This file provides sample data for the admin dashboard in lieue of a 
+// database to pull this information from.
+//Likewise, the classes declared here are only placeholders.
+
 import {Album} from "./album.js";
 
 //Simple track class; The fields here are what the admin dashboard expects from a real Track class
