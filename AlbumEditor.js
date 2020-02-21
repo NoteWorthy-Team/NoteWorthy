@@ -35,3 +35,7 @@ function removeField(e) {
     const parentList = container.parentElement;
     parentList.removeChild(container);
 }
+
+window.onbeforeunload = function(){
+    return true;
+};
