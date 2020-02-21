@@ -1,11 +1,8 @@
-/*body css copied from e1, change later*/
-
 body {
 	background-image: url("samples/sample_background.jpg");
-	/* background-color: #e6ecf0; */
 	background-position: center;
 	margin: 0;
-	font-family: "Helvetica Neue", Helvetica, sans-serif;
+	font-family: "Montserrat", Helvetica, sans-serif;
 }
 
 .nav-bar {
@@ -23,12 +20,34 @@ body {
 	font-size: 17px;
 }
 
-.login-form {
+.middle-container {
 	position: absolute;
-	min-width: 140px;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%); 
+}
+
+.slogan {
+	float: left;
+	transform: translate(0, 40%);
+	color: white;
+	display: inline-block;
+	margin: 10px;
+}
+
+.vl {
+	float: left;
+	border-left: 6px solid;
+	border-left-color: rgba(242, 242, 242, 0.6);
+	height: 200px;
+	margin: 10px;
+}
+
+.login-form {
+	float: left;
+	margin: 10px;
+	position: relative;
+	min-width: 160px;
 	width: 20%;
 	text-align: center;
 	border-radius: 5px;
