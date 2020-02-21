@@ -12,7 +12,7 @@
     <nav-bar></nav-bar>
 
     <section>
-        <p id="submissionInfo">Submitted by <span id="submitterName"></span> on <span id="submissionDate"></span></p>
+        <p id="submissionInfo">Submitted by <a id="submitterName" href="">Sample User</a> on <span id="submissionDate"></span></p>
     </section>
     <form autocomplete="off" action="" method="POST">
         <label for="albumTitle">Title:</label>
@@ -23,7 +23,7 @@
         <label for="artistList">Artist:</label>
             <div id="artistList">
                 <div class="inputContainer">
-                    <input type="text" class="artistInput">
+                    <input type="text" class="albumInfoInput">
                 </div>
                 <button type="button" class="addInputButton" id="addArtistButton">+</button>
             </div>
@@ -32,7 +32,7 @@
             <label for="producerList">Producer: </label>
             <div id="producerList">
                 <div class="inputContainer">
-                    <input type="text" class="producerInput">
+                    <input type="text" class="albumInfoInput">
                 </div>
                 <button type="button" class="addInputButton" id="addProducerButton">+</button>
             </div>
@@ -41,7 +41,7 @@
             <label for="labelList">Label:</label>
             <div id="labelList">
                 <div class="inputContainer">
-                    <input type="text" class="labelInput">
+                    <input type="text" class="albumInfoInput">
                 </div>
                 <button type="button" class="addInputButton" id="addLabelButton">+</button>
             </div>
@@ -50,7 +50,7 @@
             <label for="genreList">Genre:</label>
             <div id="genreList">
                 <div class="inputContainer">
-                    <input type="text" class="genreInput">
+                    <input type="text" class="albumInfoInput">
                 </div>
                 <button type="button" class="addInputButton" id="addGenreButton">+</button>
             </div>
@@ -59,9 +59,10 @@
             <!--TODO-->
         </div>
 
-        <input type="submit">
+        <input type="submit" value="Save">
+        <input type="submit" value="Save & Approve">
     </form>
 </body>
-<script type="module" src="AlbumEditor.js"></script>
+<script type="text/javascript" src="AlbumEditor.js"></script>
 </html>
 

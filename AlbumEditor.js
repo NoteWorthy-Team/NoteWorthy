@@ -15,7 +15,7 @@ function addField(e) {
 
     const newTextInput = document.createElement("input");
     newTextInput.type = "text";
-    //newTextInput.className = 
+    newTextInput.className = "albumInfoInput";
     const newContainer = document.createElement("div");
     newContainer.className = "inputContainer";
     newContainer.appendChild(newTextInput);
