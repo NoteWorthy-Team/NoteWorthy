@@ -1,8 +1,8 @@
 //AlbumEditor.js
 
 const addFieldButtons = document.getElementsByClassName("addInputButton");
-
-
+const addTrackButton = document.getElementById("addTrackButton");
+addTrackButton.addEventListener("click", addTrack);
 let i;
 for (i=0; i < addFieldButtons.length; i++){
     addFieldButtons[i].addEventListener("click", addField);
@@ -55,8 +55,7 @@ function populateForm() {
     populateProducerList(album);
     populateLabelList(album);
     populateGenreList(album);
-
-    populateTrackList();
+    populateTrackList(album);
 }
 function populateTitleField(album) {
     titleField = document.getElementById("albumTitle");
@@ -86,9 +85,55 @@ function populateGenreList(album) {
     const genreList = document.getElementById("genreList");
     populateListElement(genreList, album.genre);
 }
+/**
+ * Adds a new track to the bottom of the track list
+ */
+function addTrack() {
+    const albumTrackList = document.getElementById("albumTrackList");
+    const newLi = document.createElement("li");
+    newLi.className = "trackContainer";
+    const titleLabel = document.createElement("label");
+    const titleLabelText = document.createTextNode("Title:");
+    titleLabel.appendChild(titleLabelText);
+    const titleInput = document.createElement("input")
+    titleInput.type = "text";
+    titleInput.className = "trackTitleInput";
+    const runtimeLabel = document.createElement("label");
+    const runtimeLabelText = document.createTextNode("Running time:");
+    runtimeLabel.appendChild(runtimeLabelText);
+    const runtimeInput = document.createElement("input")
+    runtimeInput.type = "text";
+    runtimeInput.className = "trackRuntimeInput";
+    newLi.appendChild(titleLabel);
+    newLi.appendChild(titleInput);
+    newLi.appendChild(runtimeLabel);
+    newLi.appendChild(runtimeInput);
+    const plusButton = document.getElementById("addTrackButton");
+    albumTrackList.insertBefore(newLi, plusButton);
+
+    const minusButton = document.createElement("button");
+    minusButton.type="button";
+    minusButton.class="removeTrackButton";
+    const minusButtonText = document.createTextNode("-");
+    minusButton.appendChild(minusButtonText);
+    newLi.appendChild(minusButton);
+    minusButton.addEventListener("click", removeField);
+}
 function populateTrackList(album) {
     const albumTrackList = document.getElementById("albumTrackList");
-    throw "Not implemented";
+    let i;
+    let nextLi = albumTrackList.firstElementChild;
+    for (i = 0; i < album.tracklisting.length; i++){
+        const titleInput = nextLi.getElementsByClassName("trackTitleInput")[0];
+        const runtimeInput = nextLi.getElementsByClassName("trackRuntimeInput")[0];
+        const track = album.tracklisting[i]
+        titleInput.value = track.name;
+        runtimeInput.value = track.runtime;
+        if (i + 1 < album.tracklisting.length) {
+            addTrack();
+            nextLi = nextLi.nextElementSibling;
+        }
+    }
 }
 
 function populateListElement(element, data) {
