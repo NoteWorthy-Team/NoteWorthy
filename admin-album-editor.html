@@ -55,9 +55,16 @@
                 <button type="button" class="addInputButton" id="addGenreButton">+</button>
             </ul>
         </div>
-        <ul id="albumTrackList">
-            <!--TODO-->
-        </ul>
+        <label for="albumTrackList">Track List</label>
+        <ol id="albumTrackList">
+            <li class="trackContainer">
+                <label>Title:</label>
+                <input type="text" class="trackTitleInput">
+                <label>Running time:</label>
+                <input type="text" class="trackRuntimeInput">
+            </li>
+            <button type="button" id="addTrackButton">+</button>
+        </ol>
 
         <input type="submit" value="Save">
         <input type="submit" value="Save & Approve">
