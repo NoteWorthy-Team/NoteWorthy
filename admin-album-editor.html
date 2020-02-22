@@ -12,7 +12,7 @@
     <nav-bar></nav-bar>
 
     <section>
-        <p id="submissionInfo">Submitted by <a id="submitterName" href="">Sample User</a> on <span id="submissionDate"></span></p>
+        <p id="submissionInfo">Submitted by <a id="submitterName" href=""></a> on <span id="submissionDate"></span></p>
     </section>
     <form autocomplete="off" action="" method="POST">
         <label for="albumTitle">Title:</label>
@@ -20,44 +20,44 @@
         <label for="albumYear">Year:</label>
         <input type="text" id="albumYear">
         <div id="artists">
-        <label for="artistList">Artist:</label>
-            <div id="artistList">
-                <div class="inputContainer">
+            <label for="artistList">Artist:</label>
+            <ul id="artistList">
+                <li class="inputContainer">
                     <input type="text" class="albumInfoInput">
-                </div>
+                </li>
                 <button type="button" class="addInputButton" id="addArtistButton">+</button>
-            </div>
+            </ul>
         </div>
         <div id="producers">
             <label for="producerList">Producer: </label>
-            <div id="producerList">
-                <div class="inputContainer">
+            <ul id="producerList">
+                <li class="inputContainer">
                     <input type="text" class="albumInfoInput">
-                </div>
+                </li>
                 <button type="button" class="addInputButton" id="addProducerButton">+</button>
-            </div>
+            </ul>
         </div>
         <div id="albumLabels">
             <label for="labelList">Label:</label>
-            <div id="labelList">
-                <div class="inputContainer">
+            <ul id="labelList">
+                <li class="inputContainer">
                     <input type="text" class="albumInfoInput">
-                </div>
+                </li>
                 <button type="button" class="addInputButton" id="addLabelButton">+</button>
-            </div>
+            </ul>
         </div>
         <div id="genres">
             <label for="genreList">Genre:</label>
-            <div id="genreList">
-                <div class="inputContainer">
+            <ul id="genreList">
+                <li class="inputContainer">
                     <input type="text" class="albumInfoInput">
-                </div>
+                </li>
                 <button type="button" class="addInputButton" id="addGenreButton">+</button>
-            </div>
+            </ul>
         </div>
-        <div id="albumTrackList">
+        <ul id="albumTrackList">
             <!--TODO-->
-        </div>
+        </ul>
 
         <input type="submit" value="Save">
         <input type="submit" value="Save & Approve">
