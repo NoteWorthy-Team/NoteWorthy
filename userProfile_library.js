@@ -67,7 +67,8 @@ class userInfo {
   " I wish I had a time machine so that I could go back in time and stop this album from being created. " +
   "I’m DISTRAUGHT. ",0);
 
-  let hammerReview = new reviewData( new Date(2019, 1, 14), "Please Hammer Don’t Hurt ‘Em ",'please_hammer_dont_hurt_em.jpg',
+  let hammerReview = new reviewData( new Date(2019, 1, 14),
+  "Please Hammer Don’t Hurt ‘Em ",'please_hammer_dont_hurt_em.jpg',
   "An absolute banger! People are dumb in thinking that this album should only be known for “U Can’t Touch This”. MC Hammer is a true artiste and should be as famous as that garbage band NoteWorthy!",5);
 
   let sampleReviewList = [];
@@ -91,12 +92,31 @@ class userInfo {
   tolistenList.push(helpAlbum)
 
   let sampleUser = new userInfo(0,"tonybaloney",'tonybaloney.jpg',
-   "You don’t like the things that you like, these are the things you like. Staten, NYC.",
+  "You don’t like the things that you like, these are the things you like. Staten, NYC.",
   sampleFriendList, sampleFavAlbumList, sampleReviewList, sampleCollectionList, tolistenList);
+
 
   let isDisplayingReviews = true;
   let isDisplayingCollections= false;
   let isDisplayingToListened = false;
+
+  // a list of DOM master elements
+  const username = document.getElementById("username");
+  const favAlbums = document.getElementById("favAlbums");
+  const userpicture = document.getElementById("userpicture");
+  const userPanel = document.getElementById("userPanel");
+  const bio = document.getElementById("bio");
+  const followlist = document.getElementById("followlist");
+
+  const reviewButton = userPanel.getElementsByClassName("reviews");
+  const collectionButton = userPanel.getElementsByClassName("collections");
+  const toListenButton  = userPanel.getElementsByClassName("toListen");
+
+  reviewButton[0].addEventListener('click',panelReviewUpdate)
+  collectionButton[0].addEventListener('click',panelCollectionUpdate)
+  toListenButton[0].addEventListener('click',paneltoListenpdate)
+  /* Event listeners for user panel click */
+
 
   // Runs certain functions once the page is loaded
   window.onload = function() {
@@ -105,12 +125,6 @@ class userInfo {
 
   function displayUserInfo(user)
   {
-    // a list of DOM master elements
-    const username = document.querySelector('#username');
-    const favAlbums = document.querySelector('#favAlbums');
-    const userpicture = document.querySelector('#userpicture');
-    const bio = document.querySelector('#bio');
-    const followlist = document.querySelector('#followlist');
 
     // adding the user name
     const userName = user.username
@@ -222,10 +236,51 @@ class userInfo {
     updateUserPanel(user);
   }
 
+  function panelReviewUpdate(e) {
+    e.preventDefault();
+    console.log("Testing panel update - review")
+    isDisplayingReviews = true;
+    isDisplayingCollections= false;
+    isDisplayingToListened = false;
+    updateUserPanel(sampleUser);
+
+  }
+
+  function panelCollectionUpdate(e) {
+    e.preventDefault();
+    console.log("Testing panel update - collection")
+    isDisplayingReviews = false;
+    isDisplayingCollections= true;
+    isDisplayingToListened = false;
+    updateUserPanel(sampleUser);
+  }
+
+  function paneltoListenpdate(e) {
+    e.preventDefault();
+    console.log("Testing panel update - to listen")
+    isDisplayingReviews = false;
+    isDisplayingCollections= false;
+    isDisplayingToListened = true;
+    updateUserPanel(sampleUser);
+  }
+
   function updateUserPanel(user)
   {
-    const userPanel = document.querySelector('#userPanel');
-    // remove other divs
+    const reviewsDivList = userPanel.getElementsByClassName("reviewsDiv");
+    const collectionDivList = userPanel.getElementsByClassName("collectionDiv");
+    const toListenDivlist = userPanel.getElementsByClassName("lisListDiv");
+
+    for(let i= reviewsDivList.length -1; i >= 0; i--) {
+      userPanel.removeChild(reviewsDivList.item(i))
+    }
+
+    for(let i= collectionDivList.length -1; i >= 0; i--) {
+      userPanel.removeChild(collectionDivList.item(i))
+    }
+
+    for(let i= toListenDivlist.length -1; i >= 0; i--) {
+      userPanel.removeChild(toListenDivlist.item(i))
+    }  
 
     // add reviews Div
     if(isDisplayingReviews)
@@ -370,27 +425,27 @@ class userInfo {
       if( user.userListList.length != 0) {
         for(let i = 0; i< 9 && i < user.userListList.length ; i++)
         {
-            let currentWantToListem = user.userListList[i]
+          let currentWantToListem = user.userListList[i]
 
-            let toListenAlbumName = currentWantToListem.albumName;
-            let toListenAlbumCover = currentWantToListem.albumCover;
+          let toListenAlbumName = currentWantToListem.albumName;
+          let toListenAlbumCover = currentWantToListem.albumCover;
 
 
-            const albumNamepara= document.createElement('p')
-            const albumPicImg = document.createElement('img')
-            const albumdiv = document.createElement('div')
+          const albumNamepara= document.createElement('p')
+          const albumPicImg = document.createElement('img')
+          const albumdiv = document.createElement('div')
 
-            albumPicImg.className = 'toListenCover';
-            albumPicImg.src = toListenAlbumCover;
-            console.log(albumPicImg.src)
-            albumdiv.appendChild(albumPicImg)
+          albumPicImg.className = 'toListenCover';
+          albumPicImg.src = toListenAlbumCover;
+          console.log(albumPicImg.src)
+          albumdiv.appendChild(albumPicImg)
 
-            albumdiv.className = 'lisListDiv';
-            albumNamepara.appendChild(document.createTextNode(toListenAlbumName))
+          albumdiv.className = 'lisListDiv';
+          albumNamepara.appendChild(document.createTextNode(toListenAlbumName))
 
-            albumdiv.appendChild(albumNamepara)
+          albumdiv.appendChild(albumNamepara)
 
-            userPanel.appendChild(albumdiv);
+          userPanel.appendChild(albumdiv);
         }
 
         // Add a link down here to bring the user to a screen where they can edit their collections
