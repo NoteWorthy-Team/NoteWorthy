@@ -38,9 +38,9 @@ class reviewData {
 }
 
 const hammerReview = new reviewData( new Date(2019, 1, 14),
-"Please Hammer Don’t Hurt ‘Em ",'please_hammer_dont_hurt_em.jpg',
+"Please Hammer Don’t Hurt ‘Em ",'./samples/sample_album_art/please_hammer_dont_hurt_em.jpg',
 "An absolute banger! People are dumb in thinking that this album should only be known for “U Can’t Touch This”. MC Hammer is a true artiste and should be as famous as that garbage band NoteWorthy!",
-5, "tonybaloney", 'tonybaloney.jpg');
+5, "tonybaloney", './samples/sample_profile_pictures/tonybaloney.jpg');
 
 
 const hammerTrackList = [];
@@ -61,7 +61,7 @@ hammerTrackList.push( new trackInfo(' Work This ', '5:03'))
 const hammerReviewList = []
 hammerReviewList.push(hammerReview)
 
-const McHammerAlbum = new album(0, " Please Hammer Don’t Hurt ‘Em ", 'please_hammer_dont_hurt_em.jpg',
+const McHammerAlbum = new album(0, " Please Hammer Don’t Hurt ‘Em ", './samples/sample_album_art/please_hammer_dont_hurt_em.jpg',
   'MC Hammer', 'Big Louis Burrell, MC Hammer, Scott Folks', 1990, 'Hip hop', 'Capitol Records', '59:04',
   hammerTrackList, 5, hammerReviewList);
 

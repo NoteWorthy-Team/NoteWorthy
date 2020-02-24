@@ -51,24 +51,24 @@ class userInfo {
     }
   }
 
-  let friendOne = new friendInfo(1,"csc309", 'csc309.jpg', '');
-  let friendTwo = new friendInfo(2,"emptyuser", 'emptyuser.jpg','');
+  let friendOne = new friendInfo(1,"csc309", './samples/sample_profile_pictures/csc309.jpg', '');
+  let friendTwo = new friendInfo(2,"emptyuser", './samples/sample_profile_pictures/emptyuser.jpg','');
 
   let sampleFriendList = [];
   sampleFriendList.push(friendOne)
   sampleFriendList.push(friendTwo)
 
-  let favouriteAlbum = new albumInfo(0, " Please Hammer Don’t Hurt ‘Em ", 'please_hammer_dont_hurt_em.jpg');
+  let favouriteAlbum = new albumInfo(0, " Please Hammer Don’t Hurt ‘Em ", './samples/sample_album_art/please_hammer_dont_hurt_em.jpg');
   let sampleFavAlbumList = [];
   sampleFavAlbumList.push(favouriteAlbum);
 
-  let nothworthyReview = new reviewData( new Date(2018, 11, 24), "Bahen… ",'bahen....jpg',
+  let nothworthyReview = new reviewData( new Date(2018, 11, 24), "Bahen… ",'./samples/sample_album_art/bahen....jpg',
   "OVERRATED. This album is trash. The instrumentation sucks, the vocals suck, I hate everything about this band and their stupid faces." +
   " I wish I had a time machine so that I could go back in time and stop this album from being created. " +
   "I’m DISTRAUGHT. ",0);
 
   let hammerReview = new reviewData( new Date(2019, 1, 14),
-  "Please Hammer Don’t Hurt ‘Em ",'please_hammer_dont_hurt_em.jpg',
+  "Please Hammer Don’t Hurt ‘Em ",'./samples/sample_album_art/please_hammer_dont_hurt_em.jpg',
   "An absolute banger! People are dumb in thinking that this album should only be known for “U Can’t Touch This”. MC Hammer is a true artiste and should be as famous as that garbage band NoteWorthy!",5);
 
   let sampleReviewList = [];
@@ -77,7 +77,7 @@ class userInfo {
 
   let sampleCollectionList = [];
   let collectionOneAlbumList = [];
-  let collectionAlbum = new albumInfo(1, "Bahen...", 'Bahen....jpg');
+  let collectionAlbum = new albumInfo(1, "Bahen...", './samples/sample_album_art/bahen....jpg');
 
   collectionOneAlbumList.push(favouriteAlbum)
   collectionOneAlbumList.push(collectionAlbum)
@@ -87,11 +87,11 @@ class userInfo {
 
   sampleCollectionList.push(sampleColection) ;
 
-  let helpAlbum = new albumInfo(2,"Help", 'help.jpg');
+  let helpAlbum = new albumInfo(2,"Help", './samples/sample_album_art/help.jpg');
   let tolistenList = [];
   tolistenList.push(helpAlbum)
 
-  let sampleUser = new userInfo(0,"tonybaloney",'tonybaloney.jpg',
+  let sampleUser = new userInfo(0,"tonybaloney",'./samples/sample_profile_pictures/tonybaloney.jpg',
   "You don’t like the things that you like, these are the things you like. Staten, NYC.",
   sampleFriendList, sampleFavAlbumList, sampleReviewList, sampleCollectionList, tolistenList);
 
@@ -280,7 +280,7 @@ class userInfo {
 
     for(let i= toListenDivlist.length -1; i >= 0; i--) {
       userPanel.removeChild(toListenDivlist.item(i))
-    }  
+    }
 
     // add reviews Div
     if(isDisplayingReviews)
@@ -379,7 +379,7 @@ class userInfo {
             }
             else
             {
-              currentAlbumCoverImg.src = 'grey.jpg'
+              currentAlbumCoverImg.src = './samples/sample_album_art/grey.jpg'
             }
             collAlbumDiv.appendChild(currentAlbumCoverImg)
           }
