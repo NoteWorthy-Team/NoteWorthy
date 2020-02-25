@@ -50,7 +50,7 @@ body {
 #favAlbums {
 	margin-right: 75px;
 	width: 55%;
-	height: 20%;
+	height: 50%;
 	border-radius: 10px;
 	background-color: white;
 	text-align: center;
@@ -62,9 +62,12 @@ body {
 }
 
 .albumDiv {
-	width: 25%;
-	float: left;
 	margin: 0;
+	margin-left: 5px;
+	width: 25%;
+	height: 80%;
+	float: left;
+
 }
 
 .albumCover {
@@ -74,6 +77,24 @@ body {
 	width: 150px;
 }
 
+
+.albumDiv p {
+	margin: 0px;
+padding-left: 8px;
+
+}
+
+#editTopAlbum {
+	margin-top:200px;
+	padding-bottom: 8px;
+	margin-right: 41%;
+	float: right;
+}
+
+#editTopAlbum a {
+	color: black;
+	text-decoration: none;
+}
 
 #userPanel {
 	margin-top: 15px;
@@ -91,6 +112,7 @@ body {
 	margin: 0;
 	height: 25px;
 	border-radius: 10px;
+	outline: none;
 }
 
 .spacingDiv{
@@ -127,18 +149,17 @@ body {
 .reviewsDiv h2{
 	margin-top: 5px;
 	font-size: 12px;
-	width: 35%;
+	width: 40%;
 	text-align: left;
 }
 
 .reviewsDiv p{
-
 	margin-top: 15px;
 	margin-left: 5px;
 	margin-bottom: 2px;
 	text-align: left;
 	float:right;
-	width:62%;
+	width:65%;
 	max-height: 75px
 }
 
@@ -223,6 +244,12 @@ body {
 
 #friendpage {
 	margin-top: 5px;
+}
+
+#friendpage a  {
+	margin-top: 5px;
+	color: black;
+	text-decoration: none;
 }
 
 .FriendDiv {

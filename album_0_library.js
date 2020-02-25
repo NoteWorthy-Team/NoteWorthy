@@ -26,12 +26,13 @@ class trackInfo {
 }
 
 class reviewData {
-  constructor(dateOfReview, albumName, albumCover, reviewBody, rating, userName, userPic) {
+  constructor(dateOfReview, albumName, albumCover, reviewBody, rating,userId, userName, userPic) {
     this.dateOfReview = dateOfReview;
     this.albumName = albumName;
     this.albumCover = albumCover;
     this.reviewBody = reviewBody;
     this.rating = rating;
+    this.userId = userId;
     this.userName=  userName;
     this.userPic = userPic
   }
@@ -40,7 +41,7 @@ class reviewData {
 const hammerReview = new reviewData( new Date(2019, 1, 14),
 "Please Hammer Don’t Hurt ‘Em ",'./samples/sample_album_art/please_hammer_dont_hurt_em.jpg',
 "An absolute banger! People are dumb in thinking that this album should only be known for “U Can’t Touch This”. MC Hammer is a true artiste and should be as famous as that garbage band NoteWorthy!",
-5, "tonybaloney", './samples/sample_profile_pictures/tonybaloney.jpg');
+5,0, "tonybaloney", './samples/sample_profile_pictures/tonybaloney.jpg');
 
 
 const hammerTrackList = [];
@@ -152,25 +153,35 @@ function displayAlbumInfo(album) {
     {
       let currentReview = album.reviews[i];
 
-      // Loading the album cover
+
+      // Loading the profile picture
       let reviewUserProfile= currentReview.userPic;
       const albumCoverImg = document.createElement('img')
       albumCoverImg.className = 'reviewUserPic';
       albumCoverImg.src = reviewUserProfile;
 
-      // loading in the album name info
+      // linking back to the profile
+      const albumLink = document.createElement('a')
+      albumLink.href = './user_' + currentReview.userId +'.html';
+      albumLink.appendChild(albumCoverImg)
+
+
+      // loading in the user name
       let reviewAlbumName = currentReview.userName;
       const reviewAlbumNameHead = document.createElement('h1')
       reviewAlbumNameHead.appendChild(document.createTextNode(reviewAlbumName))
 
       // loading in the review date
-      let reviewDate = "Reviewed on: \n"
-      + currentReview.dateOfReview.getDate() +"/  "
+      let reviewDatePreBreak = "Reviewed on: ";
+
+      let reviewDatePostBreak =  currentReview.dateOfReview.getDate() +"/  "
       + currentReview.dateOfReview.getMonth() +"/ "+
       + currentReview.dateOfReview.getFullYear()
 
       const reviewDateHead = document.createElement('h2')
-      reviewDateHead.appendChild(document.createTextNode(reviewDate))
+      reviewDateHead.appendChild(document.createTextNode(reviewDatePreBreak))
+      reviewDateHead.appendChild(document.createElement('br'))
+      reviewDateHead.appendChild(document.createTextNode(reviewDatePostBreak))
 
       // loading in the rating
       let reviewRating = "Rating: " + currentReview.rating + "/5"
@@ -188,8 +199,8 @@ function displayAlbumInfo(album) {
       // adding elements to the review div
       const reviewDiv = document.createElement('div');
       reviewDiv.className = 'reviewsDiv';
-      reviewDiv.appendChild(albumCoverImg);
 
+      reviewDiv.appendChild(albumLink);
       reviewDiv.appendChild(textPara);
       reviewDiv.appendChild(reviewAlbumNameHead);
       reviewDiv.appendChild(reviewDateHead);

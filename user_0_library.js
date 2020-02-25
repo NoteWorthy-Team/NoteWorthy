@@ -210,6 +210,7 @@ class userInfo {
     // currently just showing the picture and album name
     // will change it so that the picture is a link to the album
     if( user.favAlbums.length != 0) {
+      const editPage = document.getElementById("editTopAlbum");
       for(let i = 0; i< 4 && i < user.favAlbums.length ; i++)
       {
         let currentAlbum = user.favAlbums[i]
@@ -237,7 +238,8 @@ class userInfo {
         albumdiv.appendChild(albumLink)
         albumdiv.appendChild(albumNamepara)
 
-        favAlbums.appendChild(albumdiv)
+        favAlbums.insertBefore(albumdiv,editPage )
+
       }
       // Add a link down here to bring the user to a screen where they can edit their favourite list
 
@@ -328,13 +330,16 @@ class userInfo {
           reviewAlbumNameHead.appendChild(document.createTextNode(reviewAlbumName))
 
           // loading in the review date
-          let reviewDate = "Reviewed on: \n"
-          + currentReview.dateOfReview.getDate() +"/  "
+          let reviewDatePreBreak = "Reviewed on: ";
+
+          let reviewDatePostBreak =  currentReview.dateOfReview.getDate() +"/  "
           + currentReview.dateOfReview.getMonth() +"/ "+
           + currentReview.dateOfReview.getFullYear()
 
           const reviewDateHead = document.createElement('h2')
-          reviewDateHead.appendChild(document.createTextNode(reviewDate))
+          reviewDateHead.appendChild(document.createTextNode(reviewDatePreBreak))
+          reviewDateHead.appendChild(document.createElement('br'))
+          reviewDateHead.appendChild(document.createTextNode(reviewDatePostBreak))
 
           // loading in the rating
           let reviewRating = "Rating: " + currentReview.rating + "/5"
