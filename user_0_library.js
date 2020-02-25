@@ -150,19 +150,33 @@ class userInfo {
     // currently just showing th picture and username
     // will change it so that the picture is a link to the other
     // user's profile
+    const friendListLink = document.getElementById("friendpage");
     if( user.friendList.length  != 0) {
-      for(let i = 0; i< 9 && i < user.friendList.length ; i++)
+      for(let i = 0; i< 9 ; i++)
       {
-        let currentFriend = user.friendList[i]
-
-        let friendName = currentFriend.username;
-        let friendPicture = currentFriend.profilePic;
-        let friendProfile = currentFriend.profileLink;
-
         const friendNamepara= document.createElement('p')
         const friendPicImg = document.createElement('img')
         const friendPageLink = document.createElement('a')
         const frienddiv = document.createElement('div')
+
+
+        let friendName = null;
+        let friendPicture = null;
+        let friendProfile = null;
+
+        if( i < user.friendList.length  )
+        {
+            const currentFriend = user.friendList[i];
+            friendName = currentFriend.username;
+            friendProfile = currentFriend.profileLink;
+            friendPicture = currentFriend.profilePic;
+        }
+        else
+        {
+          friendName = "";
+          friendProfile = '';
+          friendPicture = './samples/sample_album_art/grey.jpg'
+        }
 
         friendPicImg.className = 'friendPic';
         friendPicImg.src = friendPicture;
@@ -173,7 +187,8 @@ class userInfo {
         friendNamepara.appendChild(document.createTextNode(friendName))
 
         frienddiv.appendChild(friendNamepara)
-        followlist.appendChild(frienddiv)
+        followlist.insertBefore(frienddiv,friendListLink )
+
       }
       // Add a link down here to bring the user to a screen with all of there
       // friends
@@ -214,7 +229,6 @@ class userInfo {
         albumLink.href = './album_' + currentAlbum.albumId +'.html';
         console.log(albumLink.href)
         albumLink.appendChild(albumCoverImg)
-
 
         albumdiv.className = 'albumDiv';
         //albumNamepara.className = 'followerName';
@@ -470,7 +484,6 @@ class userInfo {
       {
         const noReviewsPara= document.createElement('p')
         const noReviewDiv = document.createElement('div')
-
         noReviewDiv.className = 'messageDiv'
         const noReviewMessage = "Mark albums you want to listen to!"
 
