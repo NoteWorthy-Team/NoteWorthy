@@ -2,13 +2,22 @@ body {
 	background-color: #e6ecf0;
 	margin: 0;
   padding: 0;
-	font-family: "Montserrat", Montserrat, sans-serif;
+font-family: "Montserrat", Helvetica, sans-serif;
 }
 
-#navbar {
-	width: 100%;
-	border-radius: 10px;
-	background-color: white;
+.nav-bar {
+	background: rgba(0, 0, 0, 0.5);
+	overflow: hidden;
+}
+
+.nav-bar a {
+	color: white;
+	padding: 15px;
+	float: right;
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	font-size: 17px;
 }
 
 #username {
@@ -65,7 +74,7 @@ body {
 	margin: 0;
 	margin-left: 5px;
 	width: 25%;
-	overflow:auto; 
+	overflow:auto;
 	float: left;
 }
 
