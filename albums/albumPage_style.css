@@ -1,0 +1,149 @@
+body {
+	background-color: #e6ecf0;
+	margin: 0;
+  padding: 0;
+	font-family: "Montserrat", Montserrat, sans-serif;
+}
+
+#navbar {
+	width: 100%;
+	border-radius: 10px;
+	background-color: white;
+}
+
+#albumName {
+  font-size:12px;
+  margin-left: 30px;
+  width: 30%;
+  height: 40px;
+	border-radius: 10px;
+	background-color: white;
+  text-align: center;
+}
+
+#albumName h1 {
+padding-top:5px;
+}
+
+#albumCover {
+    margin-top: 10px;
+  padding-top: 12px;
+  margin-left: 30px;
+  width: 30%;
+}
+
+.coverPic {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+	width: 200px;
+	height: 200px;
+}
+
+#albumInfo {
+  margin-top: 15px;
+  margin-bottom: 20px;
+  margin-left: 28px;
+  width: 30%;
+
+	border-radius: 10px;
+	background-color: white;
+}
+
+#albumInfo p {
+  padding-top: 4px;
+  passing-bottom: 1px;
+  margin: 6px;
+}
+
+#reviews {
+	margin-right: 25px;
+	width: 43%;
+	height: 20%;
+	border-radius: 10px;
+	background-color: white;
+	text-align: center;
+  float: right;
+}
+
+.reviewsDiv{
+	margin: 0px;
+	margin-top: 1px;
+	background-color: white;
+	border-color: grey;
+	border-style: solid;
+	border-radius: .001px;
+	overflow:auto; 
+}
+
+.messageDiv p{
+	margin: 0px;
+	font-size: 24px;
+}
+
+.reviewsDiv h1{
+	margin: 0px;
+	margin-top: 10px;
+	margin-left: 8px;
+	font-size: 18px;
+	margin-bottom: 0px;
+	text-align: left;
+}
+
+.reviewsDiv h2{
+	margin: 0px;
+	margin-top: 5px;
+	font-size: 12px;
+	width: 40%;
+	text-align: left;
+}
+
+.reviewsDiv p{
+	margin-top: 10px;
+	margin-left: 5px;
+	margin-bottom: 2px;
+	text-align: left;
+	float:right;
+	width:60%;
+}
+
+.reviewUserPic {
+	float:left;
+	margin-top: 12px;
+	margin-left: 12px;
+	padding-right: 10px;
+	width: 100px;
+	height: 100px;
+}
+
+
+#ratings {
+  margin-top: 5px;
+  margin-left: 28px;
+  width: 30%;
+  text-align: center;
+	border-radius: 10px;
+	background-color: white;
+}
+
+#ratings h1{
+  margin-bottom: 10px;
+  margin-top: 5px;
+  font-size: 24px;
+}
+
+#ratings h2{
+  margin-top: 5px;
+  font-size: 24px;
+}
+
+#trackList {
+  margin-right: 50px;
+	margin-left: 0px;
+	width: 18%;
+	height: 20%;
+	border-radius: 5px;
+	background-color: white;
+	text-align: center;
+  float: right;
+}
