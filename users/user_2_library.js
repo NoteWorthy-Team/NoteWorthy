@@ -1,3 +1,5 @@
+// CSc309 Profile
+
 
 // The below objects are temporary elements, that will be generated using a
 // objects that is called from the server
@@ -52,50 +54,26 @@ class userInfo {
     }
   }
 
-  let friendOne = new friendInfo(1,"csc309", '../samples/sample_profile_pictures/csc309.jpg', '');
-  let friendTwo = new friendInfo(2,"emptyuser", '../samples/sample_profile_pictures/emptyuser.jpg','');
-
   let sampleFriendList = [];
-  sampleFriendList.push(friendOne)
-  sampleFriendList.push(friendTwo)
 
-  let favouriteAlbum = new albumInfo(0, " Please Hammer Don’t Hurt ‘Em ", '../samples/sample_album_art/please_hammer_dont_hurt_em.jpg');
   let sampleFavAlbumList = [];
-  sampleFavAlbumList.push(favouriteAlbum);
-
-  let nothworthyReview = new reviewData( new Date(2018, 11, 24),1, "Bahen… ",'../samples/sample_album_art/bahen....jpg',
-  "OVERRATED. This album is trash. The instrumentation sucks, the vocals suck, I hate everything about this band and their stupid faces." +
-  " I wish I had a time machine so that I could go back in time and stop this album from being created. " +
-  "I’m DISTRAUGHT. ",0);
-
-  let hammerReview = new reviewData( new Date(2019, 1, 14), 0,
-  "Please Hammer Don’t Hurt ‘Em ",'../samples/sample_album_art/please_hammer_dont_hurt_em.jpg',
-  "An absolute banger! People are dumb in thinking that this album should only be known for “U Can’t Touch This”. MC Hammer is a true artiste and should be as famous as that garbage band NoteWorthy!",5);
 
   let sampleReviewList = [];
-  sampleReviewList.push(nothworthyReview);
-  sampleReviewList.push(hammerReview);
 
   let sampleCollectionList = [];
   let collectionOneAlbumList = [];
-  let collectionAlbum = new albumInfo(1, "Bahen...", '../samples/sample_album_art/bahen....jpg');
 
-  collectionOneAlbumList.push(favouriteAlbum)
-  collectionOneAlbumList.push(collectionAlbum)
 
   let sampleColection =
   new collectionData("Listened ", "Albums this user has listened to",collectionOneAlbumList )
 
   sampleCollectionList.push(sampleColection) ;
 
-  let helpAlbum = new albumInfo(2,"Help", '../samples/sample_album_art/help.jpg');
   let tolistenList = [];
-  tolistenList.push(helpAlbum)
 
-  let sampleUser = new userInfo(0,"tonybaloney",'../samples/sample_profile_pictures/tonybaloney.jpg',
-  "You don’t like the things that you like, these are the things you like. Staten, NYC.",
-  sampleFriendList, sampleFavAlbumList, sampleReviewList, sampleCollectionList, tolistenList);
 
+  let newUser = new userInfo(2,"emptyuser",'../samples/sample_profile_pictures/emptyuser.jpg',
+  "" ,  sampleFriendList, sampleFavAlbumList, sampleReviewList, sampleCollectionList, tolistenList);
 
   let isDisplayingReviews = true;
   let isDisplayingCollections= false;
@@ -121,7 +99,7 @@ class userInfo {
 
   // Runs certain functions once the page is loaded
   window.onload = function() {
-    displayUserInfo(sampleUser)
+    displayUserInfo(newUser)
   };
 
   function displayUserInfo(user)
@@ -263,7 +241,7 @@ class userInfo {
     isDisplayingReviews = true;
     isDisplayingCollections= false;
     isDisplayingToListened = false;
-    updateUserPanel(sampleUser);
+    updateUserPanel(newUser);
 
   }
 
@@ -272,7 +250,7 @@ class userInfo {
     isDisplayingReviews = false;
     isDisplayingCollections= true;
     isDisplayingToListened = false;
-    updateUserPanel(sampleUser);
+    updateUserPanel(newUser);
   }
 
   function paneltoListenpdate(e) {
@@ -280,7 +258,7 @@ class userInfo {
     isDisplayingReviews = false;
     isDisplayingCollections= false;
     isDisplayingToListened = true;
-    updateUserPanel(sampleUser);
+    updateUserPanel(newUser);
   }
 
   function updateUserPanel(user)
@@ -293,7 +271,7 @@ class userInfo {
     for(let i= messageDivList.length -1; i >= 0; i--) {
       userPanel.removeChild(messageDivList.item(i))
     }
-    
+
     for(let i= reviewsDivList.length -1; i >= 0; i--) {
       userPanel.removeChild(reviewsDivList.item(i))
     }
@@ -305,6 +283,8 @@ class userInfo {
     for(let i= toListenDivlist.length -1; i >= 0; i--) {
       userPanel.removeChild(toListenDivlist.item(i))
     }
+
+
 
     // add reviews Div
     if(isDisplayingReviews)

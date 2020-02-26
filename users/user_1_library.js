@@ -1,3 +1,5 @@
+// CSc309 Profile
+
 
 // The below objects are temporary elements, that will be generated using a
 // objects that is called from the server
@@ -52,48 +54,49 @@ class userInfo {
     }
   }
 
-  let friendOne = new friendInfo(1,"csc309", '../samples/sample_profile_pictures/csc309.jpg', '');
-  let friendTwo = new friendInfo(2,"emptyuser", '../samples/sample_profile_pictures/emptyuser.jpg','');
+  let friendOne = new friendInfo(0,"tonybaloney", '../samples/sample_profile_pictures/tonybaloney.jpg', '');
 
   let sampleFriendList = [];
   sampleFriendList.push(friendOne)
-  sampleFriendList.push(friendTwo)
 
-  let favouriteAlbum = new albumInfo(0, " Please Hammer Don’t Hurt ‘Em ", '../samples/sample_album_art/please_hammer_dont_hurt_em.jpg');
+  let hammerAlbum  = new albumInfo(0, " Please Hammer Don’t Hurt ‘Em ", '../samples/sample_album_art/please_hammer_dont_hurt_em.jpg');
+  let noteWorthyAlbum  = new albumInfo(1, "Bahen...", '../samples/sample_album_art/Bahen....jpg');
+  let helpAlbum  = new albumInfo(2, "Help!", '../samples/sample_album_art/help.jpg');
+
   let sampleFavAlbumList = [];
-  sampleFavAlbumList.push(favouriteAlbum);
+  sampleFavAlbumList.push(noteWorthyAlbum);
 
-  let nothworthyReview = new reviewData( new Date(2018, 11, 24),1, "Bahen… ",'../samples/sample_album_art/bahen....jpg',
-  "OVERRATED. This album is trash. The instrumentation sucks, the vocals suck, I hate everything about this band and their stupid faces." +
-  " I wish I had a time machine so that I could go back in time and stop this album from being created. " +
-  "I’m DISTRAUGHT. ",0);
+  let nothworthyReview = new reviewData( new Date(2020, 11, 12),1, "Bahen… ",'../samples/sample_album_art/bahen....jpg',
+  "A wonderful debut for truly the best new thing in music. Rarely in today’s music landscape has a band been able to take over as NoteWorthy has. Up and down the track list there is not a track that can be singled out as they are all so good. "+
+   "This album is quintessential listening to anyone with even a single ear.",5);
 
-  let hammerReview = new reviewData( new Date(2019, 1, 14), 0,
-  "Please Hammer Don’t Hurt ‘Em ",'../samples/sample_album_art/please_hammer_dont_hurt_em.jpg',
-  "An absolute banger! People are dumb in thinking that this album should only be known for “U Can’t Touch This”. MC Hammer is a true artiste and should be as famous as that garbage band NoteWorthy!",5);
+  let helpReview = new reviewData( new Date(2019, 1, 14), 1,
+  "Help!",'../samples/sample_album_art/help.jpg',
+  "Help! cannot be talked about without talking about the film of the same name by the Beatles. When spoken about, the album itself is " +
+  "often overshadowed by the film. Don’t get me wrong it’s a great film but the album deserves more attention from the general public and the Beatles fanbase. "+
+  "I would even go as far as lumping it with Rubber Soul and Revolver as albums that truly reflected the maturation of the Beatles."
+  ,4);
 
   let sampleReviewList = [];
+  sampleReviewList.push(helpReview);
   sampleReviewList.push(nothworthyReview);
-  sampleReviewList.push(hammerReview);
 
   let sampleCollectionList = [];
   let collectionOneAlbumList = [];
-  let collectionAlbum = new albumInfo(1, "Bahen...", '../samples/sample_album_art/bahen....jpg');
 
-  collectionOneAlbumList.push(favouriteAlbum)
-  collectionOneAlbumList.push(collectionAlbum)
+  collectionOneAlbumList.push(noteWorthyAlbum)
+  collectionOneAlbumList.push(helpAlbum)
 
   let sampleColection =
   new collectionData("Listened ", "Albums this user has listened to",collectionOneAlbumList )
 
   sampleCollectionList.push(sampleColection) ;
 
-  let helpAlbum = new albumInfo(2,"Help", '../samples/sample_album_art/help.jpg');
   let tolistenList = [];
-  tolistenList.push(helpAlbum)
+  tolistenList.push(hammerAlbum)
 
-  let sampleUser = new userInfo(0,"tonybaloney",'../samples/sample_profile_pictures/tonybaloney.jpg',
-  "You don’t like the things that you like, these are the things you like. Staten, NYC.",
+  let cscUser = new userInfo(0,"csc309 ",'../samples/sample_profile_pictures/csc309.jpg',
+  "Making jazz with a lot of pizzazz. Toronto, ON." ,
   sampleFriendList, sampleFavAlbumList, sampleReviewList, sampleCollectionList, tolistenList);
 
 
@@ -121,7 +124,7 @@ class userInfo {
 
   // Runs certain functions once the page is loaded
   window.onload = function() {
-    displayUserInfo(sampleUser)
+    displayUserInfo(cscUser)
   };
 
   function displayUserInfo(user)
@@ -263,7 +266,7 @@ class userInfo {
     isDisplayingReviews = true;
     isDisplayingCollections= false;
     isDisplayingToListened = false;
-    updateUserPanel(sampleUser);
+    updateUserPanel(cscUser);
 
   }
 
@@ -272,7 +275,7 @@ class userInfo {
     isDisplayingReviews = false;
     isDisplayingCollections= true;
     isDisplayingToListened = false;
-    updateUserPanel(sampleUser);
+    updateUserPanel(cscUser);
   }
 
   function paneltoListenpdate(e) {
@@ -280,7 +283,7 @@ class userInfo {
     isDisplayingReviews = false;
     isDisplayingCollections= false;
     isDisplayingToListened = true;
-    updateUserPanel(sampleUser);
+    updateUserPanel(cscUser);
   }
 
   function updateUserPanel(user)
@@ -293,7 +296,8 @@ class userInfo {
     for(let i= messageDivList.length -1; i >= 0; i--) {
       userPanel.removeChild(messageDivList.item(i))
     }
-    
+
+
     for(let i= reviewsDivList.length -1; i >= 0; i--) {
       userPanel.removeChild(reviewsDivList.item(i))
     }
