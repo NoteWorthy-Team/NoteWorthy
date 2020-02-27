@@ -42,32 +42,12 @@ body {
     height: 200px;
     margin: 10px;
 }
-
-.login-form {
-    float: left;
-    margin: 10px;
-    position: relative;
-    min-width: 160px;
-    width: 20%;
-    text-align: center;
-    border-radius: 5px;
-    background: rgba(242, 242, 242, 0.6);
-    padding: 20px;
-} 
-
-input {
-    opacity: 1;
-    width: 80%;
-    min-width: 75px;
-    padding: 12px;
-    border: solid 1px gray;
-    border-radius: 4px;
-    margin: 4px;
-    opacity: 0.8;
+section {
     display: inline-block;
-    vertical-align: middle;
-    font-size: 17px;
-    line-height: 20px;
+}
+
+ul {
+    
 }
 
 /*style submit button, will change colours to match colour scheme*/

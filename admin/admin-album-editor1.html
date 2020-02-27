@@ -15,11 +15,14 @@
         <p id="submissionInfo">Submitted by <a id="submitterName" href=""></a> on <span id="submissionDate"></span></p>
     </section>
     <form autocomplete="off" action="" method="POST">
+        <div>
         <label for="albumTitle">Title:</label>
         <input type="text" id="albumTitle">
         <label for="albumYear">Year:</label>
         <input type="text" id="albumYear">
-        <div id="artists">
+    </div>
+        <div>
+        <section id="artists">
             <label for="artistList">Artist:</label>
             <ul id="artistList">
                 <li class="inputContainer">
@@ -27,8 +30,8 @@
                 </li>
                 <button type="button" class="addInputButton" id="addArtistButton">+</button>
             </ul>
-        </div>
-        <div id="producers">
+        </section>
+        <section id="producers">
             <label for="producerList">Producer: </label>
             <ul id="producerList">
                 <li class="inputContainer">
@@ -36,8 +39,10 @@
                 </li>
                 <button type="button" class="addInputButton" id="addProducerButton">+</button>
             </ul>
-        </div>
-        <div id="albumLabels">
+        </section>
+    </div>
+    <div>
+        <section id="albumLabels">
             <label for="labelList">Label:</label>
             <ul id="labelList">
                 <li class="inputContainer">
@@ -45,8 +50,8 @@
                 </li>
                 <button type="button" class="addInputButton" id="addLabelButton">+</button>
             </ul>
-        </div>
-        <div id="genres">
+        </section>
+        <section id="genres">
             <label for="genreList">Genre:</label>
             <ul id="genreList">
                 <li class="inputContainer">
@@ -54,7 +59,9 @@
                 </li>
                 <button type="button" class="addInputButton" id="addGenreButton">+</button>
             </ul>
-        </div>
+        </section>
+    </div>
+        <section>
         <label for="albumTrackList">Track List</label>
         <ol id="albumTrackList">
             <li class="trackContainer">
@@ -65,6 +72,7 @@
             </li>
             <button type="button" id="addTrackButton">+</button>
         </ol>
+        </section>
 
         <input type="submit" value="Save">
         <input type="submit" value="Save & Approve">

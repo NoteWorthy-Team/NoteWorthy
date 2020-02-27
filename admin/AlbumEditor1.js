@@ -47,6 +47,7 @@ function populateForm() {
     album = getAlbumData();
     const submitterNameText = document.createTextNode(album.submitter.name);
     submitterNameLink.appendChild(submitterNameText);
+    submitterNameLink.href='../users/user_veiwable_' + album.submitter.userid +'.html'
     const submissionDateText = document.createTextNode(album.submissionDate);
     submissionDateSpan.appendChild(submissionDateText);
     populateTitleField(album);
@@ -93,7 +94,7 @@ function addTrack() {
     const newLi = document.createElement("li");
     newLi.className = "trackContainer";
     const titleLabel = document.createElement("label");
-    const titleLabelText = document.createTextNode("Title:");
+    const titleLabelText = document.createTextNode("Title: ");
     titleLabel.appendChild(titleLabelText);
     const titleInput = document.createElement("input")
     titleInput.type = "text";

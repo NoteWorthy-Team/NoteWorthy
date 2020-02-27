@@ -94,7 +94,7 @@ function addTrack() {
     const newLi = document.createElement("li");
     newLi.className = "trackContainer";
     const titleLabel = document.createElement("label");
-    const titleLabelText = document.createTextNode("Title:");
+    const titleLabelText = document.createTextNode("Title: ");
     titleLabel.appendChild(titleLabelText);
     const titleInput = document.createElement("input")
     titleInput.type = "text";
