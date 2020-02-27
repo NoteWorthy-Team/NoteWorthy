@@ -44,17 +44,17 @@ class LoginForm extends HTMLElement {
     const submittedUsername = e.srcElement.elements.username.value;
     const submittedPassword = e.srcElement.elements.password.value;
 
-    if( submittedUsername == 'tonybaloney' && submittedPassword =='handsoffmyspaghetti2019')
+    if( submittedUsername == 'user' && submittedPassword =='user')
     {
       window.location.href = './users/user_0.html';
     }
 
-    if( submittedUsername == 'csc309' && submittedPassword =='markus2020')
+    if( submittedUsername == 'user2' && submittedPassword =='user2')
     {
       window.location.href = './users/user_1.html';
     }
 
-    if( submittedUsername == 'emptyuser' && submittedPassword =='iamsolonesomeinside')
+    if( submittedUsername == 'user3' && submittedPassword =='user3')
     {
       window.location.href = './users/user_1.html';
     }
