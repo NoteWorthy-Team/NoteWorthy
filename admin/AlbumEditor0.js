@@ -223,8 +223,8 @@ const trackListing2 = [
     new Track("Here Comes the Hammer", "4:32"),
     new Track("U Can't Touch This", "4:17"),
     new Track("Have You Seen Her", "4:42")];
-const sampleUser1 = new User(1, "Sample User 1");
-const sampleUser2 = new User(2, "Sample User 2");
+const sampleUser1 = new User(1, "csc309");
+const sampleUser2 = new User(2, "emptyuser");
 const album1 = new Album("Bahen...", "NoteWorthy", "NoteWorthy", "2020", "Rock", "MarkUs Records", "29:34", trackListing1, sampleUser1);
 const album2 = new Album("Please Hammer Don't Hurt 'Em", ["MC Hammer"], ["Big Louis Burrel", "MC Hammer", "Scott Folks"], "1990", ["Hip hop"], ["Capitol Records"], "59:04", trackListing2, sampleUser2);
 const sampleSubmissions = [album1, album2];
