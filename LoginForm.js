@@ -58,4 +58,8 @@ class LoginForm extends HTMLElement {
     {
       window.location.href = './users/user_1.html';
     }
+    if(submittedUsername == 'admin' && submittedPassword == 'admin')
+    {
+      window.location.href = './admin/admin-dashboard.html';
+    }
   }

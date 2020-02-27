@@ -58,7 +58,7 @@ function addAlbumToTable(album, table) {
 
     const detailsLinkCell = newRow.insertCell();
     const detailsLink = document.createElement("a");
-    detailsLink.href = "./submissions/album?id=" + album.albumId;
+    detailsLink.href = "./admin-album-editor" + album.albumId + ".html";
     const detailsText = document.createTextNode("+");
     detailsLink.appendChild(detailsText);
     detailsLinkCell.appendChild(detailsLink);
