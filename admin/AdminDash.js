@@ -49,8 +49,11 @@ function addAlbumToTable(album, table) {
     artistCell.appendChild(artistText);
 
     const submitterCell = newRow.insertCell();
+    const submitterLink = document.createElement("a");
+    submitterLink.href='../users/user_veiwable_' + album.submitter.userid +'.html'
     const submitterText = document.createTextNode(album.submitter.name);
-    submitterCell.appendChild(submitterText);
+    submitterLink.appendChild(submitterText);
+    submitterCell.appendChild(submitterLink);
 
     const submissionDateCell = newRow.insertCell();
     const submissionDateText = document.createTextNode(album.submissionDate);
@@ -58,7 +61,7 @@ function addAlbumToTable(album, table) {
 
     const detailsLinkCell = newRow.insertCell();
     const detailsLink = document.createElement("a");
-    detailsLink.href = "./submissions/album?id=" + album.albumId;
+    detailsLink.href = "./admin-album-editor" + album.albumId + ".html";
     const detailsText = document.createTextNode("+");
     detailsLink.appendChild(detailsText);
     detailsLinkCell.appendChild(detailsLink);
@@ -87,7 +90,8 @@ class Track {
 }
 //Simple user class, as above; 
 class User {
-    constructor (name) {
+    constructor (userid, name) {
+        this.userid = userid;
         this.name = name;
     }
 }
@@ -118,8 +122,8 @@ const trackListing2 = [
     new Track("Here Comes the Hammer", "4:32"),
     new Track("U Can't Touch This", "4:17"),
     new Track("Have You Seen Her", "4:42")];
-const sampleUser1 = new User("Sample User 1");
-const sampleUser2 = new User("Sample User 2")
+const sampleUser1 = new User(1, "csc309");
+const sampleUser2 = new User(2, "emptyuser");
 const album1 = new Album("Bahen...", ["NoteWorthy"], ["NoteWorthy"], "2020", ["Rock"], ["MarkUs Records"], "29:34", trackListing1, sampleUser1);
 const album2 = new Album("Please Hammer Don't Hurt 'Em", ["MC Hammer"], ["Big Louis Burrel", "MC Hammer", "Scott Folks"], "1990", ["Hip hop"], ["Capitol Records"], "59:04", trackListing2, sampleUser2);
 const sampleSubmissions = [album1, album2];
