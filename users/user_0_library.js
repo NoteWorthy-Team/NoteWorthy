@@ -264,7 +264,6 @@ class userInfo {
     isDisplayingCollections= false;
     isDisplayingToListened = false;
     updateUserPanel(sampleUser);
-
   }
 
   function panelCollectionUpdate(e) {
@@ -293,7 +292,7 @@ class userInfo {
     for(let i= messageDivList.length -1; i >= 0; i--) {
       userPanel.removeChild(messageDivList.item(i))
     }
-    
+
     for(let i= reviewsDivList.length -1; i >= 0; i--) {
       userPanel.removeChild(reviewsDivList.item(i))
     }
