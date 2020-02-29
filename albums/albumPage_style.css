@@ -34,6 +34,41 @@ body {
 padding-top:5px;
 }
 
+#reviewBox {
+	margin-top: 30px;
+	margin-right: 25px;
+	width: 43%;
+	height: 20%;
+	border-radius: 10px;
+	background-color: white;
+ text-align: center;
+  float: right;
+}
+
+#reviewBox  h1{
+	margin: 0px;
+	font-size: 18px;
+	margin-top: 12px;
+
+}
+
+#reviewbody {
+	margin-top: 3px;
+		text-align: left;
+		width: 85%;
+		min-height: 100px;
+	padding: 12px 20px;
+	box-sizing: border-box;
+	border: 2px solid #ccc;
+	border-radius: 4px;
+	background-color: #f8f8f8;
+	resize: none;
+}
+
+#currentRating {
+	display: inline;
+}
+
 #albumCover {
     margin-top: 10px;
   padding-top: 12px;
@@ -127,7 +162,7 @@ padding-top:5px;
 }
 
 
-#ratings {
+#AvgRatings {
   margin-top: 5px;
   margin-left: 28px;
   width: 30%;
@@ -136,13 +171,13 @@ padding-top:5px;
 	background-color: white;
 }
 
-#ratings h1{
+#AvgRatings h1{
   margin-bottom: 10px;
   margin-top: 5px;
   font-size: 24px;
 }
 
-#ratings h2{
+#AvgRatings h2{
   margin-top: 5px;
   font-size: 24px;
 }
