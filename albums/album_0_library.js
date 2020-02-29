@@ -1,5 +1,20 @@
 "use strict";
 
+class user {
+  constructor(userid,username,profilePic,bio, friendList,
+    favAlbums, userReviews, userCollections, userListList) {
+      this.userid = userid;
+      this.username = username;
+      this.profilePic = profilePic;
+      this.bio = bio;
+      this.friendList = friendList;
+      this.favAlbums = favAlbums;
+      this.userReviews = userReviews;
+      this.userCollections = userCollections;
+      this.userListList = userListList;
+    }
+  }
+
 class album {
   constructor(albumId, albumName,albumCover, artist, producer, year, genre,
     label, length, trackList, avgRating, reviews ) {
@@ -26,23 +41,22 @@ class trackInfo {
 }
 
 class reviewData {
-  constructor(dateOfReview, albumName, albumCover, reviewBody, rating,userId, userName, userPic) {
+  constructor(albumId, userid,dateOfReview,reviewBody, rating) {
     this.dateOfReview = dateOfReview;
-    this.albumName = albumName;
-    this.albumCover = albumCover;
+    this.albumId = albumId;
+    this.userid = userid;
     this.reviewBody = reviewBody;
     this.rating = rating;
-    this.userId = userId;
-    this.userName=  userName;
-    this.userPic = userPic
   }
 }
 
-const hammerReview = new reviewData( new Date(2019, 1, 14),
-"Please Hammer Don’t Hurt ‘Em ",'../samples/sample_album_art/please_hammer_dont_hurt_em.jpg',
-"An absolute banger! People are dumb in thinking that this album should only be known for “U Can’t Touch This”. MC Hammer is a true artiste and should be as famous as that garbage band NoteWorthy!",
-5,0, "tonybaloney", '../samples/sample_profile_pictures/tonybaloney.jpg');
+let tonybaloney = new user(0,"tonybaloney",'../samples/sample_profile_pictures/tonybaloney.jpg',
+"You don’t like the things that you like, these are the things you like. Staten, NYC.",
+[], [], [], [], []);
 
+const hammerReview = new reviewData( 0, 0, new Date(2019, 1, 14),
+"An absolute banger! People are dumb in thinking that this album should only be known for “U Can’t Touch This”." +
+" MC Hammer is a true artiste and should be as famous as that garbage band NoteWorthy!", 5);
 
 const hammerTrackList = [];
 hammerTrackList.push( new trackInfo('Here Comes the Hammer ', '4:32'))
@@ -64,24 +78,31 @@ hammerReviewList.push(hammerReview)
 
 const McHammerAlbum = new album(0, " Please Hammer Don’t Hurt ‘Em ", '../samples/sample_album_art/please_hammer_dont_hurt_em.jpg',
   'MC Hammer', 'Big Louis Burrell, MC Hammer, Scott Folks', 1990, 'Hip hop', 'Capitol Records', '59:04',
-  hammerTrackList, 5, hammerReviewList);
+  hammerTrackList, getAverageRating(hammerReviewList), hammerReviewList);
 
 // a list of DOM master elements
 const navbar = document.getElementById("navbar");
 const albumName = document.getElementById("albumName");
-const reviews = document.getElementById("reviews");
+const recentReviews = document.getElementById("reviews");
 const albumCover = document.getElementById("albumCover");
 const albumInfo = document.getElementById("albumInfo");
-const ratings = document.getElementById("ratings");
+const AvgRatings = document.getElementById("AvgRatings");
+
 const trackList = document.getElementById("trackList");
+const slider = document.getElementById("ratingSlider");
+const reviewRating = document.getElementById("currentRating");
+const reviewBox = document.getElementById("reviewBox");
 
+reviewBox.addEventListener('submit', submitNewReview);
 
+let currentReviewRating = 1;
 // Runs certain functions once the page is loaded
 window.onload = function() {
   displayAlbumInfo(McHammerAlbum)
 };
 
 function displayAlbumInfo(album) {
+  displayCurrentRating(currentReviewRating)
   // adding the album name
   const albumNametext = album.albumName
   const albumNameHeader = document.createElement('H1')
@@ -129,11 +150,8 @@ function displayAlbumInfo(album) {
   albumInfo.appendChild(lengthPara)
 
   // display the album average rating
-  const albumRatingText = album.avgRating + " Stars"
-  const ratingHead = document.createElement('h2')
 
-  ratingHead.appendChild(document.createTextNode(albumRatingText))
-  ratings.appendChild(ratingHead)
+   displayAverageRating(album.avgRating);
 
   // Display the track list
   const albumTractList = album.trackList
@@ -146,30 +164,36 @@ function displayAlbumInfo(album) {
     trackList.appendChild(trackNamePara)
   }
 
-  // Display some resent review
-    console.log(album.reviews.length)
-  if( album.reviews.length != 0) {
-    for(let i = 0; i< 3 && i < album.reviews.length; i++)
-    {
-      let currentReview = album.reviews[i];
+  displayReviews(album.reviews);
+}
 
+function displayReviews(reviews) { // Display some recent review
+  if( reviews.length != 0) {
+    for(let i = 0; i< 3 && i < reviews.length; i++)
+    {
+      let currentReview = reviews[i];
+
+      // At this point, we would use the albumID and the userID to call the
+      // Album from the server. As the info is currently hardcode, we just set these
+      // values here
+      const reviewAlbum = McHammerAlbum;
+      const reviewUser = tonybaloney;
 
       // Loading the profile picture
-      let reviewUserProfile= currentReview.userPic;
-      const albumCoverImg = document.createElement('img')
-      albumCoverImg.className = 'reviewUserPic';
-      albumCoverImg.src = reviewUserProfile;
+      let reviewUserProfile= reviewUser.profilePic;
+      const userCoverImg = document.createElement('img')
+      userCoverImg.className = 'reviewUserPic';
+      userCoverImg.src = reviewUserProfile;
 
       // linking back to the profile
-      const albumLink = document.createElement('a')
-      albumLink.href = '../users/user_' + currentReview.userId +'.html';
-      albumLink.appendChild(albumCoverImg)
-
+      const userLink = document.createElement('a')
+      userLink.href = '../users/user_' + reviewUser.userid +'.html';
+      userLink.appendChild(userCoverImg)
 
       // loading in the user name
-      let reviewAlbumName = currentReview.userName;
-      const reviewAlbumNameHead = document.createElement('h1')
-      reviewAlbumNameHead.appendChild(document.createTextNode(reviewAlbumName))
+      let reviewUserName = reviewUser.username;
+      const reviewUserNameHead = document.createElement('h1')
+      reviewUserNameHead.appendChild(document.createTextNode(reviewUserName))
 
       // loading in the review date
       let reviewDatePreBreak = "Reviewed on: ";
@@ -195,20 +219,18 @@ function displayAlbumInfo(album) {
       const textPara= document.createElement('p')
       textPara.appendChild(document.createTextNode(reviewText));
 
-
       // adding elements to the review div
       const reviewDiv = document.createElement('div');
       reviewDiv.className = 'reviewsDiv';
 
-      reviewDiv.appendChild(albumLink);
+      reviewDiv.appendChild(userLink);
       reviewDiv.appendChild(textPara);
-      reviewDiv.appendChild(reviewAlbumNameHead);
+      reviewDiv.appendChild(reviewUserNameHead);
       reviewDiv.appendChild(reviewDateHead);
       reviewDiv.appendChild(reviewRatingHead);
 
-      reviews.appendChild(reviewDiv);
+      recentReviews.appendChild(reviewDiv);
     }
-    // Add a link down here to bring the user to a screen where they can edit their favourite list
 
   }
   // Shows a message telling user to write some reviews
@@ -222,6 +244,91 @@ function displayAlbumInfo(album) {
 
     noReviewsPara.appendChild(document.createTextNode(noReviewMessage))
     noReviewDiv.appendChild(noReviewsPara)
-    reviews.appendChild(noReviewDiv)
+    recentReviews.appendChild(noReviewDiv)
   }
+}
+
+// updating the rating of the review being written
+slider.oninput = function () {
+  displayCurrentRating(this.value);
+}
+
+function displayCurrentRating(newRating)  {
+    if( newRating != null)
+    {
+    currentReviewRating = newRating;
+
+    // seeing if the node currently has a child
+    if( reviewRating.childNodes.length == 0)
+    {
+      reviewRating.appendChild(document.createTextNode(currentReviewRating))
+    }
+    else
+    {
+      reviewRating.childNodes[0].remove();
+      reviewRating.appendChild(document.createTextNode(currentReviewRating))
+    }
+  }
+}
+
+function getAverageRating(reviewList)  {
+  let currentTotal = 0;
+  for( let i = 0; i< reviewList.length; i++)
+  {
+    currentTotal += reviewList[i].rating;
+  }
+  return currentTotal/ reviewList.length;
+}
+
+
+function submitNewReview(e)
+{
+    e.preventDefault();
+
+    // At this point, we would see what the current User  is.
+    // We would then get there ID from the server.
+    // At this stage, we can't do that, so we've just hardcoded in the userid
+    const userID = 0;
+
+    // In the same vein, we would get the album ID from the server, and load that
+    // in here. At this point, we just hardcoded it.
+    const albumID = McHammerAlbum.albumId;
+
+    const date = new Date();
+
+    const currentDate = new Date(date.getFullYear(),date.getMonth(),date.getDate())
+
+    const reviewBody = e.srcElement.elements.reviewbody.value;
+
+    const reviewRating = parseInt(currentReviewRating);
+
+    const newReview = new reviewData(albumID,userID, currentDate,reviewBody,reviewRating)
+
+    McHammerAlbum.reviews.push(newReview)
+    McHammerAlbum.avgRating = getAverageRating( McHammerAlbum.reviews)
+
+    let reviewsDivs = recentReviews.getElementsByClassName("reviewsDiv")
+    for(let j = reviewsDivs.length - 1; j >=0; j--)
+    {
+      reviewsDivs[j].remove();
+    }
+
+    displayReviews(McHammerAlbum.reviews);
+    displayAverageRating(McHammerAlbum.avgRating)
+
+    // reseting submission box
+    currentReviewRating = 1;
+    displayCurrentRating(currentReviewRating);
+    reviewBox.reset()
+}
+
+function displayAverageRating(rating){
+  if(AvgRatings.childNodes.length == 4 )
+  {
+    AvgRatings.childNodes[3].remove()
+  }
+  const albumRatingText = rating + " Stars"
+  const ratingHead = document.createElement('h2')
+  ratingHead.appendChild(document.createTextNode(albumRatingText))
+  AvgRatings.appendChild(ratingHead)
 }
