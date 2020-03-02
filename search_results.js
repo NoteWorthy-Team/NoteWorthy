@@ -35,8 +35,11 @@ function displayResults() {
     for (let i = 0; i < albums.length; i++) {
         if (albums[i].albumName.toLowerCase().search(searchQuery) !== -1) {
             
-            const albumLink = document.createElement('a')
-            albumLink.href = albums[i].link 
+            const albumCoverLink = document.createElement('a')
+            albumCoverLink.href = albums[i].link
+
+            const albumInfoLink = document.createElement('a')
+            albumInfoLink.href = albums[i].link
 
             const albumResult = document.createElement('div')
             albumResult.className = 'albumResult'
@@ -59,12 +62,13 @@ function displayResults() {
             albumInfo.appendChild(resultAlbumName)
             albumInfo.appendChild(resultYear)
 
-            albumResult.appendChild(resultAlbumCover)
-            albumResult.appendChild(albumInfo)
+            albumCoverLink.appendChild(resultAlbumCover)
+            albumInfoLink.appendChild(albumInfo)
 
-            albumLink.appendChild(albumResult)
+            albumResult.appendChild(albumCoverLink)
+            albumResult.appendChild(albumInfoLink)
 
-            placement.appendChild(albumLink)
+            placement.appendChild(albumResult)
         }
     }
 }
