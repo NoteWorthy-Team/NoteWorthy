@@ -420,8 +420,11 @@ class userInfo {
             collAlbumDiv.appendChild(currentAlbumCoverImg)
           }
 
+          let collectionLink = document.createElement('a')
+          collectionLink.href = 'user_1_collection.html'
           let collectionNameHead = document.createElement('h1');
           collectionNameHead.appendChild(document.createTextNode(collNameText))
+          collectionLink.appendChild(collectionNameHead)
 
           let collectionDisPara = document.createElement('p');
           collectionDisPara.appendChild(document.createTextNode(collDesText))
@@ -430,7 +433,7 @@ class userInfo {
           collDiv.className = 'collectionDiv'
 
           collDiv.appendChild(collAlbumDiv)
-          collDiv.appendChild(collectionNameHead)
+          collDiv.appendChild(collectionLink)
           collDiv.appendChild(collectionDisPara)
           userPanel.appendChild(collDiv);
         }
