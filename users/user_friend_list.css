@@ -56,27 +56,29 @@ a {
     line-height: 20px
 }
 
-.albumCover {
+.profilePicture {
     display: inline-block;
     vertical-align: middle;
     width: 150px;
     height: 150px;
     padding-left: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 
-.albumInfo {
+.userInfo {
     display: inline-block;
     vertical-align: middle;
     padding: 10px;
 }
 
-.albumResult {
+.user {
     background-color: white;
     border-radius: 10px;
     margin-bottom: 20px;
-    width: 80%
+    width: 80%;
 }
 
-#results {
+#users {
     margin-left: 10px;
 }
