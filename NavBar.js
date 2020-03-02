@@ -21,6 +21,11 @@ class NavBar extends HTMLElement {
     albumSubmission.appendChild(albumSubmissionLinkText)
     albumSubmission.href = '#album-submission'
 
+    const searchBar = document.createElement('input')
+    searchBar.type = 'text'
+    searchBar.placeholder = 'Search for an album...'
+
+    navBar.appendChild(searchBar)
     navBar.appendChild(profile)
     navBar.appendChild(albumSubmission)
 
