@@ -20,6 +20,20 @@ body {
 		font-size: 17px;
 }
 
+.nav-bar input {
+    width: 80%;
+    min-width: 75px;
+    padding: 12px;
+    border: solid 1px gray;
+    border-radius: 4px;
+    margin: 4px;
+    opacity: 0.8;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 17px;
+    line-height: 20px
+}
+
 #albumName {
   font-size:12px;
   margin-left: 30px;
