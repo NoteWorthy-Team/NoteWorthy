@@ -169,7 +169,7 @@ class userInfo {
             friendName = currentFriend.username;
             friendProfile = currentFriend.profileLink;
             friendPicture = currentFriend.profilePic;
-            friendPageLink.href = '../users/user_veiwable_' + currentFriend.userid +'.html';
+            friendPageLink.href = '../users/user_viewable_' + currentFriend.userid +'.html';
             friendPageLink.appendChild(friendPicImg)
             frienddiv.appendChild(friendPageLink)
         }

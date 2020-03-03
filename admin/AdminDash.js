@@ -50,7 +50,7 @@ function addAlbumToTable(album, table) {
 
     const submitterCell = newRow.insertCell();
     const submitterLink = document.createElement("a");
-    submitterLink.href='../users/user_veiwable_' + album.submitter.userid +'.html'
+    submitterLink.href='../users/user_viewable_' + album.submitter.userid +'.html'
     const submitterText = document.createTextNode(album.submitter.name);
     submitterLink.appendChild(submitterText);
     submitterCell.appendChild(submitterLink);

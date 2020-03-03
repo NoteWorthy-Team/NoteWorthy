@@ -47,7 +47,7 @@ function populateForm() {
     album = getAlbumData();
     const submitterNameText = document.createTextNode(album.submitter.name);
     submitterNameLink.appendChild(submitterNameText);
-    submitterNameLink.href='../users/user_veiwable_' + album.submitter.userid +'.html'
+    submitterNameLink.href='../users/user_viewable_' + album.submitter.userid +'.html'
     const submissionDateText = document.createTextNode(album.submissionDate);
     submissionDateSpan.appendChild(submissionDateText);
     populateTitleField(album);
