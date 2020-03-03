@@ -70,7 +70,7 @@ class userInfo {
   "A wonderful debut for truly the best new thing in music. Rarely in today’s music landscape has a band been able to take over as NoteWorthy has. Up and down the track list there is not a track that can be singled out as they are all so good. "+
    "This album is quintessential listening to anyone with even a single ear.",5);
 
-  let helpReview = new reviewData( new Date(2019, 1, 14), 1,
+  let helpReview = new reviewData( new Date(2019, 1, 14), 2,
   "Help!",'../samples/sample_album_art/help.jpg',
   "Help! cannot be talked about without talking about the film of the same name by the Beatles. When spoken about, the album itself is " +
   "often overshadowed by the film. Don’t get me wrong it’s a great film but the album deserves more attention from the general public and the Beatles fanbase. "+
@@ -95,7 +95,7 @@ class userInfo {
   let tolistenList = [];
   tolistenList.push(hammerAlbum)
 
-  let cscUser = new userInfo(0,"csc309 ",'../samples/sample_profile_pictures/csc309.jpg',
+  let cscUser = new userInfo(1,"csc309 ",'../samples/sample_profile_pictures/csc309.jpg',
   "Making jazz with a lot of pizzazz. Toronto, ON." ,
   sampleFriendList, sampleFavAlbumList, sampleReviewList, sampleCollectionList, tolistenList);
 
