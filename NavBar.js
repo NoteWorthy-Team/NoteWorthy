@@ -19,15 +19,17 @@ class NavBar extends HTMLElement {
     const albumSubmission = document.createElement('a')
     const albumSubmissionLinkText = document.createTextNode('Submit Album')
     albumSubmission.appendChild(albumSubmissionLinkText)
-    albumSubmission.href = 'albumSubmissionPage.html'
+    albumSubmission.href = '../users/albumSubmissionPage.html'
 
     const searchForm = document.createElement('form')
     const loc = window.location.pathname.split('/')
     if (loc[loc.length - 2] == 'team54') {
       searchForm.action = 'search_results.html'
+      albumSubmission.href = 'albumSubmissionPage.html'
     }
     else {
       searchForm.action = '../search_results.html'
+      albumSubmission.href = '../users/albumSubmissionPage.html'
     }
     searchForm.method = 'GET'
 
