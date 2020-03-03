@@ -14,7 +14,6 @@ class NavBar extends HTMLElement {
     const profile = document.createElement('a')
     const profileLinkText = document.createTextNode('Profile')
     profile.appendChild(profileLinkText)
-    profile.href = '#profile'
 
     const albumSubmission = document.createElement('a')
     const albumSubmissionLinkText = document.createTextNode('Submit Album')
@@ -26,10 +25,14 @@ class NavBar extends HTMLElement {
     if (loc[loc.length - 2] == 'team54') {
       searchForm.action = 'search_results.html'
       albumSubmission.href = 'albumSubmissionPage.html'
+      // we are using user 0 because user 0 is the user that logs in
+      // with username "user" and password "user"
+      profile.href = 'user_0.html'
     }
     else {
       searchForm.action = '../search_results.html'
       albumSubmission.href = '../users/albumSubmissionPage.html'
+      profile.href = '../users/user_0.html'
     }
     searchForm.method = 'GET'
 
