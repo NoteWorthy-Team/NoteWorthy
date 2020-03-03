@@ -8,7 +8,7 @@ body {
 .nav-bar {
     background: rgba(0, 0, 0, 0.5);
     overflow: hidden;
-    }
+}
 
 .nav-bar a {
     color: white;
@@ -20,23 +20,41 @@ body {
     font-size: 17px;
 }
 
+.nav-bar form {
+width: 80%;
+display: inline-block;
+}
+
+.nav-bar input[type=text] {
+width: 80%;
+min-width: 75px;
+padding: 12px;
+border: solid 1px gray;
+border-radius: 4px;
+margin: 4px;
+opacity: 0.8;
+display: inline-block;
+vertical-align: middle;
+font-size: 17px;
+line-height: 20px
+}
+
+.nav-bar input[type=submit] {
+width: 10%;
+min-width: 75px;
+padding: 12px;
+border: solid 1px gray;
+border-radius: 4px;
+opacity: 0.8;
+display: inline-block;
+vertical-align: middle;
+font-size: 17px;
+line-height: 20px
+}
 section {
     display: inline-block;
 }
 
-/*style submit button, will change colours to match colour scheme*/
-input[type=submit] {
-    width: 10%;
-    min-width: 75px;
-    background-color: #ef2288;
-    border: none;
-    color: white;
-    cursor: pointer;
-    }
-
-input[type=submit]:hover {
-    background-color: #d5198e;
-}
 
 table, td, th {
 	border: 1px solid black;
