@@ -1,4 +1,9 @@
+// JS page for the Hammer album
+
 "use strict";
+
+// The below classes represents the data objects that will be used in this
+// file
 
 class user {
   constructor(userid,username,profilePic,bio, friendList,
@@ -50,6 +55,9 @@ class reviewData {
   }
 }
 
+// hardcode Data
+// Below is the datacode data that we will be using for  phase 1 of the project
+
 let tonybaloney = new user(0,"tonybaloney",'../samples/sample_profile_pictures/tonybaloney.jpg',
 "You don’t like the things that you like, these are the things you like. Staten, NYC.",
 [], [], [], [], []);
@@ -93,11 +101,14 @@ const slider = document.getElementById("ratingSlider");
 const reviewRating = document.getElementById("currentRating");
 const reviewBox = document.getElementById("reviewBox");
 
+// Event lister
 reviewBox.addEventListener('submit', submitNewReview);
 
 let currentReviewRating = 1;
+
 // Runs certain functions once the page is loaded
 window.onload = function() {
+  // Album object will be returned from a server call
   displayAlbumInfo(McHammerAlbum)
 };
 
@@ -271,6 +282,7 @@ function displayCurrentRating(newRating)  {
   }
 }
 
+// The review list will be returned from a server call 
 function getAverageRating(reviewList)  {
   let currentTotal = 0;
   for( let i = 0; i< reviewList.length; i++)

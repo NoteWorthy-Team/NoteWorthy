@@ -192,6 +192,7 @@ padding-left: 8px;
 	border-style: solid;
 	border-radius: .001px;
 	height:125px;
+	overflow: auto;
 }
 
 .reviewsDiv h1{

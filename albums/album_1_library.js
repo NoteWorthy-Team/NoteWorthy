@@ -2,6 +2,9 @@
 
 "use strict";
 
+// The below classes represents the data objects that will be used in this
+// file
+
 class user {
   constructor(userid,username,profilePic,bio, friendList,
     favAlbums, userReviews, userCollections, userListList) {
@@ -51,6 +54,9 @@ class reviewData {
     this.rating = rating;
   }
 }
+
+// hardcode Data
+// Below is the datacode data that we will be using for  phase 1 of the project
 
 let tonybaloney = new user(0,"tonybaloney",'../samples/sample_profile_pictures/tonybaloney.jpg',
 "You don’t like the things that you like, these are the things you like. Staten, NYC.",
@@ -103,11 +109,13 @@ const BahenAlbum = new album(1, "Bahen...", '../samples/sample_album_art/Bahen..
   const reviewRating = document.getElementById("currentRating");
   const reviewBox = document.getElementById("reviewBox");
 
+// Event lister
   reviewBox.addEventListener('submit', submitNewReview);
 
   let currentReviewRating = 1;
   // Runs certain functions once the page is loaded
   window.onload = function() {
+      // Album object will be returned from a server call
     displayAlbumInfo(BahenAlbum)
   };
 
@@ -183,6 +191,7 @@ const BahenAlbum = new album(1, "Bahen...", '../samples/sample_album_art/Bahen..
       {
         let currentReview = reviews[i];
         let reviewUser  = null;
+
         // At this point, we would use the albumID and the userID to call the
         // Album from the server. As the info is currently hardcode, we just set these
         // values here
@@ -287,6 +296,7 @@ const BahenAlbum = new album(1, "Bahen...", '../samples/sample_album_art/Bahen..
     }
   }
 
+// The review list will be returned from a server call
   function getAverageRating(reviewList)  {
     let currentTotal = 0;
     for( let i = 0; i< reviewList.length; i++)

@@ -1,6 +1,9 @@
 // JS page for the Help album
 "use strict";
 
+// The below classes represents the data objects that will be used in this
+// file
+
 class user {
   constructor(userid,username,profilePic,bio, friendList,
     favAlbums, userReviews, userCollections, userListList) {
@@ -51,10 +54,12 @@ class reviewData {
   }
 }
 
+// hardcode Data
+// Below is the datacode data that we will be using for  phase 1 of the project
+
 let cscUser = new user(1,"csc309",'../samples/sample_profile_pictures/csc309.jpg',
 "Making jazz with a lot of pizzazz. Toronto, ON." ,
 [], [], [], [], []);
-
 
 let helpReviewCsC = new reviewData(2,1, new Date(2019, 11, 23),
 "Help! cannot be talked about without talking about the film of the same name by the Beatles." +
@@ -98,11 +103,13 @@ const HelpAlbum = new album(2, "Hep!", '../samples/sample_album_art/help.jpg',
   const reviewRating = document.getElementById("currentRating");
   const reviewBox = document.getElementById("reviewBox");
 
+// Event lister
   reviewBox.addEventListener('submit', submitNewReview);
 
   let currentReviewRating = 1;
   // Runs certain functions once the page is loaded
   window.onload = function() {
+      // Album object will be returned from a server call
     displayAlbumInfo(HelpAlbum)
   };
 
@@ -258,6 +265,7 @@ const HelpAlbum = new album(2, "Hep!", '../samples/sample_album_art/help.jpg',
     displayCurrentRating(this.value);
   }
 
+
   function displayCurrentRating(newRating)  {
       if( newRating != null)
       {
@@ -276,6 +284,7 @@ const HelpAlbum = new album(2, "Hep!", '../samples/sample_album_art/help.jpg',
     }
   }
 
+// The review list will be returned from a server call
   function getAverageRating(reviewList)  {
     let currentTotal = 0;
     for( let i = 0; i< reviewList.length; i++)
