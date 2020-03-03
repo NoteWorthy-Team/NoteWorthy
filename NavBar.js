@@ -19,7 +19,7 @@ class NavBar extends HTMLElement {
     const albumSubmission = document.createElement('a')
     const albumSubmissionLinkText = document.createTextNode('Submit Album')
     albumSubmission.appendChild(albumSubmissionLinkText)
-    albumSubmission.href = '#album-submission'
+    albumSubmission.href = 'albumSubmissionPage.html'
 
     const searchForm = document.createElement('form')
     const loc = window.location.pathname.split('/')
