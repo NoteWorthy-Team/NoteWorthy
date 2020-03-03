@@ -198,7 +198,7 @@ function styleFavouriteButton() {
       favButton.className = "favouriteButton dim";
       const unfavText = document.createTextNode("Remove from Favourites");
       favButton.appendChild(unfavText);
-      favButtonContainer.appendChild(favButton);
+      favButtonContainer.insertBefore(favButton, favButtonContainer.firstElementChild);
       favButton.addEventListener("click", function() {removeAlbumFromFavourites(albumID, currentUser)});
     } else {
       const oldFavButton = favButtonContainer.firstElementChild;
@@ -208,7 +208,7 @@ function styleFavouriteButton() {
       favButton.className = "favouriteButton bright";
       const favText = document.createTextNode("Add to Favourites");
       favButton.appendChild(favText);
-      favButtonContainer.appendChild(favButton);
+      favButtonContainer.insertBefore(favButton, favButtonContainer.firstElementChild);
       favButton.addEventListener("click", function() {addAlbumToFavourites(albumID, currentUser)});
     }
 }

@@ -224,13 +224,15 @@ padding-top:5px;
 	text-align: center;
   float: right;
 }
+
 #favouriteButtonContainer {
 	margin-top: 10px;
     padding-top: 12px;
     margin-left: 30px;
     width: 30%;
 }
-.favouriteButton {
+
+#favouriteButtonContainer button{
 	min-width: 100px;
 	max-width:200px;
     border: none;
@@ -240,11 +242,12 @@ padding-top:5px;
     border-radius: 4px;
 	margin-left: auto;
 	margin-right: auto;
+	margin-top: 5px;
+	margin-bottom: 5px;
     opacity: 0.8;
     display: block;
     font-size: 17px;
 	line-height: 20px;
-	
 }
 
 .bright {
