@@ -230,10 +230,9 @@ padding-top:5px;
     margin-left: 30px;
     width: 30%;
 }
-#favouriteButton {
+.favouriteButton {
 	min-width: 100px;
 	max-width:200px;
-    background-color: #ef2288;
     border: none;
     color: white;
 	cursor: pointer;
@@ -246,4 +245,11 @@ padding-top:5px;
     font-size: 17px;
 	line-height: 20px;
 	
+}
+
+.bright {
+    background-color: #ef2288;
+}
+.dim {
+	background-color: rgba(0, 0, 0, 0.5);
 }
