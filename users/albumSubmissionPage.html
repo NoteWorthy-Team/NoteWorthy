@@ -12,18 +12,17 @@
     <script type="text/javascript" src="../NavBar.js"></script>
     <nav-bar></nav-bar>
 
-    <script type="text/javascript" src="albumSubmission.js"></script>
     <div class="submissionPage">
         <form autocomplete="off" action="" method="POST">
             <div class="submissionForm">
                 <section class="submissionField">
-                    <label for="albumTitle">Title:</label><br>
+                    <label for="albumTitle">Title:</label>
                     <ul> <!--for styling purposes-->
                         <input type="text" id="albumTitle">
                     </ul>
                 </section>
                 <section class="submissionField">
-                    <label for="albumYear">Year:</label><br>
+                    <label for="albumYear">Year:</label>
                     <ul> <!--for styling purposes-->
                         <input type="text" id="albumYear">
                     </ul>
@@ -69,11 +68,11 @@
                     <ol id="albumTrackList">
                         <li class="trackContainer">
                             <div class="titleContainer">
-                                <label>Title:</label><br>
+                                <label>Title:</label>
                                 <input type="text" id="trackTitleInput">
                             </div>
                             <div class="trackRuntimeContainer">
-                                <label>Running time:</label><br>
+                                <label>Running time:</label>
                                 <input type="text" id="trackRuntimeInput">
                             </div>
                         </li>
@@ -81,9 +80,10 @@
                         
                     </ol>
                 </section>
+                <input type="submit" value="Submit">
             </div>
-            
         </form>
     </div>
- </body>
+    <script type="text/javascript" src="albumSubmissionLibrary.js"></script>
+</body>
 </html>

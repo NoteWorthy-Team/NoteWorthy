@@ -20,14 +20,14 @@ body {
 	font-size: 17px;
 }
 
-.submissionPage {
-	background-color: linear-gradient(black 0%,black 50%,#000000 50%,white 50%,white 100%);
+.nav-bar form {
+    display: none;
 }
 
 /* need extra padding on the bottom because of 
 positioning of #addTrackButton */
 .submissionForm {
-    padding: 10px 10px 22px 10px;
+    padding: 10px 10px 60px 10px;
 	margin: auto;
 	width: 50%;
 	min-width: 600px;
@@ -41,31 +41,46 @@ positioning of #addTrackButton */
 	padding: 5px;
 }
 
+input[type=submit] {
+	min-width: 75px;
+	padding: 12px;
+	border: solid 1px gray;
+	border-radius: 4px;
+	font-size: 17px;
+	line-height: 20px;
+	float: right;
+	width: 10%;
+	min-width: 75px;
+	background-color: #ef2288;
+	border: none;
+    color: white;
+	cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #d5198e;
+}
+
 .trackListContainer {
 	width: 100%;
 }
 
 .titleContainer {
-	float: left;
-}
-
-.trackRuntimeContainer {
-	float: right;
-}
-
-/* a little hacky */
-#addTrackButton {
-	position: relative;
-	right: 280px;
-	top: 28px; 
-}
-
-.titleContainer {
+	display: inline-block;
 	width: 50%;
 }
 
+.trackRuntimeContainer {
+	display: inline-block;
+	width: 30%;
+}
+
 #trackTitleInput {
-	width: 100%;
+	width: 80%;
+}
+
+#trackRuntimeInput {
+	width: 50%;
 }
 
 ul {
