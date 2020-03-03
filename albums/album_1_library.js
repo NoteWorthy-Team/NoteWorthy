@@ -60,7 +60,7 @@ class reviewData {
 
 let tonybaloney = new user(0,"tonybaloney",'../samples/sample_profile_pictures/tonybaloney.jpg',
 "You don’t like the things that you like, these are the things you like. Staten, NYC.",
-[], [], [], [], []);
+[], [0], [], [], []);
 
 let cscUser = new user(1,"csc309",'../samples/sample_profile_pictures/csc309.jpg',
 "Making jazz with a lot of pizzazz. Toronto, ON." ,
@@ -108,6 +108,7 @@ const BahenAlbum = new album(1, "Bahen...", '../samples/sample_album_art/Bahen..
   const slider = document.getElementById("ratingSlider");
   const reviewRating = document.getElementById("currentRating");
   const reviewBox = document.getElementById("reviewBox");
+  const favButtonContainer = document.getElementById("favouriteButtonContainer");
 
 // Event lister
   reviewBox.addEventListener('submit', submitNewReview);
@@ -183,8 +184,55 @@ const BahenAlbum = new album(1, "Bahen...", '../samples/sample_album_art/Bahen..
     }
 
     displayReviews(album.reviews);
+    styleFavouriteButton();
   }
 
+  //Change the favourite button depending on whether the user has already favourited this album.
+  function styleFavouriteButton() { 
+      // At this point, we would see what the current User  is.
+      // We would then get there ID from the server.
+      // At this stage, we can't do that, so we've just hardcoded in the userid
+      const currentUser = tonybaloney;
+      // In the same vein, we would get the album ID from the server, and load that
+      // in here. At this point, we just hardcoded it.
+      const albumID = BahenAlbum.albumId;
+      
+      if (currentUser.favAlbums.includes(albumID)) {
+        const oldFavButton = favButtonContainer.firstElementChild;
+        favButtonContainer.removeChild(oldFavButton);
+        const favButton = document.createElement("button");
+        favButton.type = "button";
+        favButton.className = "favouriteButton dim";
+        const unfavText = document.createTextNode("Remove from Favourites");
+        favButton.appendChild(unfavText);
+        favButtonContainer.appendChild(favButton);
+        favButton.addEventListener("click", function() {removeAlbumFromFavourites(albumID, currentUser)});
+      } else {
+        const oldFavButton = favButtonContainer.firstElementChild;
+        favButtonContainer.removeChild(oldFavButton);
+        const favButton = document.createElement("button");
+        favButton.type = "button";
+        favButton.className = "favouriteButton bright";
+        const favText = document.createTextNode("Add to Favourites");
+        favButton.appendChild(favText);
+        favButtonContainer.appendChild(favButton);
+        favButton.addEventListener("click", function() {addAlbumToFavourites(albumID, currentUser)});
+      }
+  }
+  function addAlbumToFavourites(albumID, currentUser) {
+    // We would make a server call here, but for now we just edit the sample data
+    currentUser.favAlbums.push(albumID);
+    styleFavouriteButton();
+  }
+  function removeAlbumFromFavourites(albumID, currentUser) {
+    // We would make a server call here, but for now we just edit the sample data
+    for (let i = 0; i < currentUser.favAlbums.length; i++) {
+      if (currentUser.favAlbums[i] == albumID) {
+        currentUser.favAlbums.splice(i, 1);
+      }
+    }
+    styleFavouriteButton();
+  }
   function displayReviews(reviews) { // Display some recent review
     if( reviews.length != 0) {
       for(let i = 0; i< 3 && i < reviews.length; i++)
