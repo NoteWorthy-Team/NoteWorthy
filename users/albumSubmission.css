@@ -1,0 +1,73 @@
+body {
+	background-color: rgb(255, 199, 130);
+	margin: 0;
+	padding: 0;
+	font-family: "Montserrat", Helvetica, sans-serif;
+}
+
+.nav-bar {
+	background: rgba(0, 0, 0, 0.5);
+	overflow: hidden;
+}
+
+.nav-bar a {
+	color: white;
+	padding: 15px;
+	float: right;
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	font-size: 17px;
+}
+
+.submissionPage {
+	background-color: linear-gradient(black 0%,black 50%,#000000 50%,white 50%,white 100%);
+}
+
+/* need extra padding on the bottom because of 
+positioning of #addTrackButton */
+.submissionForm {
+    padding: 10px 10px 22px 10px;
+	margin: auto;
+	width: 50%;
+	min-width: 600px;
+	background: whitesmoke;
+}
+
+.submissionForm input[type=text]{
+	width: 40%;
+	border: solid 1px gray;
+	border-radius: 4px;
+	padding: 5px;
+}
+
+.trackListContainer {
+	width: 100%;
+}
+
+.titleContainer {
+	float: left;
+}
+
+.trackRuntimeContainer {
+	float: right;
+}
+
+/* a little hacky */
+#addTrackButton {
+	position: relative;
+	right: 280px;
+	top: 28px; 
+}
+
+.titleContainer {
+	width: 50%;
+}
+
+#trackTitleInput {
+	width: 100%;
+}
+
+ul {
+	list-style-type: inside;
+}
