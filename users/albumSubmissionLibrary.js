@@ -1,4 +1,14 @@
+// code for submit button
+const submitButton = document.getElementById("submitButton")
+submitButton.addEventListener("click", handleFormSubmit)
 
+function handleFormSubmit (e) {
+    e.preventDefault();
+    window.location.href = './albumSubmittedPage.html';
+}
+
+
+// code for fields of submission form
 const addFieldButtons = document.getElementsByClassName("addInputButton");
 const addTrackButton = document.getElementById("addTrackButton");
 addTrackButton.addEventListener("click", addTrack);
