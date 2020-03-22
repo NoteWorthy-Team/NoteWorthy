@@ -16,28 +16,42 @@ const { Review } = require('./models/review')
 
 
 app.get('/', (req, res) => {
-	// sending a string
-	//res.send('This should be the root route!')
 
-	//sending some HTML
 	res.sendFile('./index.html', {root: __dirname })
 })
+
+app.get('/album', (req, res) => {
+	res.sendFile('./albums/album_0.html', {root: __dirname })
+})
+
+app.post('/', (req, res) => {
+
+	const newUser = new User({
+		email: "hannah@test.ie",
+	  password: "password",
+	  username: "keatingh",
+	  bio: "Please work ",
+	  friendList: [],
+	  favAlbums:  [],
+	  userReviews: [],
+	  userCollections: [],
+	  userToListen: []
+	})
+
+	// Save the new resturant
+	newUser.save().then((newUser) => {
+		res.send(newUser)
+	}, (error) => {
+		res.status(400).send(error) // 400 for bad request
+	})
+})
+
 
 
 // will use an 'environmental variable', process.env.PORT, for deployment.
 const port = process.env.PORT || 5000
 app.listen(port, () => {
 	console.log(`Listening on port ${port}...`)
-	console.log("NoteWorthy running")
-
 })  // localhost development port 5000  (http://localhost:5000)
    // We've bound that port to localhost to go to our express server.
    // Must restart web server when you make changes to route handlers.
-
-	if(process.env.NODE_ENV === 'production'){
-	     //set static folder
-	    app.use(express.static('client/build'));
-	}
-	 app.get('*',(req, res) => {
-	     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-	 });

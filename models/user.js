@@ -8,9 +8,6 @@ const { ObjectID } = require('mongodb')
 const { review } = require ('./review.js')
 const { Album } = require ('./album.js')
 
-console.log(Album)
-console.log(Album.schema)
-
 const CollectionSchema = new mongoose.Schema({
   collectionName: String,
   description: String,
