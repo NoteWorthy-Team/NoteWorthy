@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 const { ObjectID } = require('mongodb')
-const  Review  =  require('./review.js')
+const  { Review }  =  require('./review.js')
 
 const TrackSchema = new mongoose.Schema({
     name: String,
@@ -25,4 +25,4 @@ const AlbumSchema = new mongoose.Schema({
 
 const Album = mongoose.model('Album', AlbumSchema);
 
-module.exports = Album;
+module.exports = { Album };
