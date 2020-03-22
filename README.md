@@ -41,3 +41,8 @@ __password:__ admin
 When logged in the Adminstrator Dashboard will be displayed. Here an admin can find the list of albums requesting to be added into the database under the "Pending Submssions" link. Each album is given an unique ID and shows which user has submitted the album and when. Clicking on the details of the album the admin is able to edit the information of an album such as the title, artist, and tracklist. Once an admin confirms the information they can hit the "Save and Approve" button to display it onto NoteWorthy, if they feel like they want to further confirm information they may just hit the "Save" button and finish working on the request later. Also available on the dashboard is the "User Ticket" link, which displays changes that a user may want to do to their profiles such a user deletion. As with the user version of the site, there is a navigation bar on the top of the page that allows you to navigate NoteWorthy.
 
 With all of that you now have all the skills to navigate the phase 1 admin portion of NoteWorthy!
+
+
+web URL: 
+https://guarded-sierra-30571.herokuapp.com/
+

@@ -10,6 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4"
+    "bcryptjs": "^2.4.3",
+    "express": "^4.16.4",
+    "mongodb": "^3.5.5",
+    "mongoose": "^5.9.5",
+    "validator": "^13.0.0"
   }
 }

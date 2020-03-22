@@ -1,10 +1,11 @@
 /* Review  Models */
 
 const mongoose = require('mongoose');
+const { ObjectID } = require('mongodb');
 
 const ReviewSchema = new mongoose.Schema({
-    albumID: ObjectId,
-    userID: ObjectId,
+    albumID: ObjectID,
+    userID: ObjectID,
     dateOfReview:Date,
     reviewBody: String,
     rating: Number
@@ -12,5 +13,4 @@ const ReviewSchema = new mongoose.Schema({
 });
 
 const Review = mongoose.model('Review', ReviewSchema);
-
-module.exports = { Review };
+module.exports =  Review;

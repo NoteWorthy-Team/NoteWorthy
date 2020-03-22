@@ -1,9 +1,18 @@
 /* server.js - Express server for NoteWorthy*/
 'use strict';
 
+// Express
 const express = require('express')
-
 const app = express();
+const bodyParser = require('body-parser')
+app.use(bodyParser.json());
+
+// Mongo and Mongoose
+const { ObjectID } = require('mongodb')
+const { mongoose } = require('./db/mongoose');
+const { Album } = require('./models/album')
+const { User } = require('./models/user')
+const { Review } = require('./models/review')
 
 
 // will use an 'environmental variable', process.env.PORT, for deployment.

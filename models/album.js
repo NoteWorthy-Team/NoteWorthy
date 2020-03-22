@@ -1,13 +1,12 @@
 /* album  Models */
 
 const mongoose = require('mongoose');
-const review = require ('./review.js')
-const ReviewSchema = review.Schema
+const { ObjectID } = require('mongodb')
+const  Review  =  require('./review.js')
 
 const TrackSchema = new mongoose.Schema({
     name: String,
     length: String
-
 });
 
 const AlbumSchema = new mongoose.Schema({
@@ -21,10 +20,9 @@ const AlbumSchema = new mongoose.Schema({
     length: String,
     trackList: [TrackSchema],
     avgRating:Number,
-    Reviews: [ReviewSchema],
-
+    Reviews: [Review.schema]
 });
 
 const Album = mongoose.model('Album', AlbumSchema);
 
-module.exports = { Album };
+module.exports = Album;
