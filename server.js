@@ -14,10 +14,18 @@ const { Album } = require('./models/album')
 const { User } = require('./models/user')
 const { Review } = require('./models/review')
 
+app.use(express.static(__dirname));
+
 
 app.get('/', (req, res) => {
+		res.redirect('/index')
 
-	res.sendFile('./index.html', {root: __dirname })
+})
+
+app.get('/index', (req, res) => {
+	
+	//res.sendFile('./albums/index.html', {root: __dirname })
+	//res.sendFile('./public/index.html', {root: __dirname })
 })
 
 app.get('/album', (req, res) => {
@@ -25,7 +33,6 @@ app.get('/album', (req, res) => {
 })
 
 app.post('/', (req, res) => {
-
 	const newUser = new User({
 		email: "hannah@test.ie",
 	  password: "password",
@@ -38,14 +45,13 @@ app.post('/', (req, res) => {
 	  userToListen: []
 	})
 
-	// Save the new resturant
+	// Save the new user
 	newUser.save().then((newUser) => {
 		res.send(newUser)
 	}, (error) => {
 		res.status(400).send(error) // 400 for bad request
 	})
 })
-
 
 
 // will use an 'environmental variable', process.env.PORT, for deployment.
