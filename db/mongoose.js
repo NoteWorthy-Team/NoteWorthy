@@ -2,7 +2,12 @@
 
 const mongoose = require('mongoose');
 
-// Will need to update to correct URL for the server.
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/NoteWorthyAPI',{ useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true});
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/NoteWorthyAPI'
 
-module.exports = { mongoose }
+// Will need to update to correct URL for the server.
+mongoose.connect(mongoURI,
+	{ useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true});
+
+	
+
+module.exports = { mongoose }  // Export the active connection.

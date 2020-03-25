@@ -1,0 +1,82 @@
+body {
+	background-color: #e6ecf0;
+	margin: 0;
+    padding: 0;
+	font-family: "Montserrat", Helvetica, sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+.nav-bar {
+    background: rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+.nav-bar a {
+    color: white;
+    padding: 15px;
+    float: right;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.nav-bar form {
+    width: 80%;
+    display: inline-block;
+}
+
+.nav-bar input[type=text] {
+    width: 80%;
+    min-width: 75px;
+    padding: 12px;
+    border: solid 1px gray;
+    border-radius: 4px;
+    margin: 4px;
+    opacity: 0.8;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 17px;
+    line-height: 20px
+}
+
+.nav-bar input[type=submit] {
+    width: 10%;
+    min-width: 75px;
+    padding: 12px;
+    border: solid 1px gray;
+    border-radius: 4px;
+    opacity: 0.8;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 17px;
+    line-height: 20px
+}
+
+.albumCover {
+    display: inline-block;
+    vertical-align: middle;
+    width: 150px;
+    height: 150px;
+    padding-left: 15px;
+}
+
+.albumInfo {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 10px;
+}
+
+.albumResult {
+    background-color: white;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    width: 80%
+}
+
+#results {
+    margin-left: 10px;
+}

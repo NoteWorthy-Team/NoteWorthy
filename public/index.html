@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>NoteWorthy</title>
+  <link rel="stylesheet" type="text/css" href="./css/index.css">
+</head>
+
+<body>
+  <link rel="stylesheet"href="https://fonts.googleapis.com/css?family=Montserrat">
+
+  <form class="newuserbutton" action="newuser" method="get">
+    <input type="submit" value="New User">
+  </form>
+
+  <div class='middle-container'>
+    <div class="slogan">
+      <h1>Find music<br/>with NoteWorthy</h1>
+    </div>
+    <div class="vl"></div>
+    <form class="login-form" action="/users/login" method="post">
+      <input name="username" type="text" placeholder="Username"><br>
+      <input name="password" type="password" placeholder="Password"><br>
+      <input type="submit" value="Sign In">
+    </form>
+
+  </div>
+</body>
+</html>

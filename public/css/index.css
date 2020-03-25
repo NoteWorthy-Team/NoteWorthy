@@ -1,0 +1,94 @@
+body {
+	background-image: url("../img/sample_background.jpg");
+	background-position: center;
+	margin: 0;
+	font-family: "Montserrat", Helvetica, sans-serif;
+}
+
+.nav-bar {
+	background: rgba(0, 0, 0, 0.5);
+	overflow: hidden;
+}
+
+.nav-bar a {
+	color: white;
+	padding: 15px;
+	float: right;
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	font-size: 17px;
+}
+
+.nav-bar form {
+	width: 80%;
+	display: inline-block;
+}
+
+.middle-container {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.slogan {
+	float: left;
+	transform: translate(0, 40%);
+	color: white;
+	display: inline-block;
+	margin: 10px;
+}
+
+.vl {
+	float: left;
+	border-left: 6px solid;
+	border-left-color: rgba(242, 242, 242, 0.6);
+	height: 200px;
+	margin: 10px;
+}
+
+.login-form {
+	float: left;
+	margin: 10px;
+	position: relative;
+	min-width: 160px;
+	width: 20%;
+	text-align: center;
+	border-radius: 5px;
+	background: rgba(242, 242, 242, 0.6);
+	padding: 20px;
+}
+
+input {
+	opacity: 1;
+	width: 80%;
+	min-width: 75px;
+	padding: 12px;
+	border: solid 1px gray;
+	border-radius: 4px;
+	margin: 4px;
+	opacity: 0.8;
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 17px;
+	line-height: 20px;
+}
+
+/*style submit button, will change colours to match colour scheme*/
+input[type=submit] {
+	width: 10%;
+	min-width: 75px;
+	background-color: #ef2288;
+	border: none;
+    color: white;
+	cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #d5198e;
+}
+
+table, td, th {
+	border: 1px solid black;
+}

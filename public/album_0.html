@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>NoteWorthy </title>
+  <link rel="stylesheet" type="text/css" href="./css/albumPage_style.css">
+</head>
+
+<body>
+  <script type="text/javascript" src="./js/NavBar.js"></script>
+<nav-bar></nav-bar>
+  <div id="trackList">
+    <h1> TrackList</h1>
+  </div>
+
+  <div id="reviews">
+    <h1> Recent Reviews</h1>
+
+  </div>
+
+  <div id='albumName'>  </div>
+
+
+  <div id="albumCover"></div>
+
+  <div id="favouriteButtonContainer">
+    <button type="button" class="favouriteButton bright">Add to Favourites</button>
+    <button type="button" class="listenButton bright">Add to "Listened"</button>
+    <button type="button" class="toListenButton bright">Add to "To Listen"</button>
+  </div>
+
+  <form id="reviewBox">
+    <h1> Write a review here</h1>
+    <textarea type="text" id="reviewbody" name="reviewbody"> </textarea><br>
+    <br>
+    <label for="ratingSlider">Ratings:    </label>
+    <input type="range" min="1" max="5" value="1" class="slider" id="ratingSlider">
+    <p id = "currentRating"><p>
+    <input type="submit" value="submit review">
+  </form>
+
+  <div id='albumInfo'></div>
+
+  <div id="AvgRatings">
+      <h1>Average Rating</h1>
+  </div>
+
+
+  <script  type="text/javascript" src="./js/album_0_library.js"></script>
+</body>
+</html>
