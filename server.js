@@ -224,6 +224,28 @@ app.post('/pendingAlbumSubmissions', (req, res) => {
 	  })
 })
 
+app.get('/pendingAlbumSubmissions', (req, res) => {
+	//TODO: Check session cookie to make sure current user is an admin
+	PendingAlbumSubmission.find().then((albums) => {
+		const summaries = albums.map(function(album) {
+			return {
+				albumId: album._id,
+				title: album.title,
+				artist: album.artist,
+				submitter: {
+					userid: album.user.loginName
+				},
+				submissionDate: album.time
+				
+			}
+		})
+		res.send(summaries);
+	}, (error) => {
+		console.log(error);
+		res.status(500).send();
+	})
+
+})
 
 //// IMAGE HANDLING
 // a POST route to *create* an image
