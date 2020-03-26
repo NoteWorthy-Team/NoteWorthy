@@ -7,6 +7,10 @@ const app = express();
 const bodyParser = require('body-parser')
 app.use(bodyParser.json());
 
+//CORS fix 
+const cors = require('cors');
+app.use(cors());
+
 // express-session for managing user sessions
 const session = require('express-session')
 app.use(bodyParser.urlencoded({ extended: true }));
