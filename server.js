@@ -18,6 +18,23 @@ const { Album } = require('./models/album')
 const { User } = require('./models/user')
 const { Review } = require('./models/review')
 const { PendingAlbumSubmission } = require('./models/pendingAlbumSubmission')
+const { Image } = require("./models/image");
+
+
+// multipart middleware: allows you to access uploaded file from req.file
+const multipart = require('connect-multiparty');
+const multipartMiddleware = multipart();
+
+
+// cloudinary: configure using credentials found on your Cloudinary Dashboard
+const cloudinary = require('cloudinary');
+
+cloudinary.config({
+    cloud_name: 'keatingh',
+    api_key: '583158277248312',
+    api_secret: 'qEaGYgsVpsnQ2VY_9DbhYiSirv4'
+});
+
 
 app.use(express.static(__dirname + '/public'));
 
@@ -36,21 +53,21 @@ app.use(session({
 
 // // Our own express middleware to check for
 // // an active user on the session cookie (indicating a logged in user.)
-// const sessionChecker = (req, res, next) => {
-//     if (req.session.user) {
-//         res.redirect('/dashboard'); // redirect to dashboard if logged in.
-//     } else {
-//         next(); // next() moves on to the route.
-//     }
-// };
-
+//taken for the course notes
+const sessionChecker = (req, res, next) => {
+    if (req.session.user) {
+        res.redirect('/dashboard'); // redirect to dashboard if logged in.
+    } else {
+        next(); // next() moves on to the route.
+    }
+};
 
 /// DIRECT TO WEB PAGES
 app.get('/',(req, res) => {
 		res.redirect('/index')
 })
 
-app.get('/index',(req, res) => {
+app.get('/index',sessionChecker,(req, res) => {
 		//res.render('index.hbs');
 	res.sendFile('./public/index.html', {root: __dirname })
 })
@@ -60,7 +77,7 @@ app.get('/newuser', (req, res) => {
 })
 
 app.get('/dashboard', (req, res) => {
-	res.sendFile('./public/user_0.html', {root: __dirname })
+	res.sendFile('./public/dashboard.html', {root: __dirname })
 })
 
 app.get('/album', (req, res) => {
@@ -69,7 +86,13 @@ app.get('/album', (req, res) => {
 
 // TODO: only here for development purposes, remove before submission
 app.get('/admin', (req, res) => {
-	res.sendFile('./public/admin-dashboard.html', {root: __dirname })
+  if( req.session.user   == "5e7cd312d1fc200017887142") {
+    res.sendFile('./public/admin-dashboard.html', {root: __dirname })
+  } // admin profile
+	else
+  {
+  	res.redirect('/index')
+  }
 })
 
 //GET DATBASE INFO
@@ -85,6 +108,7 @@ app.post('/users', (req, res) => {
 		  password:  req.body.password,
 			displayName: req.body.displayName,
 			bio: req.body.bio,
+      profilePic: req.body.photoURL,
 			friendList: [],
 			favAlbums: [],
 			userReviews: [],
@@ -117,20 +141,39 @@ app.post('/users/login', (req, res) => {
 
     // Use the static method on the User model to find a user
     // by their email and password
-	User.findByUserPassword(username, password).then((user) => {
-	    if (!user) {
-            res.redirect('/login');
-        } else {
-            // Add the user's id to the session cookie.
-            // We can check later if this exists to ensure we are logged in.
-            req.session.user = user._id;
-
-            res.redirect('/dashboard');
+    User.findByUserPassword(username, password).then((user) => {
+      if (!user) {
+        res.redirect('/index');
+      } else {
+        // Add the user's id to the session cookie.
+        // We can check later if this exists to ensure we are logged in.
+        req.session.user = user._id;
+        if( user._id == "5e7cd312d1fc200017887142")  // admin profile
+        {
+          res.redirect('/admin');
         }
+        else
+        {
+          res.redirect('/dashboard');
+        }
+      }
     }).catch((error) => {
-		res.status(400).redirect('/login');
+      res.status(400).redirect('/index');
     })
+  })
+
+
+
+// A GET requests that returns the session user
+app.get('/userinfo', (req, res) => {
+	User.findById( req.session.user ).then((user) => {
+		res.send({ user }) // can wrap in object if want to add more properties
+	}, (error) => {
+		res.status(500).send(error) // server error
+	})
 })
+
+
 
 // A GET request to find a user by ID
 app.get('/user/:id', (req, res) => {
@@ -176,6 +219,20 @@ app.post('/pendingAlbumSubmissions', (req, res) => {
 			  res.send({"error": error})
 	  })
 })
+
+
+//// IMAGE HANDLING
+// a POST route to *create* an image
+app.post("/image", multipartMiddleware, (req, res) => {
+
+    // Use uploader.upload API to upload image to cloudinary server.
+    cloudinary.uploader.upload(  req.files.photo.path,  function (result) {
+    res.send( result )
+  })
+})
+
+
+
 
 // will use an 'environmental variable', process.env.PORT, for deployment.
 const port = process.env.PORT || 5000

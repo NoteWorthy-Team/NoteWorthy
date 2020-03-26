@@ -19,6 +19,7 @@ const UserSchema = new mongoose.Schema({
   password: String,
   displayName: String,
   bio: String,
+  profilePic: String,
   friendList: [ObjectID],
   favAlbums: [Album.schema],
   userReviews: [Album.schema],
