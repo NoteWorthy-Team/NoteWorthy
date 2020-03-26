@@ -21,8 +21,7 @@ function displayAlbumSubmissions() {
     }
     dashboard.appendChild(submissionTable);
 
-    const albumSubmissions = getAlbumSubmissions();
-    populateSubmissionsTable(albumSubmissions);
+    getAlbumSubmissions();
 }
 function populateSubmissionsTable(pendingSubmissions) {
     const table = submissionTable;
@@ -45,8 +44,13 @@ function addAlbumToTable(album, table) {
     titleCell.appendChild(titleText);
 
     const artistCell = newRow.insertCell();
-    const artistText = document.createTextNode(album.artist);
-    artistCell.appendChild(artistText);
+    if (album.artists) {
+        for (let i=0; i < album.artists.length; i++){
+            const artistText = document.createTextNode(album.artists[i]);
+            artistCell.appendChild(artistText);
+        }  
+    }
+
 
     const submitterCell = newRow.insertCell();
     const submitterLink = document.createElement("a");
@@ -66,13 +70,31 @@ function addAlbumToTable(album, table) {
     detailsLink.appendChild(detailsText);
     detailsLinkCell.appendChild(detailsLink);
 
-    //TODO: Approve and reject buttons
-
 }
 function getAlbumSubmissions() {
     /// Get pending album submissions from server
     // code below requires server call
-    return sampleSubmissions;
+    // Since this is a GET request, simply call fetch on the URL
+    const url = '/pendingAlbumSubmissions';
+    fetch(url)
+    .then((res) => {
+      if (res.status === 200) {
+        // return a promise that resolves with the JSON body
+        console.log('Got pending album info')
+        return res.json()
+      } else {
+        console.log('Could not get pending album info')
+      }
+    })
+    .then((json) => {  // the resolved promise with the JSON body
+      console.log(json)
+      //currentUser = json.user
+      const pendingAlbums = json;
+      populateSubmissionsTable(pendingAlbums);
+    }).catch((error) => {
+      console.log(error)
+    })
+    
 }
 
 //---------------------------------------------------
