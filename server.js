@@ -17,6 +17,7 @@ const { mongoose } = require('./db/mongoose');
 const { Album } = require('./models/album')
 const { User } = require('./models/user')
 const { Review } = require('./models/review')
+const { PendingAlbumSubmission } = require('./models/pendingAlbumSubmission')
 
 app.use(express.static(__dirname + '/public'));
 
@@ -64,6 +65,11 @@ app.get('/dashboard', (req, res) => {
 
 app.get('/album', (req, res) => {
 	res.sendFile('./public/album_0.html', {root: __dirname })
+})
+
+// TODO: only here for development purposes, remove before submission
+app.get('/admin', (req, res) => {
+	res.sendFile('./public/admin-dashboard.html', {root: __dirname })
 })
 
 //GET DATBASE INFO
@@ -151,6 +157,24 @@ app.get('/user/:id', (req, res) => {
 		res.status(500).send()  // server error
 	})
 
+})
+
+// posts an album submission to pendingAlbumSubmissions
+app.post('/pendingAlbumSubmissions', (req, res) => {
+	  const newSubmission = new PendingAlbumSubmission({
+		title: req.body.title,
+		artists: req.body.artists,
+		user: req.body.user,
+		time: req.body.user,
+		details: req.body.details
+	  })
+	  // Save the new pending album submission
+	  newSubmission.save().then((newSubmission) => {
+			  res.send(newSubmission)
+	  }, (error) => {
+			  console.log(error)
+			  res.send({"error": error})
+	  })
 })
 
 // will use an 'environmental variable', process.env.PORT, for deployment.

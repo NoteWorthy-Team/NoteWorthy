@@ -2,8 +2,108 @@
 const submitButton = document.getElementById("submitButton")
 submitButton.addEventListener("click", handleFormSubmit)
 
-function handleFormSubmit (e) {
+function handleFormSubmit(e) {
     e.preventDefault();
+    const albumTitle = document.querySelector('#albumTitle').value
+    const albumYear = document.querySelector('#albumYear').value    
+    // all artists of album
+    var artists = []
+    const artistInputs = document.querySelector('#artistList').querySelectorAll('.albumInfoInput')
+    for (let i = 0; i < artistInputs.length; i++) {
+        artists.push(artistInputs[i].value)
+    }
+    // all producers of album
+    var producers = []
+    const producerInputs = document.querySelector('#producerList').querySelectorAll('.albumInfoInput')
+    for (let i = 0; i < producerInputs.length; i++) {
+        producers.push(producerInputs[i].value)
+    }
+    // all labels of album
+    var labels = []
+    const labelInputs = document.querySelector('#labelList').querySelectorAll('.albumInfoInput')
+    for (let i = 0; i < labelInputs.length; i++) {
+        labels.push(labelInputs[i].value)
+    }
+    // all genres of album
+    var genres = []
+    const genreInputs = document.querySelector('#genreList').querySelectorAll('.albumInfoInput')
+    for (let i = 0; i < genreInputs.length; i++) {
+        genres.push(genreInputs[i].value)
+    }
+    // all tracks of album
+    var tracks = []
+    const trackNameInputs = document.querySelector('#albumTrackList').querySelectorAll('.trackTitleInput')
+    const trackRuntimeInputs = document.querySelector('#albumTrackList').querySelectorAll('.trackRuntimeInput')
+    for (let i = 0; i < trackNameInputs.length; i++) {
+        const track = {
+            name: trackNameInputs[i].value,
+            length: trackRuntimeInputs[i].value
+        }
+        tracks.push(track)
+    }
+
+    const submissionDate = new Date()
+    // TODO: length left blank for now. should we remove this field?
+    // new album, no ratings, no reviews
+    // TODO: using id of user "user" for now, should get objectid of current user
+    const albumInfo = {
+        name: albumTitle,
+        artist: artists,
+        producer: producers,
+        year: albumYear,
+        genre: genres,
+        label: labels,
+        length: null,
+        trackList: tracks,
+        avgRating: 0,
+        Reviews: []
+    }
+    const data = {
+        title: albumTitle,
+        artists: artists,
+        user: "5e7b9a9a77d8630017b55ee7",
+        time: "just now",
+        details: albumInfo
+    }
+
+    const url = '/pendingAlbumSubmissions';
+
+    // -----------------
+    const request = new Request(url, {
+        method: 'post',
+        body: JSON.stringify(data),
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        },
+    });
+  
+    // Send the request with fetch()
+    //TODO: fix error logging for second .then
+    fetch(request)
+    .then(function(res) {
+            if (res.status === 200) {
+                // If album was submitted successfully, tell the user.
+                console.log('Album submitted')
+            } else {
+                console.log('Could not submit album')
+            }
+            return res.json()
+        })
+        .then((json) => {  // the resolved promise with the JSON body
+          console.log(json)  // log the result in the console for development purposes,
+                            //  users are not expected to see this.
+        console.log(`Error Code: ${json.status}`)
+         console.log(`Error URL: ${json.url}`)
+         console.log(`Error body: ${json.body}`)
+        // console.log(`Error json: ${json}`)
+         const body  = JSON.stringify(json, ' ', 4)
+         console.log(`Error body: ${body}`)
+  
+      }).catch((error) => {
+          console.log(error)
+        })
+    // ---------------------
     window.location.href = './albumSubmittedPage.html';
 }
 
