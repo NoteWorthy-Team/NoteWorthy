@@ -123,7 +123,6 @@ function handleFormSubmit(e) {
     });
 
     // Send the request with fetch()
-    //TODO: fix error logging for second .then
     fetch(request)
     .then(function(res) {
             if (res.status === 200) {
@@ -148,7 +147,7 @@ function handleFormSubmit(e) {
           console.log(error)
         })
     // ---------------------
-  //  window.location.href = './albumSubmittedPage.html';
+    window.location = URL + 'dashboard'
 }
 
 // code for fields of submission form

@@ -1,7 +1,7 @@
 /* server.js - Express server for NoteWorthy*/
 'use strict';
 
-const adminID = '5e7dcec4494265001703e214'
+const adminID = '5e7e5bd54b8b10001761dcf4'
 
 // Express
 const express = require('express')

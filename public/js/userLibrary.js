@@ -143,7 +143,7 @@ Need to link to album pages correctly
       {
         let currentAlbum = user.favAlbums[i]
 
-        let albumName = currentAlbum.albumName;
+        let albumName = currentAlbum.name;
         let cover= currentAlbum.cover;
 
         const albumNamepara= document.createElement('p')
@@ -389,7 +389,7 @@ Need to link to album pages correctly
         {
           let currentWantToListem = user.userToListen[i]
 
-          let toListenAlbumName = currentWantToListem.albumName;
+          let toListenAlbumName = currentWantToListem.name;
           let toListencover = currentWantToListem.cover;
 
 

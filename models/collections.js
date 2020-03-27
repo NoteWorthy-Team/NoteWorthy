@@ -1,13 +1,13 @@
 /* Collection  Models */
 
 const mongoose = require('mongoose');
-const { Album } = require ('./album.js')
+const { savedAlbum } = require ('./savedAlbum.js')
 
 
 const CollectionSchema = new mongoose.Schema({
   collectionName: String,
   description: String,
-  albums:[Album.schema]
+  albums:[savedAlbum.schema]
 });
 
 
