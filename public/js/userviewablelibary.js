@@ -13,6 +13,7 @@
   const userPanel = document.getElementById("userPanel");
   const bio = document.getElementById("bio");
   const followlist = document.getElementById("followlist");
+  const friendListLink = document.getElementById("friendpage");
   const followDiv = document.getElementById("followDiv");
 
   const reviewButton = userPanel.getElementsByClassName("reviews");
@@ -75,33 +76,33 @@
     bio.appendChild(userbiopara)
 
     // display friend list
-    const friendListLink = document.getElementById("friendpage");
     if( user.friendList.length  != 0) {
       for(let i = 0; i< 9 ; i++)
       {
         const friendNamepara= document.createElement('p')
         const friendPicImg = document.createElement('img')
-        const friendPageLink = document.createElement('a')
         const frienddiv = document.createElement('div')
 
         let friendName = null;
         let friendPicture = null;
-        let friendProfile = null;
+
 
         if( i < user.friendList.length  )
         {
             const currentFriend = user.friendList[i];
-            friendName = currentFriend.username;
-            friendProfile = currentFriend.profileLink;
+
+            friendPicImg._id = currentFriend._id
+            friendNamepara._id = currentFriend._id
+            frienddiv._id = currentFriend._id
+
+            friendName = currentFriend.displayName;
             friendPicture = currentFriend.profilePic;
-            friendPageLink.href = '../users/user_viewable_' + currentFriend.userid +'.html';
-            friendPageLink.appendChild(friendPicImg)
-            frienddiv.appendChild(friendPageLink)
+            frienddiv.appendChild(friendPicImg)
+            frienddiv.addEventListener('click', toToUserPage)
         }
         else
         {
           friendName = "";
-          friendProfile = '';
           friendPicture = 'https://res.cloudinary.com/keatingh/image/upload/v1585233976/qvjid5ncxmq4n5a6hqzf.jpg'
           frienddiv.appendChild(friendPicImg)
         }
@@ -117,9 +118,6 @@
         followlist.insertBefore(frienddiv,friendListLink )
 
       }
-      // Add a link down here to bring the user to a screen with all of there
-      // friends
-
     }
     // Shows a message telling user to follow someone if they currenly don't s
     else
@@ -143,19 +141,19 @@
         let currentAlbum = user.favAlbums[i]
 
         let albumName = currentAlbum.albumName;
-        let albumCover= currentAlbum.albumCover;
+        let cover= currentAlbum.cover;
 
         const albumNamepara= document.createElement('p')
-        const albumCoverImg = document.createElement('img')
+        const coverImg = document.createElement('img')
         const albumPageLink = document.createElement('a')
         const albumdiv = document.createElement('div')
         const albumLink = document.createElement('a')
 
-        albumCoverImg.className = 'albumCover';
-        albumCoverImg.src = albumCover;
+        coverImg.className = 'cover';
+        coverImg.src = cover;
 
         albumLink.href = '../albums/album_' + currentAlbum.albumId +'.html';
-        albumLink.appendChild(albumCoverImg)
+        albumLink.appendChild(coverImg)
 
         albumdiv.className = 'albumDiv';
         //albumNamepara.className = 'followerName';
@@ -191,7 +189,7 @@
     isDisplayingReviews = true;
     isDisplayingCollections= false;
     isDisplayingToListened = false;
-    updateUserPanel(currentUser);
+    updateUserPanel(viewableUser);
   }
 
   function panelCollectionUpdate(e) {
@@ -199,7 +197,7 @@
     isDisplayingReviews = false;
     isDisplayingCollections= true;
     isDisplayingToListened = false;
-    updateUserPanel(currentUser);
+    updateUserPanel(viewableUser);
   }
 
   function paneltoListenpdate(e) {
@@ -207,7 +205,7 @@
     isDisplayingReviews = false;
     isDisplayingCollections= false;
     isDisplayingToListened = true;
-    updateUserPanel(currentUser);
+    updateUserPanel(viewableUser);
   }
 
   function updateUserPanel(user)
@@ -243,15 +241,15 @@
           let currentReview = user.userReviews[i]
 
           // Loading the album cover
-          let reviewAlbumCover= currentReview.albumCover;
-          const albumCoverImg = document.createElement('img')
-          albumCoverImg.className = 'reviewAlbumCover';
-          albumCoverImg.src = reviewAlbumCover;
+          let reviewcover= currentReview.cover;
+          const coverImg = document.createElement('img')
+          coverImg.className = 'reviewcover';
+          coverImg.src = reviewcover;
 
           // Creating the link to the album page
           const albumLink = document.createElement('a')
           albumLink.href = '../albums/album_' + currentReview.albumId +'.html';
-          albumLink.appendChild(albumCoverImg)
+          albumLink.appendChild(coverImg)
 
           // loading in the album name info
           let reviewAlbumName = currentReview.albumName;
@@ -330,17 +328,17 @@
 
           // loading in the album covers
           for(let i =0; i < 4; i++) {
-            let currentAlbumCoverImg = document.createElement('img')
-            currentAlbumCoverImg.className = 'collectionAlbumCover'
+            let currentcoverImg = document.createElement('img')
+            currentcoverImg.className = 'collectioncover'
             if( i < albumList.length )
             {
-              currentAlbumCoverImg.src = albumList[i].albumCover
+              currentcoverImg.src = albumList[i].cover
             }
             else
             {
-              currentAlbumCoverImg.src = 'https://res.cloudinary.com/keatingh/image/upload/v1585233976/qvjid5ncxmq4n5a6hqzf.jpg'
+              currentcoverImg.src = 'https://res.cloudinary.com/keatingh/image/upload/v1585233976/qvjid5ncxmq4n5a6hqzf.jpg'
             }
-            collAlbumDiv.appendChild(currentAlbumCoverImg)
+            collAlbumDiv.appendChild(currentcoverImg)
           }
 
           let collectionLink = document.createElement('a')
@@ -383,13 +381,13 @@
     // display the albums that the user has marked that they want to listen to
     else if (isDisplayingToListened )
     {
-      if( user.userListList.length != 0) {
-        for(let i = 0; i< 9 && i < user.userListList.length ; i++)
+      if( user.userToListen.length != 0) {
+        for(let i = 0; i< 9 && i < user.userToListen.length ; i++)
         {
-          let currentWantToListem = user.userListList[i]
+          let currentWantToListem = user.userToListen[i]
 
           let toListenAlbumName = currentWantToListem.albumName;
-          let toListenAlbumCover = currentWantToListem.albumCover;
+          let toListencover = currentWantToListem.cover;
 
 
           const albumNamepara= document.createElement('p')
@@ -397,7 +395,7 @@
           const albumdiv = document.createElement('div')
 
           albumPicImg.className = 'toListenCover';
-          albumPicImg.src = toListenAlbumCover;
+          albumPicImg.src = toListencover;
 
           const albumLink = document.createElement('a')
           albumLink.href = '../albums/album_' + currentWantToListem.albumId +'.html';
@@ -431,7 +429,37 @@
     }
   }
 
-  function followUpdate(e) {
+
+function toToUserPage(e) {
+    console.log("Clicked on div")
+    const url = '/viewUser';
+
+    const data = {
+      userID: e.toElement._id
+    }
+
+    // Create our request constructor with all the parameters we need
+    const request = new Request(url, {
+        method: 'post',
+        body: JSON.stringify(data),
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        },
+    });
+
+    fetch(request)
+    .then((res) => {
+      if (res.status === 200) {
+        console.log("view set")
+        window.location = URL+ 'dashboard_viewable'
+      }
+    }).catch((error) => {
+      console.log(error)
+    })
+  }
+
+function followUpdate(e) {
     e.preventDefault();
     const currentButton =  followButton[0]
     const textNode = currentButton.childNodes[0]

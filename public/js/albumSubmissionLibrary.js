@@ -91,7 +91,7 @@ function handleFormSubmit(e) {
     // new album, no ratings, no reviews
     const albumInfo = {
         name: albumTitle,
-        albumCover: photoURL,
+        cover: photoURL,
         artist: artists,
         producer: producers,
         year: albumYear,
@@ -101,7 +101,7 @@ function handleFormSubmit(e) {
         trackList: tracks,
         avgRating: 0,
         Reviews: []
-    }  
+    }
     const data = {
         title: albumTitle,
         cover: photoURL,

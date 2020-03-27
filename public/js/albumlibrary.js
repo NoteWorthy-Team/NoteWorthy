@@ -21,11 +21,11 @@ class user {
   }
 
 class album {
-  constructor(albumId, albumName,albumCover, artist, producer, year, genre,
+  constructor(albumId, albumName,cover, artist, producer, year, genre,
     label, length, trackList, avgRating, reviews ) {
     this.albumId = albumId;
     this.albumName = albumName;
-    this.albumCover = albumCover;
+    this.cover = cover;
     this.artist = artist ;
     this.producer = producer;
     this.year = year;
@@ -92,7 +92,7 @@ const McHammerAlbum = new album(0, " Please Hammer Don’t Hurt ‘Em ", './img/
 const navbar = document.getElementById("navbar");
 const albumName = document.getElementById("albumName");
 const recentReviews = document.getElementById("reviews");
-const albumCover = document.getElementById("albumCover");
+const cover = document.getElementById("cover");
 const albumInfo = document.getElementById("albumInfo");
 const AvgRatings = document.getElementById("AvgRatings");
 
@@ -122,11 +122,11 @@ function displayAlbumInfo(album) {
   albumName.appendChild(albumNameHeader)
 
   // displaying the album cover
-  const albumCoverSrc = album.albumCover
-  const albumCoverImg = document.createElement('img')
-  albumCoverImg.className = 'coverPic';
-  albumCoverImg.src = albumCoverSrc
-  albumCover.appendChild(albumCoverImg)
+  const coverSrc = album.cover
+  const coverImg = document.createElement('img')
+  coverImg.className = 'coverPic';
+  coverImg.src = coverSrc
+  cover.appendChild(coverImg)
 
   // display the album info
   const artistText = "Artist: " + album.artist;

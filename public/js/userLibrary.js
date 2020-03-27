@@ -144,19 +144,19 @@ Need to link to album pages correctly
         let currentAlbum = user.favAlbums[i]
 
         let albumName = currentAlbum.albumName;
-        let albumCover= currentAlbum.albumCover;
+        let cover= currentAlbum.cover;
 
         const albumNamepara= document.createElement('p')
-        const albumCoverImg = document.createElement('img')
+        const coverImg = document.createElement('img')
         const albumPageLink = document.createElement('a')
         const albumdiv = document.createElement('div')
         const albumLink = document.createElement('a')
 
-        albumCoverImg.className = 'albumCover';
-        albumCoverImg.src = albumCover;
+        coverImg.className = 'cover';
+        coverImg.src = cover;
 
         albumLink.href = '../albums/album_' + currentAlbum.albumId +'.html';
-        albumLink.appendChild(albumCoverImg)
+        albumLink.appendChild(coverImg)
 
         albumdiv.className = 'albumDiv';
         //albumNamepara.className = 'followerName';
@@ -244,15 +244,15 @@ Need to link to album pages correctly
           let currentReview = user.userReviews[i]
 
           // Loading the album cover
-          let reviewAlbumCover= currentReview.albumCover;
-          const albumCoverImg = document.createElement('img')
-          albumCoverImg.className = 'reviewAlbumCover';
-          albumCoverImg.src = reviewAlbumCover;
+          let reviewcover= currentReview.cover;
+          const coverImg = document.createElement('img')
+          coverImg.className = 'reviewcover';
+          coverImg.src = reviewcover;
 
           // Creating the link to the album page
           const albumLink = document.createElement('a')
           albumLink.href = '../albums/album_' + currentReview.albumId +'.html';
-          albumLink.appendChild(albumCoverImg)
+          albumLink.appendChild(coverImg)
 
           // loading in the album name info
           let reviewAlbumName = currentReview.albumName;
@@ -331,17 +331,17 @@ Need to link to album pages correctly
 
           // loading in the album covers
           for(let i =0; i < 4; i++) {
-            let currentAlbumCoverImg = document.createElement('img')
-            currentAlbumCoverImg.className = 'collectionAlbumCover'
+            let currentcoverImg = document.createElement('img')
+            currentcoverImg.className = 'collectioncover'
             if( i < albumList.length )
             {
-              currentAlbumCoverImg.src = albumList[i].albumCover
+              currentcoverImg.src = albumList[i].cover
             }
             else
             {
-              currentAlbumCoverImg.src = 'https://res.cloudinary.com/keatingh/image/upload/v1585233976/qvjid5ncxmq4n5a6hqzf.jpg'
+              currentcoverImg.src = 'https://res.cloudinary.com/keatingh/image/upload/v1585233976/qvjid5ncxmq4n5a6hqzf.jpg'
             }
-            collAlbumDiv.appendChild(currentAlbumCoverImg)
+            collAlbumDiv.appendChild(currentcoverImg)
           }
 
           let collectionLink = document.createElement('a')
@@ -390,7 +390,7 @@ Need to link to album pages correctly
           let currentWantToListem = user.userToListen[i]
 
           let toListenAlbumName = currentWantToListem.albumName;
-          let toListenAlbumCover = currentWantToListem.albumCover;
+          let toListencover = currentWantToListem.cover;
 
 
           const albumNamepara= document.createElement('p')
@@ -398,7 +398,7 @@ Need to link to album pages correctly
           const albumdiv = document.createElement('div')
 
           albumPicImg.className = 'toListenCover';
-          albumPicImg.src = toListenAlbumCover;
+          albumPicImg.src = toListencover;
 
           const albumLink = document.createElement('a')
           albumLink.href = '../albums/album_' + currentWantToListem.albumId +'.html';

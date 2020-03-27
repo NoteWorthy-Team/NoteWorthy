@@ -5,8 +5,8 @@ const validator = require('validator')
 const bcrypt = require('bcryptjs')
 
 const { ObjectID } = require('mongodb')
-const { review } = require ('./review.js')
-const { Album } = require ('./album.js')
+const { Review } = require ('./review.js')
+const { savedAlbum } = require ('./savedAlbum.js')
 const { Collection } = require ('./collections.js')
 const { ViewableUser } = require ('./viewableuser.js')
 
@@ -18,10 +18,10 @@ const UserSchema = new mongoose.Schema({
   bio: String,
   profilePic: String,
   friendList: [ViewableUser.schema],
-  favAlbums: [Album.schema],
-  userReviews: [Album.schema],
+  favAlbums: [savedAlbum.schema],
+  userReviews: [Review.schema],
   userCollections: [Collection.schema],
-  userToListen: [Album.schema]
+  userToListen: [savedAlbum.schema]
 });
 
 // An example of Mongoose middleware.
