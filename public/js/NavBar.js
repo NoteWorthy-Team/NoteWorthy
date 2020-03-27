@@ -1,5 +1,7 @@
 // create custom element for top navigation bar
 
+const URL = 'https://young-fortress-53184.herokuapp.com/'
+
 class NavBar extends HTMLElement {
   constructor() {
     super()
@@ -18,21 +20,22 @@ class NavBar extends HTMLElement {
     const albumSubmission = document.createElement('a')
     const albumSubmissionLinkText = document.createTextNode('Submit Album')
     albumSubmission.appendChild(albumSubmissionLinkText)
-    albumSubmission.href = './albumSubmissionPage.html'
+    albumSubmission.href = URL + 'submitalbum'
 
     const searchForm = document.createElement('form')
     const loc = window.location.pathname.split('/')
     if (loc[loc.length - 2] == 'team54') {
       searchForm.action = 'search_results.html'
-      albumSubmission.href = 'albumSubmissionPage.html'
+      albumSubmission.href = URL + 'submitalbum'
+
       // we are using user 0 because user 0 is the user that logs in
       // with username "user" and password "user"
-      profile.href = 'user_0.html'
+      profile.href = URL + 'dashboard'
     }
     else {
       searchForm.action = './search_results.html'
-      albumSubmission.href = './albumSubmissionPage.html'
-      profile.href = './user_0.html'
+      albumSubmission.href = URL + 'submitalbum'
+      profile.href = URL + 'dashboard'
     }
     searchForm.method = 'GET'
 

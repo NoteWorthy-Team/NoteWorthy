@@ -11,7 +11,7 @@ const TrackSchema = new mongoose.Schema({
 
 const AlbumSchema = new mongoose.Schema({
     name: String,
-    //albumCover: ,
+    albumCover: String,
     artist: [String],
     producer: [String],
     year: String,

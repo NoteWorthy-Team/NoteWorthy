@@ -1,37 +1,82 @@
 // code for submit button
+
+let photoURL = "";
 const submitButton = document.getElementById("submitButton")
 submitButton.addEventListener("click", handleFormSubmit)
+
+const newProfilePhoto = document.getElementsByClassName("newPhotoForm")[0];
+newProfilePhoto.addEventListener('submit', getPhotoURl);
+console.log(newProfilePhoto)
+
+function getPhotoURl(e) {
+  e.preventDefault(); // prevent default form action
+  const url = "/image";
+
+  // The data we are going to send in our request
+  const imageData = new FormData(e.target);
+
+  // Create our request constructor with all the parameters we need
+  const request = new Request(url, {
+    method: "post",
+    body: imageData,
+  });
+
+  // Send the request with fetch()
+  fetch(request)
+  .then(function (res) {
+    // Handle response we get from the API.
+    // Usually check the error codes to see what happened.
+    if (res.status === 200) {
+      // If image was added successfully, tell the user.
+      console.log("worked")
+      return res.json()
+    } else {
+      // If server couldn't add the image, tell the user.
+      // Here we are adding a generic message, but you could be more specific in your app.
+      console.log("Failed")
+    }
+  })
+  .then((json) => {  // the resolved promise with the JSON body
+    console.log('Have URL')
+    photoURL = json.url;
+  }).catch((error) => {
+    console.log(error)
+  })
+}
 
 function handleFormSubmit(e) {
     e.preventDefault();
     const albumTitle = document.querySelector('#albumTitle').value
-    const albumYear = document.querySelector('#albumYear').value    
+    const albumYear = document.querySelector('#albumYear').value
     // all artists of album
-    var artists = []
+    let artists = []
     const artistInputs = document.querySelector('#artistList').querySelectorAll('.albumInfoInput')
     for (let i = 0; i < artistInputs.length; i++) {
         artists.push(artistInputs[i].value)
     }
     // all producers of album
-    var producers = []
+    let producers = []
     const producerInputs = document.querySelector('#producerList').querySelectorAll('.albumInfoInput')
     for (let i = 0; i < producerInputs.length; i++) {
         producers.push(producerInputs[i].value)
     }
     // all labels of album
-    var labels = []
+    let labels = []
     const labelInputs = document.querySelector('#labelList').querySelectorAll('.albumInfoInput')
     for (let i = 0; i < labelInputs.length; i++) {
         labels.push(labelInputs[i].value)
     }
     // all genres of album
-    var genres = []
+    let genres = []
     const genreInputs = document.querySelector('#genreList').querySelectorAll('.albumInfoInput')
     for (let i = 0; i < genreInputs.length; i++) {
         genres.push(genreInputs[i].value)
     }
+    // getting the length of the album
+  const albumLength = document.querySelector('#albumLength').value
+
     // all tracks of album
-    var tracks = []
+    let tracks = []
     const trackNameInputs = document.querySelector('#albumTrackList').querySelectorAll('.trackTitleInput')
     const trackRuntimeInputs = document.querySelector('#albumTrackList').querySelectorAll('.trackRuntimeInput')
     for (let i = 0; i < trackNameInputs.length; i++) {
@@ -43,26 +88,25 @@ function handleFormSubmit(e) {
     }
 
     const submissionDate = new Date()
-    // TODO: length left blank for now. should we remove this field?
     // new album, no ratings, no reviews
-    // TODO: using id of user "user" for now, should get objectid of current user
     const albumInfo = {
         name: albumTitle,
+        albumCover: photoURL,
         artist: artists,
         producer: producers,
         year: albumYear,
         genre: genres,
         label: labels,
-        length: null,
+        length: albumLength,
         trackList: tracks,
         avgRating: 0,
         Reviews: []
-    }
+    }  
     const data = {
         title: albumTitle,
+        cover: photoURL,
         artists: artists,
-        user: "5e7b9a9a77d8630017b55ee7",
-        time: "just now",
+        time: new Date(),
         details: albumInfo
     }
 
@@ -77,7 +121,7 @@ function handleFormSubmit(e) {
             'Content-Type': 'application/json'
         },
     });
-  
+
     // Send the request with fetch()
     //TODO: fix error logging for second .then
     fetch(request)
@@ -99,14 +143,13 @@ function handleFormSubmit(e) {
         // console.log(`Error json: ${json}`)
          const body  = JSON.stringify(json, ' ', 4)
          console.log(`Error body: ${body}`)
-  
+
       }).catch((error) => {
           console.log(error)
         })
     // ---------------------
-    window.location.href = './albumSubmittedPage.html';
+  //  window.location.href = './albumSubmittedPage.html';
 }
-
 
 // code for fields of submission form
 const addFieldButtons = document.getElementsByClassName("addInputButton");
@@ -122,7 +165,7 @@ function addField(e) {
     const clickedButton = e.target;
     const parentList = clickedButton.parentElement;
     addFieldToElement(parentList);
-    
+
 }
 
 function addFieldToElement(element) {
@@ -182,7 +225,7 @@ function addTrack() {
 
     newLi.appendChild(titleContainer);
     newLi.appendChild(trackRuntimeContainer);
-    
+
     const plusButton = document.getElementById("addTrackButton");
     albumTrackList.insertBefore(newLi, plusButton);
 

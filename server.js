@@ -54,7 +54,6 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        expires: 60000,
         httpOnly: true
     }
 }));
@@ -100,6 +99,10 @@ app.get('/dashboard',isSessionDead, (req, res) => {
 
 app.get('/album',isSessionDead, (req, res) => {
 	res.sendFile('./public/albumpage.html', {root: __dirname })
+})
+
+app.get('/submitalbum', isSessionDead,(req, res) => {
+		res.sendFile('./public/albumSubmissionPage.html', {root: __dirname })
 })
 
 app.post('/viewUser',isSessionDead, (req, res) => {
@@ -214,7 +217,6 @@ app.get('/userinfo', (req, res) => {
 })
 
 
-
 // A GET request to find a user by ID
 app.get('/user/:id', (req, res) => {
 	/// req.params has the wildcard parameters in the url, in this case, id.
@@ -318,7 +320,6 @@ app.post('/unfollowUser', (req, res) => {
 //// IMAGE HANDLING
 // a POST route to *create* an image
 app.post("/image", multipartMiddleware, (req, res) => {
-
     // Use uploader.upload API to upload image to cloudinary server.
     cloudinary.uploader.upload(  req.files.photo.path,  function (result) {
     res.send( result )
@@ -373,11 +374,18 @@ app.post('/album/:id', (req, res) => {
 
 // posts an album submission to pendingAlbumSubmissions
 app.post('/pendingAlbumSubmissions', (req, res) => {
+    if (! req.session.user )
+    {
+      res.status(400).send ({Error: "No user connected "})
+      return
+    }
+
 	  const newSubmission = new PendingAlbumSubmission({
 		title: req.body.title,
+    cover: req.body.cover,
 		artists: req.body.artists,
-		user: req.body.user,
-		time: req.body.user,
+		user: req.session.user,
+		time: req.body.time,
 		details: req.body.details
 	  })
 	  // Save the new pending album submission
@@ -396,12 +404,9 @@ app.get('/pendingAlbumSubmissions', (req, res) => {
 			return {
 				albumId: album._id,
 				title: album.title,
-				artists: album.artist,
-				submitter: {
-					userid: album.user.loginName
-				},
+				artists: album.artists,
+				user: album.user,
 				submissionDate: album.time
-
 			}
 		})
 		res.send(summaries);
@@ -409,7 +414,6 @@ app.get('/pendingAlbumSubmissions', (req, res) => {
 		console.log(error);
 		res.status(500).send();
 	})
-
 })
 
 
@@ -417,4 +421,6 @@ app.get('/pendingAlbumSubmissions', (req, res) => {
 const port = process.env.PORT || 5000
 app.listen(port, () => {
 	console.log(`Listening on port ${port}...`)
-})  
+})  // localhost development port 5000  (http://localhost:5000)
+   // We've bound that port to localhost to go to our express server.
+   // Must restart web server when you make changes to route handlers.

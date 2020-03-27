@@ -69,7 +69,6 @@ function getPhotoURl(e) {
   })
 }
 
-
 // A function to send a POST request with a new user
 // Using this atm to add our users to the database
 function addUser(e) {

@@ -23,6 +23,7 @@ function displayAlbumSubmissions() {
 
     getAlbumSubmissions();
 }
+
 function populateSubmissionsTable(pendingSubmissions) {
     const table = submissionTable;
     let i;
@@ -44,20 +45,20 @@ function addAlbumToTable(album, table) {
     titleCell.appendChild(titleText);
 
     const artistCell = newRow.insertCell();
-    if (album.artists) {
-        for (let i=0; i < album.artists.length; i++){
-            const artistText = document.createTextNode(album.artists[i]);
-            artistCell.appendChild(artistText);
-        }  
+
+    for (let i=0; i < album.artists.length; i++){
+      const artistText = document.createTextNode(album.artists[i]);
+      artistCell.appendChild(artistText);
     }
 
-
+    // need to fix these links
     const submitterCell = newRow.insertCell();
-    const submitterLink = document.createElement("a");
-    submitterLink.href='./user_viewable_' + album.submitter.userid +'.html'
-    const submitterText = document.createTextNode(album.submitter.name);
-    submitterLink.appendChild(submitterText);
-    submitterCell.appendChild(submitterLink);
+    const submitDiv = document.createElement("div");
+    submitDiv._id = album.user
+    const submitterText = document.createTextNode(album.user);
+    submitDiv.appendChild(submitterText);
+    submitDiv.addEventListener('click', toToUserPage)
+    submitterCell.appendChild(submitDiv);
 
     const submissionDateCell = newRow.insertCell();
     const submissionDateText = document.createTextNode(album.submissionDate);
@@ -76,11 +77,11 @@ function addAlbumToTable(album, table) {
     //const detailsText = document.createTextNode("+");
     //detailsLink.appendChild(detailsText);
     //detailsLinkCell.appendChild(detailsLink);
-    
+
 }
 
 function approveAlbum(albumId) {
-    
+
     const url = '/album/:' + albumId;
     const request = new Request(url, {
         method: 'post',
@@ -108,7 +109,7 @@ function approveAlbum(albumId) {
         // console.log(`Error json: ${json}`)
          const body  = JSON.stringify(json, ' ', 4)
          console.log(`Error body: ${body}`)
-  
+
       }).catch((error) => {
           console.log(error)
         })
@@ -137,9 +138,37 @@ function getAlbumSubmissions() {
     }).catch((error) => {
       console.log(error)
     })
-    
+
 }
 
-
-
 document.onload = displayAlbumSubmissions();
+
+
+function toToUserPage(e) {
+  console.log("Clicked on div")
+  const url = '/viewUser';
+
+  const data = {
+    userID: e.toElement._id
+  }
+
+  // Create our request constructor with all the parameters we need
+  const request = new Request(url, {
+      method: 'post',
+      body: JSON.stringify(data),
+      headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+      },
+  });
+
+  fetch(request)
+  .then((res) => {
+    if (res.status === 200) {
+      console.log("view set")
+      window.location = URL+ 'dashboard_viewable'
+    }
+  }).catch((error) => {
+    console.log(error)
+  })
+}

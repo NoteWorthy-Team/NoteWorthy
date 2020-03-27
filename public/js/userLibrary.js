@@ -5,12 +5,9 @@ Need to checks that favourite albums, reviews, and to listen are all loading cor
 
 Also need to link to album search correctly
 
-Need to link to other users pages correctly
-
 Need to link to album pages correctly
 
 */
-const URL = 'https://still-tundra-93434.herokuapp.com/'
 
   let isDisplayingReviews = true;
   let isDisplayingCollections= false;
@@ -435,10 +432,8 @@ const URL = 'https://still-tundra-93434.herokuapp.com/'
     }
   }
 
-
 function toToUserPage(e) {
   console.log("Clicked on div")
-
   const url = '/viewUser';
 
   const data = {

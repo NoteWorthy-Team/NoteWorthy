@@ -12,7 +12,15 @@
     <script type="text/javascript" src="./js/NavBar.js"></script>
     <nav-bar></nav-bar>
 
+    <div class="newphoto">
+      <form class="newPhotoForm">
+        <input name="photo" type="file" > <br>
+          <input type="submit" value="Upload album cover">
+      </form>
+    </div>
+
     <div class="submissionPage">
+
         <form autocomplete="off" action="" method="POST">
             <div class="submissionForm">
                 <section class="submissionField">
@@ -61,6 +69,12 @@
                             <input type="text" class="albumInfoInput">
                         </li>
                         <button type="button" class="addInputButton" id="addGenreButton">+</button>
+                    </ul>
+                </section>
+                <section class="submissionField">
+                    <label for="albumLength">Length:</label>
+                    <ul> <!--for styling purposes-->
+                        <input type="text" id="albumLength">
                     </ul>
                 </section>
                 <section>
