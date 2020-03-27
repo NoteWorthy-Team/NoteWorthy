@@ -88,6 +88,51 @@ app.get('/album', (req, res) => {
 	res.sendFile('./public/album_0.html', {root: __dirname })
 })
 
+// A POST request that approves a submitted album
+// id should be the id of a PendingAlbumSubmission
+// TODO: Check session cookie to ensure user is an admin
+app.post('/album/:id', (req, res) => {
+	const albumId = req.params.id.slice(1);
+	PendingAlbumSubmission.findById(albumId).then((submission) => {
+
+	
+		if (!submission) {
+			res.status(404).send();
+		} else {
+			// create a new Album from the PendingAlbumSubmission
+			const details = submission.details;
+			const newAlbum = new Album({
+				name: details.name,
+				//albumCover: details.albumCover,
+				artist: details.artist,
+				producer: details.producer,
+				year: details.year,
+				genre: details.genre,
+				label: details.label,
+				length: details.length,
+				tracklist: details.tracklist,
+				avgRating: details.avgRating,
+				Reviews: details.Reviews
+			});
+			console.log(newAlbum);
+			newAlbum.save().then((result) => {
+				console.log("Approved album ", newAlbum.name);
+				//Remove the pending submission
+				PendingAlbumSubmission.deleteOne({_id: albumId}, (error) => {
+					console.log(error);
+				})
+				res.send(result)
+		}, (error) => {
+				console.log(error);
+				res.send({"error": error});
+		});
+	}
+}, (error) => {
+	console.log(error);
+	res.status(500).send(error);
+})})
+
+
 // TODO: only here for development purposes, remove before submission
 app.get('/admin', (req, res) => {
   if( req.session.user   == "5e7cd312d1fc200017887142") {
@@ -231,7 +276,7 @@ app.get('/pendingAlbumSubmissions', (req, res) => {
 			return {
 				albumId: album._id,
 				title: album.title,
-				artist: album.artist,
+				artists: album.artist,
 				submitter: {
 					userid: album.user.loginName
 				},
