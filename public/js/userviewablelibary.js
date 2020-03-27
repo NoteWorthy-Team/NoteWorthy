@@ -1,20 +1,10 @@
-// TODOS
-
-/*
-Need to checks that favourite albums, reviews, and to listen are all loading correctly
-
-Also need to link to album search correctly
-
-Need to link to other users pages correctly
-
-Need to link to album pages correctly
-
-*/
-const URL = 'https://still-tundra-93434.herokuapp.com/'
+  let currentUserID = null
+  let viewableUser = null
 
   let isDisplayingReviews = true;
   let isDisplayingCollections= false;
   let isDisplayingToListened = false;
+  let isFollowing = false;
 
   // a list of DOM master elements
   const username = document.getElementById("username");
@@ -23,23 +13,24 @@ const URL = 'https://still-tundra-93434.herokuapp.com/'
   const userPanel = document.getElementById("userPanel");
   const bio = document.getElementById("bio");
   const followlist = document.getElementById("followlist");
-  const friendListLink = document.getElementById("friendpage");
+  const followDiv = document.getElementById("followDiv");
 
   const reviewButton = userPanel.getElementsByClassName("reviews");
   const collectionButton = userPanel.getElementsByClassName("collections");
   const toListenButton  = userPanel.getElementsByClassName("toListen");
+  const followButton  = followDiv.getElementsByClassName("followButton");
 
   reviewButton[0].addEventListener('click',panelReviewUpdate)
   collectionButton[0].addEventListener('click',panelCollectionUpdate)
   toListenButton[0].addEventListener('click',paneltoListenpdate)
-  /* Event listeners for user panel click */
+  followButton[0].addEventListener('click',followUpdate)
 
-  let currentUser =null;
+  /* Event listeners for user panel click */
 
   // Runs certain functions once the page is loaded
   window.onload = function() {
     // the URL for the request
-    const url = '/userinfo';
+    const url = '/userviewableinfo';
 
     // Since this is a GET request, simply call fetch on the URL
     fetch(url)
@@ -52,8 +43,10 @@ const URL = 'https://still-tundra-93434.herokuapp.com/'
       }
     })
     .then((json) => {  // the resolved promise with the JSON body
-      currentUser = json.user
-      displayUserInfo(currentUser)
+      currentUserID = json.currentUserid
+      viewableUser = json.user
+      displayUserInfo(viewableUser)
+      checkIfFollowing()
     }).catch((error) => {
       console.log(error)
     })
@@ -82,33 +75,33 @@ const URL = 'https://still-tundra-93434.herokuapp.com/'
     bio.appendChild(userbiopara)
 
     // display friend list
+    const friendListLink = document.getElementById("friendpage");
     if( user.friendList.length  != 0) {
       for(let i = 0; i< 9 ; i++)
       {
         const friendNamepara= document.createElement('p')
         const friendPicImg = document.createElement('img')
+        const friendPageLink = document.createElement('a')
         const frienddiv = document.createElement('div')
 
         let friendName = null;
         let friendPicture = null;
-
+        let friendProfile = null;
 
         if( i < user.friendList.length  )
         {
             const currentFriend = user.friendList[i];
-
-            friendPicImg._id = currentFriend._id
-            friendNamepara._id = currentFriend._id
-            frienddiv._id = currentFriend._id
-
-            friendName = currentFriend.displayName;
+            friendName = currentFriend.username;
+            friendProfile = currentFriend.profileLink;
             friendPicture = currentFriend.profilePic;
-            frienddiv.appendChild(friendPicImg)
-            frienddiv.addEventListener('click', toToUserPage)
+            friendPageLink.href = '../users/user_viewable_' + currentFriend.userid +'.html';
+            friendPageLink.appendChild(friendPicImg)
+            frienddiv.appendChild(friendPageLink)
         }
         else
         {
           friendName = "";
+          friendProfile = '';
           friendPicture = 'https://res.cloudinary.com/keatingh/image/upload/v1585233976/qvjid5ncxmq4n5a6hqzf.jpg'
           frienddiv.appendChild(friendPicImg)
         }
@@ -124,6 +117,9 @@ const URL = 'https://still-tundra-93434.herokuapp.com/'
         followlist.insertBefore(frienddiv,friendListLink )
 
       }
+      // Add a link down here to bring the user to a screen with all of there
+      // friends
+
     }
     // Shows a message telling user to follow someone if they currenly don't s
     else
@@ -387,10 +383,10 @@ const URL = 'https://still-tundra-93434.herokuapp.com/'
     // display the albums that the user has marked that they want to listen to
     else if (isDisplayingToListened )
     {
-      if( user.userToListen.length != 0) {
-        for(let i = 0; i< 9 && i < user.userToListen.length ; i++)
+      if( user.userListList.length != 0) {
+        for(let i = 0; i< 9 && i < user.userListList.length ; i++)
         {
-          let currentWantToListem = user.userToListen[i]
+          let currentWantToListem = user.userListList[i]
 
           let toListenAlbumName = currentWantToListem.albumName;
           let toListenAlbumCover = currentWantToListem.albumCover;
@@ -435,32 +431,121 @@ const URL = 'https://still-tundra-93434.herokuapp.com/'
     }
   }
 
+  function followUpdate(e) {
+    e.preventDefault();
+    const currentButton =  followButton[0]
+    const textNode = currentButton.childNodes[0]
+    currentButton.removeChild(textNode)
 
-function toToUserPage(e) {
-  console.log("Clicked on div")
+    if( !isFollowing) // Not following this user  - add to friend list
+    {
+      isFollowing = true
+      currentButton.appendChild(document.createTextNode("UnFollow"))
 
-  const url = '/viewUser';
+      const url = '/followUser';
 
-  const data = {
-    userID: e.toElement._id
-  }
+      const data = {
+        userID: viewableUser._id,
+        displayName: viewableUser.displayName,
+        profilePic: viewableUser.profilePic
+      }
 
-  // Create our request constructor with all the parameters we need
-  const request = new Request(url, {
-      method: 'post',
-      body: JSON.stringify(data),
-      headers: {
+      // Create our request constructor with all the parameters we need
+      const request = new Request(url, {
+        method: 'post',
+        body: JSON.stringify(data),
+        headers: {
           'Accept': 'application/json, text/plain, */*',
           'Content-Type': 'application/json'
-      },
-  });
+        },
+      });
 
-  fetch(request)
+      fetch(request)
+      .then((res) => {
+        if (res.status === 200) {
+          // return a promise that resolves with the JSON body
+          console.log(' added new following ')
+          return res.json()
+        } else {
+          return res.json()
+        }
+      })
+      .then((json) => {  // the resolved promise with the JSON body
+        console.log(json)
+      }).catch((error) => {
+        console.log(error)
+      })
+    }
+
+    else {  // Following this user - Removing from the friend list
+      isFollowing = false
+      currentButton.appendChild(document.createTextNode("Follow"))
+
+      const url = '/unfollowUser';
+
+      const data = {
+        userID: viewableUser._id,
+        displayName: viewableUser.displayName,
+        profilePic: viewableUser.profilePic
+      }
+
+      // Create our request constructor with all the parameters we need
+      const request = new Request(url, {
+        method: 'post',
+        body: JSON.stringify(data),
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+      });
+
+      fetch(request)
+      .then((res) => {
+        if (res.status === 200) {
+          // return a promise that resolves with the JSON body
+          console.log(' added new following ')
+          return res.json()
+        } else {
+          return res.json()
+        }
+      })
+      .then((json) => {  // the resolved promise with the JSON body
+        console.log(json)
+      }).catch((error) => {
+        console.log(error)
+      })
+    }
+  }
+
+function checkIfFollowing(){
+  const currentButton =  followButton[0]
+  const textNode = currentButton.childNodes[0]
+  currentButton.removeChild(textNode)
+  const url = '/userFollowing';
+  // Since this is a GET request, simply call fetch on the URL
+  fetch(url)
   .then((res) => {
     if (res.status === 200) {
-      console.log("view set")
-      window.location = URL+ 'dashboard_viewable'
+      // return a promise that resolves with the JSON body
+      console.log(' Got friend list ')
+      return res.json()
+    } else {
+      console.log('Could not get user info')
     }
+  })
+  .then((friendList) => {  // the resolved promise with the JSON body
+    console.log(friendList)
+    for( let i = 0; i < friendList.length; i++ )
+    {
+      if(friendList[i]._id == viewableUser._id )
+      {
+        isFollowing = true
+      }
+    }
+    console.log(isFollowing)
+    if( isFollowing) {  currentButton.appendChild(document.createTextNode("Unfollow"))}
+    else { currentButton.appendChild(document.createTextNode("Follow")) }
+
   }).catch((error) => {
     console.log(error)
   })
