@@ -34,9 +34,9 @@ function getAlbums() {
         // The actual string being queried
         const placement = document.querySelector('#results')
 
-        const searchQuery = searchArray[searchArray.length - 1]
+        const searchQuery = searchArray[searchArray.length - 1].toLowerCase()
     
-        const theseAlbums = json.albums.filter((album) => album.name.search(searchQuery.toLowerCase()) !== -1)
+        const theseAlbums = json.albums.filter((album) => album.name.toLowerCase().search(searchQuery) !== -1)
         console.log(theseAlbums[0].name)
 
         for (let i = 0; i < theseAlbums.length; i++) {
