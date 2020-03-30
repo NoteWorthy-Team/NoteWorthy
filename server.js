@@ -232,6 +232,15 @@ app.post('/users', (req, res) => {
     })
   })
 
+  // A GET request that returns all albums
+  app.get('/albums', (req, res) => {
+    Album.find().then((albums) => {
+      res.send({ albums })
+    }, (error) => {
+      res.status(500).send(error) // Server error
+    })
+  })
+
   // ALBUM REVIEW ROUTES
   app.get('/userViewable',  (req, res) => {
     User.findById( req.session.user ).then((user) => {
