@@ -37,7 +37,6 @@ function getAlbums() {
         const searchQuery = searchArray[searchArray.length - 1].toLowerCase()
     
         const theseAlbums = json.albums.filter((album) => album.name.toLowerCase().search(searchQuery) !== -1)
-        console.log(theseAlbums[0].name)
 
         for (let i = 0; i < theseAlbums.length; i++) {
             
@@ -65,9 +64,9 @@ function getAlbums() {
             albumInfo.appendChild(resultAlbumName)
             albumInfo.appendChild(resultYear)
 
-            albumResult.appendChild(albumInfo)
+            //albumResult.appendChild(albumInfo)
             
-            placement.appendChild(albumResult)
+            placement.appendChild(albumInfo)
         }
     }).catch((error) => {
         console.log(error)
