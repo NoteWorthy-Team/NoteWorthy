@@ -1,17 +1,5 @@
 "use_strict";
 
-
-class albumResult {
-    constructor(albumId, albumName, albumCover, artist, year, link) {
-      this.albumId = albumId;
-      this.albumName = albumName;
-      this.albumCover = albumCover;
-      this.artist = artist ;
-      this.year = year;
-      this.link = link;
-    }
-}
-
 // Isolating the search result string from the URL
 const searchArray = window.location.search.split('=')
 
@@ -73,61 +61,25 @@ function getAlbums() {
             const resultYear = document.createElement('h2')
             resultYear.innerText = theseAlbums[i].year
 
+            // Place all text info into the same div
             albumInfo.appendChild(resultArtistName)
             albumInfo.appendChild(resultAlbumName)
             albumInfo.appendChild(resultYear)
             
+            // Place cover and text info into a link
             albumCoverLink.appendChild(resultAlbumCover)
             albumInfoLink.appendChild(albumInfo)
             
+            // Place cover and text links into a single result box
             albumResult.appendChild(albumCoverLink)
             albumResult.appendChild(albumInfoLink)
             
+            // Place into overall page
             placement.appendChild(albumResult)
         }
     }).catch((error) => {
         console.log(error)
     })
 }
-
-/* function displayResults() {
-    //const placement = document.querySelector('#results')
-    const parsedAlbums = JSON.parse(getAlbums())
-    console.log(parsedAlbums)
-    // The actual string being queried
-    const searchQuery = searchArray[searchArray.length - 1]
-    const theseAlbums = parsedAlbums.filter((album) => album.title.search(searchQuery) !== -1)
-    console.log(theseAlbums)
- */
-/*     for (let i = 0; i < albums.length; i++) {
-        if (albums[i].albumName.toLowerCase().search(searchQuery) !== -1) {
-            const albumCoverLink = document.createElement('a')
-            albumCoverLink.href = albums[i].link
-            const albumInfoLink = document.createElement('a')
-            albumInfoLink.href = albums[i].link
-            const albumResult = document.createElement('div')
-            albumResult.className = 'albumResult'
-            const resultAlbumCover = document.createElement('img')
-            resultAlbumCover.className = 'albumCover'
-            resultAlbumCover.src = albums[i].albumCover
-            const albumInfo = document.createElement('div')
-            albumInfo.className = 'albumInfo'
-            const resultArtistName = document.createElement('h2')
-            resultArtistName.innerText = albums[i].artist
-            const resultAlbumName = document.createElement('h2')
-            resultAlbumName.innerText = albums[i].albumName
-            const resultYear = document.createElement('h2')
-            resultYear.innerText = albums[i].year
-            albumInfo.appendChild(resultArtistName)
-            albumInfo.appendChild(resultAlbumName)
-            albumInfo.appendChild(resultYear)
-            albumCoverLink.appendChild(resultAlbumCover)
-            albumInfoLink.appendChild(albumInfo)
-            albumResult.appendChild(albumCoverLink)
-            albumResult.appendChild(albumInfoLink)
-            placement.appendChild(albumResult)
-        }
-    } */
-/* } */
 
 getAlbums()
