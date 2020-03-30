@@ -32,13 +32,12 @@ function getAlbums() {
        }                
     })
     .then((json) => {  // the resolved promise with the JSON body
-        //const parsedAlbums = JSON.parse(json)
-    
         // The actual string being queried
         const searchQuery = searchArray[searchArray.length - 1]
     
         const theseAlbums = json.albums.filter((album) => album.name.search(searchQuery) !== -1)
         console.log(theseAlbums)
+        
     }).catch((error) => {
         console.log(error)
     })
