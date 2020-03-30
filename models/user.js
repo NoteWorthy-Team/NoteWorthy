@@ -45,7 +45,6 @@ UserSchema.pre('save', function(next) {
   }
 })
 
-
 // A static method on the document model.
 // Allows us to find a User document by comparing the hashed password
 //  to a given one, for example when logging in.

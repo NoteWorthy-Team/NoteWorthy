@@ -13,53 +13,26 @@ class albumResult {
     }
 }
 
+const hammer = new albumResult(0, "Please Hammer Don't Hurt 'Em", './img/please_hammer_dont_hurt_em.jpg',
+    'MC Hammer', '1990', 'albums/album_0.html')
+const bahen = new albumResult(1, 'Bahen...', './img//bahen....jpg',
+    'NoteWorthy', '2020', 'albums/album_1.html')
+const help = new albumResult(2, 'Help!', './img//help.jpg',
+    'The Beatles', '1965', 'albums/album_2.html')
+
+albums.push(hammer)
+albums.push(bahen)
+albums.push(help)
+
 // Isolating the search result string from the URL
 const searchArray = window.location.search.split('=')
 
-// Returns a parsed JSON of all the albums in the database.
-function getAlbums() {
-    // the URL for the request
-    const url = '/albums';
+function displayResults() {
 
-    // Since this is a GET request, simply call fetch on the URL
-    fetch(url)
-    .then((res) => { 
-        if (res.status === 200) {
-            // return a promise that resolves with the JSON body
-           return res.json() 
-       } else {
-            alert('Could not get the albums')
-       }                
-    })
-    .then((json) => {  // the resolved promise with the JSON body
-        //const parsedAlbums = JSON.parse(json)
-    
-        // The actual string being queried
-        const searchQuery = searchArray[searchArray.length - 1]
-    
-        const theseAlbums = json.albums.filter((album) => album.name.search(searchQuery) !== -1)
-        console.log(theseAlbums)
-    }).catch((error) => {
-        console.log(error)
-    })
-}
-
-/* function displayResults() {
-
-    //const placement = document.querySelector('#results')
-
-    const parsedAlbums = JSON.parse(getAlbums())
-    console.log(parsedAlbums)
-
-    // The actual string being queried
+    const placement = document.querySelector('#results')
     const searchQuery = searchArray[searchArray.length - 1]
 
-    const theseAlbums = parsedAlbums.filter((album) => album.title.search(searchQuery) !== -1)
-    console.log(theseAlbums)
-
-
- */
-/*     for (let i = 0; i < albums.length; i++) {
+    for (let i = 0; i < albums.length; i++) {
         if (albums[i].albumName.toLowerCase().search(searchQuery) !== -1) {
 
             const albumCoverLink = document.createElement('a')
@@ -97,7 +70,7 @@ function getAlbums() {
 
             placement.appendChild(albumResult)
         }
-    } */
-/* } */
+    }
+}
 
-getAlbums()
+displayResults()

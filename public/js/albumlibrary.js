@@ -1,98 +1,12 @@
-// JS page for the Hammer album
+// JS page for albums
 
 "use strict";
-
-// The below classes represents the data objects that will be used in this
-// file
-
-class user {
-  constructor(userid,username,profilePic,bio, friendList,
-    favAlbums, userReviews, userCollections, userListList) {
-      this.userid = userid;
-      this.username = username;
-      this.profilePic = profilePic;
-      this.bio = bio;
-      this.friendList = friendList;
-      this.favAlbums = favAlbums;
-      this.userReviews = userReviews;
-      this.userCollections = userCollections;
-      this.userListList = userListList;
-    }
-  }
-
-class album {
-  constructor(albumId, albumName,cover, artist, producer, year, genre,
-    label, length, trackList, avgRating, reviews ) {
-    this.albumId = albumId;
-    this.albumName = albumName;
-    this.cover = cover;
-    this.artist = artist ;
-    this.producer = producer;
-    this.year = year;
-    this.genre = genre;
-    this.label =label ;
-    this.length = length;
-    this.trackList =trackList ;
-    this.avgRating = avgRating;
-    this.reviews = reviews;
-  }
-}
-
-class trackInfo {
-  constructor(name, length) {
-    this.name = name;
-    this.length = length;
-  }
-}
-
-class reviewData {
-  constructor(albumId, userid,dateOfReview,reviewBody, rating) {
-    this.dateOfReview = dateOfReview;
-    this.albumId = albumId;
-    this.userid = userid;
-    this.reviewBody = reviewBody;
-    this.rating = rating;
-  }
-}
-
-// hardcode Data
-// Below is the datacode data that we will be using for  phase 1 of the project
-
-let tonybaloney = new user(0,"tonybaloney",'./img/tonybaloney.jpg',
-"You don’t like the things that you like, these are the things you like. Staten, NYC.",
-[], [0], [], [], []);
-
-const hammerReview = new reviewData( 0, 0, new Date(2019, 1, 14),
-"An absolute banger! People are dumb in thinking that this album should only be known for “U Can’t Touch This”." +
-" MC Hammer is a true artiste and should be as famous as that garbage band NoteWorthy!", 5);
-
-const hammerTrackList = [];
-hammerTrackList.push( new trackInfo('Here Comes the Hammer ', '4:32'))
-hammerTrackList.push( new trackInfo('U Can\'t Touch This', '4:17'))
-hammerTrackList.push( new trackInfo('Have You Seen Her ', '4:42'))
-hammerTrackList.push( new trackInfo('Yo!! Sweetness ', '4:36'))
-hammerTrackList.push( new trackInfo('Help the Children ', '5:17'))
-hammerTrackList.push( new trackInfo('On Your Face ', '4:32'))
-hammerTrackList.push( new trackInfo('Dancin\' Machine ', '2:55'))
-hammerTrackList.push( new trackInfo('Pray', '5:13'))
-hammerTrackList.push( new trackInfo('Crime Story ', '5:09'))
-hammerTrackList.push( new trackInfo('She\'s Soft and Wet ', '3:25'))
-hammerTrackList.push( new trackInfo('Black is Black ', '4:32'))
-hammerTrackList.push( new trackInfo('Let\'s Go Deeper ', '5:16'))
-hammerTrackList.push( new trackInfo(' Work This ', '5:03'))
-
-const hammerReviewList = []
-hammerReviewList.push(hammerReview)
-
-const McHammerAlbum = new album(0, " Please Hammer Don’t Hurt ‘Em ", './img/please_hammer_dont_hurt_em.jpg',
-  'MC Hammer', 'Big Louis Burrell, MC Hammer, Scott Folks', 1990, 'Hip hop', 'Capitol Records', '59:04',
-  hammerTrackList, getAverageRating(hammerReviewList), hammerReviewList);
 
 // a list of DOM master elements
 const navbar = document.getElementById("navbar");
 const albumName = document.getElementById("albumName");
 const recentReviews = document.getElementById("reviews");
-const cover = document.getElementById("cover");
+const cover = document.getElementById("albumCover");
 const albumInfo = document.getElementById("albumInfo");
 const AvgRatings = document.getElementById("AvgRatings");
 
@@ -100,23 +14,49 @@ const trackList = document.getElementById("trackList");
 const slider = document.getElementById("ratingSlider");
 const reviewRating = document.getElementById("currentRating");
 const reviewBox = document.getElementById("reviewBox");
+
 const favButtonContainer = document.getElementById("favouriteButtonContainer");
+
 
 // Event lister
 reviewBox.addEventListener('submit', submitNewReview);
 
 let currentReviewRating = 1;
+let album = null;
+
+let isFavourite = false;
+let isListened = false;
+let isToListen = false;
 
 // Runs certain functions once the page is loaded
 window.onload = function() {
-  // Album object will be returned from a server call
-  displayAlbumInfo(McHammerAlbum)
-};
+  // the URL for the request
+  const url = '/albuminfo';
+
+  // Since this is a GET request, simply call fetch on the URL
+  fetch(url)
+  .then((res) => {
+    if (res.status === 200) {
+      // return a promise that resolves with the JSON body
+      return res.json()
+    } else {
+    }
+  })
+  .then((json) => {  // the resolved promise with the JSON body
+    album = json.album
+    displayAlbumInfo(album)
+    checkIfFavourite()
+    checkIfListened()
+    checkIfListenTo()
+
+  }).catch((error) => {
+  })
+}
 
 function displayAlbumInfo(album) {
   displayCurrentRating(currentReviewRating)
   // adding the album name
-  const albumNametext = album.albumName
+  const albumNametext = album.name
   const albumNameHeader = document.createElement('H1')
   albumNameHeader.appendChild(document.createTextNode(albumNametext))
   albumName.appendChild(albumNameHeader)
@@ -163,7 +103,7 @@ function displayAlbumInfo(album) {
 
   // display the album average rating
 
-   displayAverageRating(album.avgRating);
+  displayAverageRating(album.avgRating);
 
   // Display the track list
   const albumTractList = album.trackList
@@ -176,96 +116,47 @@ function displayAlbumInfo(album) {
     trackList.appendChild(trackNamePara)
   }
 
-  displayReviews(album.reviews);
-  styleFavouriteButton();
-}
-
-//Change the favourite button depending on whether the user has already favourited this album.
-function styleFavouriteButton() {
-    // At this point, we would see what the current User  is.
-    // We would then get there ID from the server.
-    // At this stage, we can't do that, so we've just hardcoded in the userid
-    const currentUser = tonybaloney;
-    // In the same vein, we would get the album ID from the server, and load that
-    // in here. At this point, we just hardcoded it.
-    const albumID = McHammerAlbum.albumId;
-
-    if (currentUser.favAlbums.includes(albumID)) {
-      const oldFavButton = favButtonContainer.firstElementChild;
-      favButtonContainer.removeChild(oldFavButton);
-      const favButton = document.createElement("button");
-      favButton.type = "button";
-      favButton.className = "favouriteButton dim";
-      const unfavText = document.createTextNode("Remove from Favourites");
-      favButton.appendChild(unfavText);
-      favButtonContainer.insertBefore(favButton, favButtonContainer.firstElementChild);
-      favButton.addEventListener("click", function() {removeAlbumFromFavourites(albumID, currentUser)});
-    } else {
-      const oldFavButton = favButtonContainer.firstElementChild;
-      favButtonContainer.removeChild(oldFavButton);
-      const favButton = document.createElement("button");
-      favButton.type = "button";
-      favButton.className = "favouriteButton bright";
-      const favText = document.createTextNode("Add to Favourites");
-      favButton.appendChild(favText);
-      favButtonContainer.insertBefore(favButton, favButtonContainer.firstElementChild);
-      favButton.addEventListener("click", function() {addAlbumToFavourites(albumID, currentUser)});
-    }
-}
-function addAlbumToFavourites(albumID, currentUser) {
-  // We would make a server call here, but for now we just edit the sample data
-  currentUser.favAlbums.push(albumID);
-  styleFavouriteButton();
-}
-function removeAlbumFromFavourites(albumID, currentUser) {
-  // We would make a server call here, but for now we just edit the sample data
-  for (let i = 0; i < currentUser.favAlbums.length; i++) {
-    if (currentUser.favAlbums[i] == albumID) {
-      currentUser.favAlbums.splice(i, 1);
-    }
-  }
-  styleFavouriteButton();
+  displayReviews(album.Reviews);
 }
 
 function displayReviews(reviews) { // Display some recent review
+  let messageDivs = recentReviews.getElementsByClassName("messageDiv")
+  for(let j = messageDivs.length - 1; j >=0; j--)
+  {
+    messageDivs[j].remove();
+  }
+
   if( reviews.length != 0) {
     for(let i = 0; i< 3 && i < reviews.length; i++)
     {
       let currentReview = reviews[i];
+      const reviewUser = currentReview.user;
 
-      // At this point, we would use the albumID and the userID to call the
-      // Album from the server. As the info is currently hardcode, we just set these
-      // values here
-      const reviewAlbum = McHammerAlbum;
-      const reviewUser = tonybaloney;
-
+      console.log(reviewUser)
       // Loading the profile picture
       let reviewUserProfile= reviewUser.profilePic;
       const userCoverImg = document.createElement('img')
       userCoverImg.className = 'reviewUserPic';
       userCoverImg.src = reviewUserProfile;
 
-      // linking back to the profile
-      const userLink = document.createElement('a')
-      userLink.href = '../users/user_' + reviewUser.userid +'.html';
-      userLink.appendChild(userCoverImg)
-
       // loading in the user name
-      let reviewUserName = reviewUser.username;
+      let reviewUserName = reviewUser.displayName;
       const reviewUserNameHead = document.createElement('h1')
       reviewUserNameHead.appendChild(document.createTextNode(reviewUserName))
 
       // loading in the review date
       let reviewDatePreBreak = "Reviewed on: ";
 
-      let reviewDatePostBreak =  currentReview.dateOfReview.getDate() +"/  "
-      + currentReview.dateOfReview.getMonth() +"/ "+
-      + currentReview.dateOfReview.getFullYear()
+      console.log(currentReview.dateOfReview)
+
+      let reviewDatePostBreak = currentReview.dateOfReview.split('T')[0];
 
       const reviewDateHead = document.createElement('h2')
       reviewDateHead.appendChild(document.createTextNode(reviewDatePreBreak))
       reviewDateHead.appendChild(document.createElement('br'))
       reviewDateHead.appendChild(document.createTextNode(reviewDatePostBreak))
+
+      console.log(reviewDateHead)
 
       // loading in the rating
       let reviewRating = "Rating: " + currentReview.rating + "/5"
@@ -283,13 +174,15 @@ function displayReviews(reviews) { // Display some recent review
       const reviewDiv = document.createElement('div');
       reviewDiv.className = 'reviewsDiv';
 
-      reviewDiv.appendChild(userLink);
+      reviewDiv.appendChild(userCoverImg);
       reviewDiv.appendChild(textPara);
       reviewDiv.appendChild(reviewUserNameHead);
       reviewDiv.appendChild(reviewDateHead);
       reviewDiv.appendChild(reviewRatingHead);
 
       recentReviews.appendChild(reviewDiv);
+      console.log(reviewDiv)
+      console.log(recentReviews)
     }
 
   }
@@ -314,8 +207,8 @@ slider.oninput = function () {
 }
 
 function displayCurrentRating(newRating)  {
-    if( newRating != null)
-    {
+  if( newRating != null)
+  {
     currentReviewRating = newRating;
 
     // seeing if the node currently has a child
@@ -331,56 +224,118 @@ function displayCurrentRating(newRating)  {
   }
 }
 
-// The review list will be returned from a server call
-function getAverageRating(reviewList)  {
-  let currentTotal = 0;
-  for( let i = 0; i< reviewList.length; i++)
-  {
-    currentTotal += reviewList[i].rating;
-  }
-  return currentTotal/ reviewList.length;
-}
+/// REVIEW FUNCTIONS
 
+// when we submit a new review, we need to create return the
+// current users as a Viewable user, and then save the review to the album
+// and the user
+function submitNewReview(e){
+  e.preventDefault();
 
-function submitNewReview(e)
-{
-    e.preventDefault();
-
-    // At this point, we would see what the current User  is.
-    // We would then get there ID from the server.
-    // At this stage, we can't do that, so we've just hardcoded in the userid
-    const userID = 0;
-
-    // In the same vein, we would get the album ID from the server, and load that
-    // in here. At this point, we just hardcoded it.
-    const albumID = McHammerAlbum.albumId;
+  const url = '/userViewable';
+  // Since this is a GET request, simply call fetch on the URL
+  fetch(url)
+  .then((res) => {
+    if (res.status === 200) {
+      // return a promise that resolves with the JSON body
+      console.log("got user viewable")
+      return res.json()
+    }
+    else
+    {
+      console.log("Did not get user viewable ")
+        return res.json()
+    }
+  })
+  .then((viewUser) => {  // the resolved promise with the JSON body
+    console.log(viewUser)
 
     const date = new Date();
 
     const currentDate = new Date(date.getFullYear(),date.getMonth(),date.getDate())
 
-    const reviewBody = e.srcElement.elements.reviewbody.value;
+     const reviewData = {
+       _id: album._id,
+       name: album.name,
+       cover: album.cover,
+       user: viewUser,
+       dateOfReview:currentDate,
+       reviewBody: e.srcElement.elements.reviewbody.value,
+       rating: parseInt(currentReviewRating)
+     }
 
-    const reviewRating = parseInt(currentReviewRating);
+      let reviewsDivs = recentReviews.getElementsByClassName("reviewsDiv")
+      for(let j = reviewsDivs.length - 1; j >=0; j--)
+      {
+        reviewsDivs[j].remove();
+      }
 
-    const newReview = new reviewData(albumID,userID, currentDate,reviewBody,reviewRating)
+      saveReviewToUser(reviewData)
+      saveReviewToAlbum(reviewData)
 
-    McHammerAlbum.reviews.push(newReview)
-    McHammerAlbum.avgRating = getAverageRating( McHammerAlbum.reviews)
+      // reseting submission box
+      currentReviewRating = 1;
+      displayCurrentRating(currentReviewRating);
+      reviewBox.reset()
+  }).catch((error) => {
+    console.log("review error")
+  })
+}
 
-    let reviewsDivs = recentReviews.getElementsByClassName("reviewsDiv")
-    for(let j = reviewsDivs.length - 1; j >=0; j--)
-    {
-      reviewsDivs[j].remove();
+function saveReviewToUser(reviewData) {
+    console.log(reviewData)
+    const url = '/saveReviewUser';
+
+    // Create our request constructor with all the parameters we need
+    const request = new Request(url, {
+      method: 'post',
+      body: JSON.stringify(reviewData),
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+    });
+
+    fetch(request)
+    .then((res) => {
+      if (res.status === 200) {
+        // return a promise that resolves with the JSON body
+          console.log("Saved review to user")
+          console.log(res.json() )
+      } else {
+          console.log("did not saved  review to user")
+      }
+    })
+}
+
+function saveReviewToAlbum(reviewData) {
+  const url = '/saveReviewAlbum';
+
+  // Create our request constructor with all the parameters we need
+  const request = new Request(url, {
+    method: 'post',
+    body: JSON.stringify(reviewData),
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    },
+  });
+  fetch(request)
+  .then((res) => {
+    if (res.status === 200) {
+      // return a promise that resolves with the JSON body
+      console.log("Saved review to album")
+      return res.json()
+    } else {
+      console.log("did not saved review to album")
+
     }
-
-    displayReviews(McHammerAlbum.reviews);
-    displayAverageRating(McHammerAlbum.avgRating)
-
-    // reseting submission box
-    currentReviewRating = 1;
-    displayCurrentRating(currentReviewRating);
-    reviewBox.reset()
+  }).then((json) => {  // the resolved promise with the JSON body
+    album = json.album
+    displayReviews(album.Reviews);
+    displayAverageRating(album.avgRating)
+  }).catch((error) => {
+  })
 }
 
 function displayAverageRating(rating){
@@ -392,4 +347,394 @@ function displayAverageRating(rating){
   const ratingHead = document.createElement('h2')
   ratingHead.appendChild(document.createTextNode(albumRatingText))
   AvgRatings.appendChild(ratingHead)
+}
+
+//FAVOURITE ALBUM FUNCTIONS
+// Checking if the user has favourited this album
+
+function checkIfFavourite() {
+  const url = '/albumFavourite';
+  // Since this is a GET request, simply call fetch on the URL
+  fetch(url)
+  .then((res) => {
+    if (res.status === 200) {
+      // return a promise that resolves with the JSON body
+      return res.json()
+    } else {
+    }
+  })
+  .then((favouriteAlbum) => {  // the resolved promise with the JSON body
+    for( let i = 0; i < favouriteAlbum.length; i++ )
+    {
+      if(favouriteAlbum[i]._id == album._id )
+      {
+        isFavourite = true
+      }
+    }
+    styleFavouriteButton();
+  }).catch((error) => {
+  })
+}
+
+// Add the album to the current user's favours
+function addToFavourites(e) {
+  isFavourite = true
+
+  const url = '/favourAlbum';
+
+  const data = {
+    albumID: album._id,
+    name: album.name,
+    cover: album.cover
+  }
+
+  // Create our request constructor with all the parameters we need
+  const request = new Request(url, {
+    method: 'post',
+    body: JSON.stringify(data),
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    },
+  });
+
+  fetch(request)
+  .then((res) => {
+    if (res.status === 200) {
+      // return a promise that resolves with the JSON body
+      return res.json()
+    } else {
+      return res.json()
+    }
+  })
+  .then((json) => {  // the resolved promise with the JSON body
+    styleFavouriteButton();
+  }).catch((error) => {
+  })
+}
+
+// Removing this album from the user's favours
+function removeFromFavourites(e) {
+
+  isFavourite = false
+
+  const url = '/unfavourAlbum';
+
+  const data = {
+    albumID: album._id
+  }
+
+  // Create our request constructor with all the parameters we need
+  const request = new Request(url, {
+    method: 'post',
+    body: JSON.stringify(data),
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    },
+  });
+
+  fetch(request)
+  .then((res) => {
+    if (res.status === 200) {
+      // return a promise that resolves with the JSON body
+      return res.json()
+    } else {
+      return res.json()
+    }
+  })
+  .then((json) => {  // the resolved promise with the JSON body
+    styleFavouriteButton();
+  }).catch((error) => {
+  })
+}
+
+//Change the favourite button depending on whether the user has already favourited this album.
+function styleFavouriteButton() {
+  if (isFavourite) {
+    const containerButton = favButtonContainer.childNodes;
+    const oldFavButton = containerButton[1]
+
+    const favButton = document.createElement("button");
+    favButton.type = "button";
+    favButton.className = "favouriteButton dim";
+    const unfavText = document.createTextNode("Remove from Favourites");
+    favButton.appendChild(unfavText);
+
+    favButtonContainer.insertBefore(favButton, oldFavButton);
+    favButtonContainer.removeChild(oldFavButton);
+    favButton.addEventListener("click", removeFromFavourites);
+  }
+  else {
+    const containerButton = favButtonContainer.childNodes;
+    const oldFavButton = containerButton[1]
+
+    const favButton = document.createElement("button");
+    favButton.type = "button";
+    favButton.className = "favouriteButton bright";
+    const favText = document.createTextNode("Add to Favourites");
+    favButton.appendChild(favText);
+
+    favButtonContainer.insertBefore(favButton, oldFavButton);
+    favButtonContainer.removeChild(oldFavButton);
+    favButton.addEventListener("click", addToFavourites);
+  }
+}
+
+// LISTENED FUNCTIONALITY
+function checkIfListened() {
+  const url = '/albumListened';
+  // Since this is a GET request, simply call fetch on the URL
+  fetch(url)
+  .then((res) => {
+    if (res.status === 200) {
+      // return a promise that resolves with the JSON body
+      return res.json()
+    } else {
+    }
+  })
+  .then((listenedAlbum) => {
+    for( let i = 0; i < listenedAlbum.length; i++ )
+    {
+      if(listenedAlbum[i]._id == album._id )
+      {
+        isListened = true
+      }
+    }
+    styleListenButton();
+  }).catch((error) => {
+  })
+}
+
+// Add the album to the current user's to listen
+function addToListened(e) {
+  isListened = true
+
+  const url = '/addListenedAlbum';
+
+  const data = {
+    albumID: album._id,
+    name: album.name,
+    cover: album.cover
+  }
+
+  // Create our request constructor with all the parameters we need
+  const request = new Request(url, {
+    method: 'post',
+    body: JSON.stringify(data),
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    },
+  });
+
+  fetch(request)
+  .then((res) => {
+    if (res.status === 200) {
+      // return a promise that resolves with the JSON body
+      return res.json()
+    } else {
+      return res.json()
+    }
+  })
+  .then((json) => {  // the resolved promise with the JSON body
+    styleListenButton()
+  }).catch((error) => {
+  })
+}
+
+// Removing this album from the user's favours
+function removeFromListened(e) {
+  isListened = false
+
+  const url = '/removeFromListened';
+
+  const data = {
+    albumID: album._id
+  }
+
+  // Create our request constructor with all the parameters we need
+  const request = new Request(url, {
+    method: 'post',
+    body: JSON.stringify(data),
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    },
+  });
+
+  fetch(request)
+  .then((res) => {
+    if (res.status === 200) {
+      // return a promise that resolves with the JSON body
+      return res.json()
+    } else {
+      return res.json()
+    }
+  })
+  .then((json) => {  // the resolved promise with the JSON body
+    styleListenButton();
+  }).catch((error) => {
+  })
+}
+
+//Change the to Listen  button depending on whether the user has marked this album
+function styleListenButton() {
+  if (isListened) {
+  const containerButton = favButtonContainer.childNodes;
+  const oldLisButton = containerButton[3]
+
+  const lisButton = document.createElement("button");
+  lisButton.type = "button";
+  lisButton.className = "listenButton dim";
+  const unfavText = document.createTextNode("Remove from Listened");
+  lisButton.appendChild(unfavText);
+
+  favButtonContainer.insertBefore(lisButton, oldLisButton);
+  favButtonContainer.removeChild(oldLisButton);
+  lisButton.addEventListener("click", removeFromListened);
+  }
+  else {
+    const containerButton = favButtonContainer.childNodes;
+    const oldLisButton = containerButton[3]
+
+    const lisButton = document.createElement("button");
+    lisButton.type = "button";
+    lisButton.className = "listenButton bright";
+    const unfavText = document.createTextNode("Add To Listened");
+    lisButton.appendChild(unfavText);
+
+    favButtonContainer.insertBefore(lisButton, oldLisButton);
+    favButtonContainer.removeChild(oldLisButton);
+    lisButton.addEventListener("click", addToListened);
+  }
+}
+
+// TO LISTEN FUNCTIONALITY
+function checkIfListenTo() {
+  const url = '/albumtoListen';
+  // Since this is a GET request, simply call fetch on the URL
+  fetch(url)
+  .then((res) => {
+    if (res.status === 200) {
+      // return a promise that resolves with the JSON body
+      return res.json()
+    } else {
+    }
+  })
+  .then((listenAlbum) => {
+    for( let i = 0; i < listenAlbum.length; i++ )
+    {
+      if(listenAlbum[i]._id == album._id )
+      {
+        isToListen = true
+      }
+    }
+    styleToLoistenButton();
+  }).catch((error) => {
+  })
+}
+
+// Add the album to the current user's to listen
+function addToListen(e) {
+  isToListen = true
+
+  const url = '/toListenAlbum';
+
+  const data = {
+    albumID: album._id,
+    name: album.name,
+    cover: album.cover
+  }
+
+  // Create our request constructor with all the parameters we need
+  const request = new Request(url, {
+    method: 'post',
+    body: JSON.stringify(data),
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    },
+  });
+
+  fetch(request)
+  .then((res) => {
+    if (res.status === 200) {
+      // return a promise that resolves with the JSON body
+      return res.json()
+    } else {
+      return res.json()
+    }
+  })
+  .then((json) => {  // the resolved promise with the JSON body
+    styleToLoistenButton()
+  }).catch((error) => {
+  })
+}
+
+// Removing this album from the user's favours
+function removeFromToListen(e) {
+  isToListen = false
+
+  const url = '/removeToList';
+
+  const data = {
+    albumID: album._id
+  }
+
+  // Create our request constructor with all the parameters we need
+  const request = new Request(url, {
+    method: 'post',
+    body: JSON.stringify(data),
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    },
+  });
+
+  fetch(request)
+  .then((res) => {
+    if (res.status === 200) {
+      // return a promise that resolves with the JSON body
+      return res.json()
+    } else {
+      return res.json()
+    }
+  })
+  .then((json) => {  // the resolved promise with the JSON body
+    styleToLoistenButton();
+  }).catch((error) => {
+  })
+}
+
+//Change the toListen  button depending on whether the user has marked this album
+function styleToLoistenButton() {
+  if (isToListen) {
+  const containerButton = favButtonContainer.childNodes;
+  const oldLisButton = containerButton[5]
+
+  const lisButton = document.createElement("button");
+  lisButton.type = "button";
+  lisButton.className = "toListenButton dim";
+  const unfavText = document.createTextNode("Remove from To Listen");
+  lisButton.appendChild(unfavText);
+
+  favButtonContainer.insertBefore(lisButton, oldLisButton);
+  favButtonContainer.removeChild(oldLisButton);
+  lisButton.addEventListener("click", removeFromToListen);
+  }
+  else {
+    const containerButton = favButtonContainer.childNodes;
+    const oldLisButton = containerButton[5]
+
+    const lisButton = document.createElement("button");
+    lisButton.type = "button";
+    lisButton.className = "toListenButton bright";
+    const unfavText = document.createTextNode("Add To Listen");
+    lisButton.appendChild(unfavText);
+
+    favButtonContainer.insertBefore(lisButton, oldLisButton);
+    favButtonContainer.removeChild(oldLisButton);
+    lisButton.addEventListener("click", addToListen);
+  }
 }
