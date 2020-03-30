@@ -40,9 +40,22 @@ function getAlbums() {
 
         for (let i = 0; i < theseAlbums.length; i++) {
             
+            // Album cover link
+            const albumCoverLink = document.createElement('a')
+            // albumCoverLink.href = albums[i].link
+            
+            // Album info link
+            const albumInfoLink = document.createElement('a')
+            albumInfoLink.href = albums[i].link
+            
             // Greater album div
             const albumResult = document.createElement('div')
             albumResult.className = 'albumResult'
+
+            // The album cover
+            const resultAlbumCover = document.createElement('img')
+            resultAlbumCover.className = 'albumCover'
+            resultAlbumCover.src = theseAlbums[i].cover
 
             // Text info of the album
             const albumInfo = document.createElement('div')
@@ -63,10 +76,14 @@ function getAlbums() {
             albumInfo.appendChild(resultArtistName)
             albumInfo.appendChild(resultAlbumName)
             albumInfo.appendChild(resultYear)
-
-            //albumResult.appendChild(albumInfo)
             
-            placement.appendChild(albumInfo)
+            albumCoverLink.appendChild(resultAlbumCover)
+            albumInfoLink.appendChild(albumInfo)
+            
+            albumResult.appendChild(albumCoverLink)
+            albumResult.appendChild(albumInfoLink)
+            
+            placement.appendChild(albumResult)
         }
     }).catch((error) => {
         console.log(error)
