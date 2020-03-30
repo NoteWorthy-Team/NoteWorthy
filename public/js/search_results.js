@@ -33,11 +33,43 @@ function getAlbums() {
     })
     .then((json) => {  // the resolved promise with the JSON body
         // The actual string being queried
+        const placement = document.querySelector('#results')
+
         const searchQuery = searchArray[searchArray.length - 1]
     
         const theseAlbums = json.albums.filter((album) => album.name.search(searchQuery) !== -1)
         console.log(theseAlbums[0].name)
-        
+
+        for (let i = 0; i < theseAlbums.length; i++) {
+            
+            // Greater album div
+            const albumResult = document.createElement('div')
+            albumResult.className = 'albumResult'
+
+            // Text info of the album
+            const albumInfo = document.createElement('div')
+            albumInfo.className = 'albumCover'
+
+            // Artist(s) name, it is inside an array
+            const resultArtistName = document.createElement('h2')
+            resultArtistName.innerText = theseAlbums[i].artist
+
+            // Album name
+            const resultAlbumName = document.createElement('h2')
+            resultAlbumName.innerText = theseAlbums[i].name
+            
+            // Album year
+            const resultYear = document.createElement('h2')
+            resultYear.innerText = theseAlbums[i].year
+
+            albumInfo.appendChild(resultArtistName)
+            albumInfo.appendChild(resultAlbumName)
+            albumInfo.appendChild(resultYear)
+
+            albumResult.appendChild(albumInfo)
+            
+            placement.appendChild(albumResult)
+        }
     }).catch((error) => {
         console.log(error)
     })
