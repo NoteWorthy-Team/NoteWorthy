@@ -1,17 +1,15 @@
-// TODOS
 
 /*
-Need to checks that favourite albums, reviews, and to listen are all loading correctly
 
 Also need to link to album search correctly
-
-Need to link to album pages correctly
 
 */
 
   let isDisplayingReviews = true;
   let isDisplayingCollections= false;
   let isDisplayingToListened = false;
+
+  let currentUser =null;
 
   // a list of DOM master elements
   const username = document.getElementById("username");
@@ -31,7 +29,6 @@ Need to link to album pages correctly
   toListenButton[0].addEventListener('click',paneltoListenpdate)
   /* Event listeners for user panel click */
 
-  let currentUser =null;
 
   // Runs certain functions once the page is loaded
   window.onload = function() {
@@ -89,7 +86,6 @@ Need to link to album pages correctly
         let friendName = null;
         let friendPicture = null;
 
-
         if( i < user.friendList.length  )
         {
             const currentFriend = user.friendList[i];
@@ -145,28 +141,27 @@ Need to link to album pages correctly
 
         let albumName = currentAlbum.name;
         let cover= currentAlbum.cover;
+        let albumid = currentAlbum._id;
 
         const albumNamepara= document.createElement('p')
         const coverImg = document.createElement('img')
-        const albumPageLink = document.createElement('a')
         const albumdiv = document.createElement('div')
-        const albumLink = document.createElement('a')
+
+        albumNamepara._id = albumid
+        coverImg._id = albumid
+        albumdiv._id = albumid
 
         coverImg.className = 'cover';
         coverImg.src = cover;
 
-        albumLink.href = '../albums/album_' + currentAlbum.albumId +'.html';
-        albumLink.appendChild(coverImg)
-
         albumdiv.className = 'albumDiv';
-        //albumNamepara.className = 'followerName';
         albumNamepara.appendChild(document.createTextNode(albumName))
 
-        albumdiv.appendChild(albumLink)
+        albumdiv.appendChild(coverImg)
         albumdiv.appendChild(albumNamepara)
 
+        albumdiv.addEventListener('click', toAlbumPage)
         favAlbums.insertBefore(albumdiv,editPage )
-
       }
       // Add a link down here to bring the user to a screen where they can edit their favourite list
 
@@ -244,27 +239,21 @@ Need to link to album pages correctly
           let currentReview = user.userReviews[i]
 
           // Loading the album cover
-          let reviewcover= currentReview.cover;
+          let reviewcover= currentReview.album.cover;
           const coverImg = document.createElement('img')
-          coverImg.className = 'reviewcover';
+          coverImg.className = 'reviewAlbumCover';
           coverImg.src = reviewcover;
 
-          // Creating the link to the album page
-          const albumLink = document.createElement('a')
-          albumLink.href = '../albums/album_' + currentReview.albumId +'.html';
-          albumLink.appendChild(coverImg)
-
           // loading in the album name info
-          let reviewAlbumName = currentReview.albumName;
+          let reviewAlbumName = currentReview.album.name;
           const reviewAlbumNameHead = document.createElement('h1')
           reviewAlbumNameHead.appendChild(document.createTextNode(reviewAlbumName))
 
           // loading in the review date
           let reviewDatePreBreak = "Reviewed on: ";
 
-          let reviewDatePostBreak =  currentReview.dateOfReview.getDate() +"/  "
-          + currentReview.dateOfReview.getMonth() +"/ "+
-          + currentReview.dateOfReview.getFullYear()
+
+          let reviewDatePostBreak = currentReview.dateOfReview.split('T')[0];
 
           const reviewDateHead = document.createElement('h2')
           reviewDateHead.appendChild(document.createTextNode(reviewDatePreBreak))
@@ -288,7 +277,7 @@ Need to link to album pages correctly
           // adding elements to the review div
           const reviewDiv = document.createElement('div');
           reviewDiv.className = 'reviewsDiv';
-          reviewDiv.appendChild(albumLink);
+          reviewDiv.appendChild(coverImg);
 
           reviewDiv.appendChild(textPara);
           reviewDiv.appendChild(reviewAlbumNameHead);
@@ -391,23 +380,25 @@ Need to link to album pages correctly
 
           let toListenAlbumName = currentWantToListem.name;
           let toListencover = currentWantToListem.cover;
-
+          let albumid = currentWantToListem._id;
 
           const albumNamepara= document.createElement('p')
           const albumPicImg = document.createElement('img')
           const albumdiv = document.createElement('div')
 
+          albumNamepara._id = albumid
+          albumPicImg._id = albumid
+          albumdiv._id = albumid
+
           albumPicImg.className = 'toListenCover';
           albumPicImg.src = toListencover;
 
-          const albumLink = document.createElement('a')
-          albumLink.href = '../albums/album_' + currentWantToListem.albumId +'.html';
-          albumLink.appendChild(albumPicImg)
-          albumdiv.appendChild(albumLink)
+          albumdiv.appendChild(albumPicImg)
 
           albumdiv.className = 'lisListDiv';
           albumNamepara.appendChild(document.createTextNode(toListenAlbumName))
 
+          albumdiv.addEventListener('click', toAlbumPage)
           albumdiv.appendChild(albumNamepara)
 
           userPanel.appendChild(albumdiv);
@@ -431,6 +422,36 @@ Need to link to album pages correctly
       }
     }
   }
+
+function toAlbumPage(e) {
+    console.log("Clicked on div")
+    const url = '/viewAlbum';
+
+    const data = {
+      albumID: e.toElement._id
+    }
+
+    // Create our request constructor with all the parameters we need
+    const request = new Request(url, {
+        method: 'post',
+        body: JSON.stringify(data),
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        },
+    });
+
+    fetch(request)
+    .then((res) => {
+      if (res.status === 200) {
+        console.log("view set")
+        window.location = URL+ 'album'
+      }
+    }).catch((error) => {
+      console.log(error)
+    })
+  }
+
 
 function toToUserPage(e) {
   console.log("Clicked on div")

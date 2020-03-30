@@ -45,56 +45,40 @@ function getAlbums() {
 }
 
 /* function displayResults() {
-
     //const placement = document.querySelector('#results')
-
     const parsedAlbums = JSON.parse(getAlbums())
     console.log(parsedAlbums)
-
     // The actual string being queried
     const searchQuery = searchArray[searchArray.length - 1]
-
     const theseAlbums = parsedAlbums.filter((album) => album.title.search(searchQuery) !== -1)
     console.log(theseAlbums)
-
-
  */
 /*     for (let i = 0; i < albums.length; i++) {
         if (albums[i].albumName.toLowerCase().search(searchQuery) !== -1) {
-
             const albumCoverLink = document.createElement('a')
             albumCoverLink.href = albums[i].link
-
             const albumInfoLink = document.createElement('a')
             albumInfoLink.href = albums[i].link
-
             const albumResult = document.createElement('div')
             albumResult.className = 'albumResult'
-
             const resultAlbumCover = document.createElement('img')
             resultAlbumCover.className = 'albumCover'
             resultAlbumCover.src = albums[i].albumCover
-
             const albumInfo = document.createElement('div')
             albumInfo.className = 'albumInfo'
-
             const resultArtistName = document.createElement('h2')
             resultArtistName.innerText = albums[i].artist
             const resultAlbumName = document.createElement('h2')
             resultAlbumName.innerText = albums[i].albumName
             const resultYear = document.createElement('h2')
             resultYear.innerText = albums[i].year
-
             albumInfo.appendChild(resultArtistName)
             albumInfo.appendChild(resultAlbumName)
             albumInfo.appendChild(resultYear)
-
             albumCoverLink.appendChild(resultAlbumCover)
             albumInfoLink.appendChild(albumInfo)
-
             albumResult.appendChild(albumCoverLink)
             albumResult.appendChild(albumInfoLink)
-
             placement.appendChild(albumResult)
         }
     } */

@@ -86,7 +86,6 @@
         let friendName = null;
         let friendPicture = null;
 
-
         if( i < user.friendList.length  )
         {
             const currentFriend = user.friendList[i];
@@ -140,7 +139,7 @@
       {
         let currentAlbum = user.favAlbums[i]
 
-        let albumName = currentAlbum.albumName;
+        let albumName = currentAlbum.name;
         let cover= currentAlbum.cover;
 
         const albumNamepara= document.createElement('p')
@@ -208,8 +207,7 @@
     updateUserPanel(viewableUser);
   }
 
-  function updateUserPanel(user)
-  {
+  function updateUserPanel(user)  {
     const reviewsDivList = userPanel.getElementsByClassName("reviewsDiv");
     const collectionDivList = userPanel.getElementsByClassName("collectionDiv");
     const toListenDivlist = userPanel.getElementsByClassName("lisListDiv");
@@ -379,32 +377,33 @@
     }
 
     // display the albums that the user has marked that they want to listen to
-    else if (isDisplayingToListened )
-    {
+    else if (isDisplayingToListened ){
       if( user.userToListen.length != 0) {
         for(let i = 0; i< 9 && i < user.userToListen.length ; i++)
         {
           let currentWantToListem = user.userToListen[i]
 
-          let toListenAlbumName = currentWantToListem.albumName;
+          let toListenAlbumName = currentWantToListem.name;
           let toListencover = currentWantToListem.cover;
-
+          let albumid = currentWantToListem._id;
 
           const albumNamepara= document.createElement('p')
           const albumPicImg = document.createElement('img')
           const albumdiv = document.createElement('div')
 
+          albumNamepara._id = albumid
+          albumPicImg._id = albumid
+          albumdiv._id = albumid
+
           albumPicImg.className = 'toListenCover';
           albumPicImg.src = toListencover;
 
-          const albumLink = document.createElement('a')
-          albumLink.href = '../albums/album_' + currentWantToListem.albumId +'.html';
-          albumLink.appendChild(albumPicImg)
-          albumdiv.appendChild(albumLink)
+          albumdiv.appendChild(albumPicImg)
 
           albumdiv.className = 'lisListDiv';
           albumNamepara.appendChild(document.createTextNode(toListenAlbumName))
 
+          albumdiv.addEventListener('click', toAlbumPage)
           albumdiv.appendChild(albumNamepara)
 
           userPanel.appendChild(albumdiv);
@@ -428,6 +427,36 @@
       }
     }
   }
+
+  function toAlbumPage(e) {
+      console.log("Clicked on div")
+      const url = '/viewAlbum';
+
+      const data = {
+        albumID: e.toElement._id
+      }
+
+      // Create our request constructor with all the parameters we need
+      const request = new Request(url, {
+          method: 'post',
+          body: JSON.stringify(data),
+          headers: {
+              'Accept': 'application/json, text/plain, */*',
+              'Content-Type': 'application/json'
+          },
+      });
+
+      fetch(request)
+      .then((res) => {
+        if (res.status === 200) {
+          console.log("view set")
+          window.location = URL+ 'album'
+        }
+      }).catch((error) => {
+        console.log(error)
+      })
+    }
+
 
 
 function toToUserPage(e) {
