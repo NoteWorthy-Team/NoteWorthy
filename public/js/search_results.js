@@ -36,7 +36,7 @@ function getAlbums() {
         const searchQuery = searchArray[searchArray.length - 1]
     
         const theseAlbums = json.albums.filter((album) => album.name.search(searchQuery) !== -1)
-        console.log(theseAlbums[0])
+        console.log(theseAlbums[0].name)
         
     }).catch((error) => {
         console.log(error)
