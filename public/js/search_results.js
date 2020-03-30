@@ -46,7 +46,7 @@ function getAlbums() {
             
             // Album info link
             const albumInfoLink = document.createElement('a')
-            albumInfoLink.href = albums[i].link
+            // albumInfoLink.href = albums[i].link
             
             // Greater album div
             const albumResult = document.createElement('div')
@@ -59,7 +59,7 @@ function getAlbums() {
 
             // Text info of the album
             const albumInfo = document.createElement('div')
-            albumInfo.className = 'albumCover'
+            albumInfo.className = 'albumInfo'
 
             // Artist(s) name, it is inside an array
             const resultArtistName = document.createElement('h2')
