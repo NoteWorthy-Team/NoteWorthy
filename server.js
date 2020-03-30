@@ -260,6 +260,14 @@ app.get('/admin',isSessionDead, (req, res) => {
     })
   })
 
+  app.get('/albums', (req, res) => {
+    Album.find().then((albums) => {
+      res.send({ albums }) // can wrap in object if want to add more properties
+    }, (error) => {
+      res.status(500).send(error) // server error
+    })
+  })
+
   // VIEWING, FOLLOWING AND UNFOLLOWING ANOTHER USER
   // Rouets that handle the above tasks
 
