@@ -1,6 +1,5 @@
 "use_strict";
 
-const albums = []
 
 class albumResult {
     constructor(albumId, albumName, albumCover, artist, year, link) {
@@ -37,7 +36,7 @@ function getAlbums() {
 
         const searchQuery = searchArray[searchArray.length - 1]
     
-        const theseAlbums = json.albums.filter((album) => album.name.search(searchQuery) !== -1)
+        const theseAlbums = json.albums.filter((album) => album.name.search(searchQuery.toLowerCase()) !== -1)
         console.log(theseAlbums[0].name)
 
         for (let i = 0; i < theseAlbums.length; i++) {
