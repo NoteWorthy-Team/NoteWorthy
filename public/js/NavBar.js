@@ -33,7 +33,7 @@ class NavBar extends HTMLElement {
       profile.href = URL + 'dashboard'
     }
     else {
-      searchForm.action = './search_results.html'
+        searchForm.action = URL + 'searchResult'
       albumSubmission.href = URL + 'submitalbum'
       profile.href = URL + 'dashboard'
     }

@@ -95,11 +95,32 @@ app.get('/newuser', (req, res) => {
 })
 
 app.get('/dashboard',isSessionDead, (req, res) => {
+  req.session.userviewable = null
+  req.session.album = null
+  req.session.collectionid = null
   res.sendFile('./public/dashboard.html', {root: __dirname })
 })
 
+app.get('/friendlist',isSessionDead, (req, res) => {
+  res.sendFile('./public/user_friend_list.html', {root: __dirname })
+})
+
+app.get('/viewable_friendlist',isSessionDead, (req, res) => {
+  res.sendFile('./public/userviewable_friend_list.html', {root: __dirname })
+})
+
 app.get('/album',isSessionDead, (req, res) => {
+  if(!  req.session.album )
+  {
+    res.redirect('/dashboard')
+  }
+  else {
   res.sendFile('./public/album.html', {root: __dirname })
+}
+})
+
+app.get('/searchResult', isSessionDead,(req, res) => {
+  res.sendFile('./public/search_results.html', {root: __dirname })
 })
 
 app.get('/submitalbum', isSessionDead,(req, res) => {
@@ -115,6 +136,15 @@ app.get('/dashboard_viewable',isSessionDead, (req, res) => {
     res.sendFile('./public/userviewable.html', {root: __dirname })
   }
 })
+
+app.get('/collection',isSessionDead, (req, res) => {
+    res.sendFile('./public/user_collection.html', {root: __dirname })
+})
+
+app.get('/userviewable_collection',isSessionDead, (req, res) => {
+    res.sendFile('./public/userviewable_collection.html', {root: __dirname })
+})
+
 
 app.get('/admin',isSessionDead, (req, res) => {
   if( req.session.user  == adminID) {
@@ -202,7 +232,10 @@ app.post('/users', (req, res) => {
 
   // A POST request that saves the id of the user we are about to view
   app.post('/viewUser',isSessionDead, (req, res) => {
+    req.session.userviewable  = null
+    if( req.body.userID != req.session.user  ) {
     req.session.userviewable =  req.body.userID
+    }
     res.status(200).send()
   })
 
@@ -215,7 +248,44 @@ app.post('/users', (req, res) => {
     })
   })
 
+
+  // A GET requests that returns the session user + the clicked collection
+  app.get('/Collectioninfo', (req, res) => {
+    User.findById( req.session.user ).then((user) => {
+      const collection = user.userCollections[req.session.collectionid]
+      res.send({ collection }) // can wrap in object if want to add more properties
+    }, (error) => {
+      res.status(500).send(error) // server error
+    })
+  })
+
+  // A GET requests that returns the session user + the clicked collection
+  app.get('/viewable_Collectioninfo', (req, res) => {
+    User.findById( req.session.userviewable ).then((user) => {
+      const collection = user.userCollections[req.session.collectionid]
+      res.send({ collection }) // can wrap in object if want to add more properties
+    }, (error) => {
+      res.status(500).send(error) // server error
+    })
+  })
+
+  // A POST request that saves the id of the user we are about to view
+  app.post('/viewCollection',isSessionDead, (req, res) => {
+    req.session.collectionid =  req.body.collectionIndex
+    res.status(200).send( )
+  })
+
+
   //ALBUM  INFO ROUTES
+
+  // A GET requests that returns the albums within the datebase
+  app.get('/albums', (req, res) => {
+    Album.find().then((albums) => {
+      res.send({ albums }) // can wrap in object if want to add more properties
+    }, (error) => {
+      res.status(500).send(error) // server error
+    })
+  })
 
   // A POST request that saves the id of the user we are about to view
   app.post('/viewAlbum',isSessionDead, (req, res) => {
@@ -229,15 +299,6 @@ app.post('/users', (req, res) => {
       res.send({ album }) // can wrap in object if want to add more properties
     }, (error) => {
       res.status(500).send(error) // server error
-    })
-  })
-
-  // A GET request that returns all albums
-  app.get('/albums', (req, res) => {
-    Album.find().then((albums) => {
-      res.send({ albums })
-    }, (error) => {
-      res.status(500).send(error) // Server error
     })
   })
 
@@ -519,6 +580,7 @@ app.post('/users', (req, res) => {
       res.status(500).send(error) // server error
     })
   })
+
 
   // a POST request that adds a users to the current's users friendslist
   app.post('/followUser', (req, res) => {

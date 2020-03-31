@@ -132,22 +132,22 @@ function displayReviews(reviews) { // Display some recent review
       let currentReview = reviews[i];
       const reviewUser = currentReview.user;
 
-      console.log(reviewUser)
       // Loading the profile picture
       let reviewUserProfile= reviewUser.profilePic;
       const userCoverImg = document.createElement('img')
       userCoverImg.className = 'reviewUserPic';
       userCoverImg.src = reviewUserProfile;
+      userCoverImg._id = reviewUser._id
 
       // loading in the user name
       let reviewUserName = reviewUser.displayName;
       const reviewUserNameHead = document.createElement('h1')
       reviewUserNameHead.appendChild(document.createTextNode(reviewUserName))
+      reviewUserNameHead._id = reviewUser._id
 
       // loading in the review date
       let reviewDatePreBreak = "Reviewed on: ";
 
-      console.log(currentReview.dateOfReview)
 
       let reviewDatePostBreak = currentReview.dateOfReview.split('T')[0];
 
@@ -156,33 +156,35 @@ function displayReviews(reviews) { // Display some recent review
       reviewDateHead.appendChild(document.createElement('br'))
       reviewDateHead.appendChild(document.createTextNode(reviewDatePostBreak))
 
-      console.log(reviewDateHead)
+      reviewDateHead._id = reviewUser._id
 
       // loading in the rating
       let reviewRating = "Rating: " + currentReview.rating + "/5"
 
       const reviewRatingHead = document.createElement('h2')
       reviewRatingHead.appendChild(document.createTextNode(reviewRating))
+      reviewRatingHead._id = reviewUser._id
 
       // loading the text of the review
       let reviewText = currentReview.reviewBody;
 
       const textPara= document.createElement('p')
       textPara.appendChild(document.createTextNode(reviewText));
-
+      textPara._id = reviewUser._id
       // adding elements to the review div
       const reviewDiv = document.createElement('div');
       reviewDiv.className = 'reviewsDiv';
+      reviewDiv._id = reviewUser._id
 
       reviewDiv.appendChild(userCoverImg);
       reviewDiv.appendChild(textPara);
       reviewDiv.appendChild(reviewUserNameHead);
       reviewDiv.appendChild(reviewDateHead);
       reviewDiv.appendChild(reviewRatingHead);
+      reviewDiv.addEventListener('click', toToUserPage)
 
       recentReviews.appendChild(reviewDiv);
-      console.log(reviewDiv)
-      console.log(recentReviews)
+
     }
 
   }
@@ -349,6 +351,36 @@ function displayAverageRating(rating){
   AvgRatings.appendChild(ratingHead)
 }
 
+function toToUserPage(e) {
+  console.log("Clicked on div")
+  const url = '/viewUser';
+
+  const data = {
+    userID: e.toElement._id
+  }
+
+  // Create our request constructor with all the parameters we need
+  const request = new Request(url, {
+      method: 'post',
+      body: JSON.stringify(data),
+      headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+      },
+  });
+
+  fetch(request)
+  .then((res) => {
+    if (res.status === 200) {
+      console.log("view set")
+      window.location = URL+ 'dashboard_viewable'
+    }
+  }).catch((error) => {
+    console.log(error)
+  })
+}
+
+
 //FAVOURITE ALBUM FUNCTIONS
 // Checking if the user has favourited this album
 
@@ -481,6 +513,7 @@ function styleFavouriteButton() {
   }
 }
 
+
 // LISTENED FUNCTIONALITY
 function checkIfListened() {
   const url = '/albumListened';
@@ -577,6 +610,7 @@ function removeFromListened(e) {
   }).catch((error) => {
   })
 }
+
 
 //Change the to Listen  button depending on whether the user has marked this album
 function styleListenButton() {
