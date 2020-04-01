@@ -683,7 +683,7 @@ app.post('/users', (req, res) => {
         res.status(500).send(error);
       })
     } else {
-      res.status(404).send();
+      res.status(403).send();
     }
   })
 
@@ -731,9 +731,7 @@ app.post('/users', (req, res) => {
         res.status(500).send();
       })
     } else { 
-      // For security, we don't use code 403 because we don't
-      //  want to tell unauthorized users this is a real route.
-      res.status(404).send();
+      res.status(403).send();
     }
   })
 
