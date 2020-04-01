@@ -5,14 +5,11 @@ const validator = require('validator')
 const bcrypt = require('bcryptjs')
 
 const { ObjectID } = require('mongodb')
-const { review } = require ('./review.js')
-const { Album } = require ('./album.js')
+const { Review } = require ('./review.js')
+const { savedAlbum } = require ('./savedAlbum.js')
+const { Collection } = require ('./collections.js')
+const { ViewableUser } = require ('./viewableuser.js')
 
-const CollectionSchema = new mongoose.Schema({
-  collectionName: String,
-  description: String,
-  albums:[Album.schema]
-});
 
 const UserSchema = new mongoose.Schema({
   loginName: String,
@@ -20,11 +17,11 @@ const UserSchema = new mongoose.Schema({
   displayName: String,
   bio: String,
   profilePic: String,
-  friendList: [ObjectID],
-  favAlbums: [Album.schema],
-  userReviews: [Album.schema],
-  userCollections: [CollectionSchema],
-  userToListen: [Album.schema]
+  friendList: [ViewableUser.schema],
+  favAlbums: [savedAlbum.schema],
+  userReviews: [Review.schema],
+  userCollections: [Collection.schema],
+  userToListen: [savedAlbum.schema]
 });
 
 // An example of Mongoose middleware.
@@ -47,7 +44,6 @@ UserSchema.pre('save', function(next) {
     next()
   }
 })
-
 
 // A static method on the document model.
 // Allows us to find a User document by comparing the hashed password

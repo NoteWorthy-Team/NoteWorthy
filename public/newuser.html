@@ -4,7 +4,7 @@
  <head>
  	<meta charset="utf-8">
     <title>New User Submission</title>
-    <link rel="stylesheet" type="text/css" href="./css/albumSubmission.css">
+    <link rel="stylesheet" type="text/css" href="./css/newUser.css">
  </head>
 
  <body>
@@ -12,27 +12,41 @@
     <script type="text/javascript" src="./js/NavBar.js"></script>
     <nav-bar></nav-bar>
 
-    <div class="newuser">
-      <form class="NewUserForm">
-        <input name="password" type="text" placeholder="Password"><br>
-          <input name="DisplayName" type="text" placeholder="Username"><br>
-          <input name="Bio" type="text" placeholder="what are you like?"><br>
-
-          <input type="submit" value="Submit new user">
-      </form>
-    </div>
-
     <div class="newphoto">
       <form class="newPhotoForm">
         <input name="photo" type="file" > <br>
-          <input type="submit" value="Upload new Profile Photo">
+          <input type="submit" value="Submit Profile Photo">
       </form>
     </div>
 
+    <div class="newuser">
+      <form class="NewUserForm">
+          <section class="submissionField">
+              <label for="DisplayName">Username:</label>
+              <ul> <!--for styling purposes-->
+                <input name="DisplayName" type="text" placeholder="Username">
+              </ul>
+          </section>
+          <section class="submissionField">
+              <label for="password">Password:</label>
+              <ul> <!--for styling purposes-->
+                <input name="password" type="password" placeholder="Password">
+              </ul>
+          </section>
+          <section class="submissionField">
+              <label for="Bio">Bio:</label>
+              <ul> <!--for styling purposes-->
+                <input name="Bio" type="text" placeholder="Describe yourself in a few words!">
+              </ul>
+          </section>
+          <input type="submit" value="Register">
+      </form>
+    </div>
 
     <div>
-      <h1>Fill in the above info to generate a new user profile </h1>
-      <h1 id = "displayMessage"> </h1>
+      <h1>Fill in the above info to generate a new user profile.</h1>
+      <h2>Please upload and submit a profile picture before clicking "Register"</h2>
+      <h1 id="displayMessage"> </h1>
     </div>
     <script type="text/javascript" src="./js/newUser.js"></script>
 </body>

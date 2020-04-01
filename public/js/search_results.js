@@ -1,76 +1,111 @@
 "use_strict";
 
-const albums = []
-
-class albumResult {
-    constructor(albumId, albumName, albumCover, artist, year, link) {
-      this.albumId = albumId;
-      this.albumName = albumName;
-      this.albumCover = albumCover;
-      this.artist = artist ;
-      this.year = year;
-      this.link = link;
-    }
-}
-
-const hammer = new albumResult(0, "Please Hammer Don't Hurt 'Em", './img/please_hammer_dont_hurt_em.jpg',
-    'MC Hammer', '1990', 'albums/album_0.html')
-const bahen = new albumResult(1, 'Bahen...', './img//bahen....jpg',
-    'NoteWorthy', '2020', 'albums/album_1.html')
-const help = new albumResult(2, 'Help!', './img//help.jpg',
-    'The Beatles', '1965', 'albums/album_2.html')
-
-albums.push(hammer)
-albums.push(bahen)
-albums.push(help)
-
 // Isolating the search result string from the URL
 const searchArray = window.location.search.split('=')
 
-function displayResults() {
+// Returns a parsed JSON of all the albums in the database.
+function getAlbums() {
+    // the URL for the request
+    const url = '/albums';
 
-    const placement = document.querySelector('#results')
-    const searchQuery = searchArray[searchArray.length - 1]
+    // Since this is a GET request, simply call fetch on the URL
+    fetch(url)
+    .then((res) => {
+        if (res.status === 200) {
+            // return a promise that resolves with the JSON body
+           return res.json()
+       } else {
+            alert('Could not get the albums')
+       }
+    })
+    .then((json) => {  // the resolved promise with the JSON body
+        // The actual string being queried
+        const placement = document.querySelector('#results')
 
-    for (let i = 0; i < albums.length; i++) {
-        if (albums[i].albumName.toLowerCase().search(searchQuery) !== -1) {
+        const searchQuery = searchArray[searchArray.length - 1].toLowerCase()
 
-            const albumCoverLink = document.createElement('a')
-            albumCoverLink.href = albums[i].link
+        const theseAlbums = json.albums.filter((album) => album.name.toLowerCase().search(searchQuery) !== -1)
 
-            const albumInfoLink = document.createElement('a')
-            albumInfoLink.href = albums[i].link
+        for (let i = 0; i < theseAlbums.length; i++) {
 
+            // Greater album div
             const albumResult = document.createElement('div')
             albumResult.className = 'albumResult'
+            albumResult._id = theseAlbums[i]._id
 
+            // The album cover
             const resultAlbumCover = document.createElement('img')
             resultAlbumCover.className = 'albumCover'
-            resultAlbumCover.src = albums[i].albumCover
+            resultAlbumCover.src = theseAlbums[i].cover
+            resultAlbumCover._id = theseAlbums[i]._id
 
+            // Text info of the album
             const albumInfo = document.createElement('div')
             albumInfo.className = 'albumInfo'
+            albumInfo._id = theseAlbums[i]._id
 
+            // Artist(s) name, it is inside an array
             const resultArtistName = document.createElement('h2')
-            resultArtistName.innerText = albums[i].artist
-            const resultAlbumName = document.createElement('h2')
-            resultAlbumName.innerText = albums[i].albumName
-            const resultYear = document.createElement('h2')
-            resultYear.innerText = albums[i].year
+            resultArtistName.innerText = theseAlbums[i].artist
+            resultArtistName._id = theseAlbums[i]._id
 
+            // Album name
+            const resultAlbumName = document.createElement('h2')
+            resultAlbumName.innerText = theseAlbums[i].name
+            resultAlbumName._id = theseAlbums[i]._id
+
+            // Album year
+            const resultYear = document.createElement('h2')
+            resultYear.innerText = theseAlbums[i].year
+            resultYear._id = theseAlbums[i]._id
+
+            // Place all text info into the same div
             albumInfo.appendChild(resultArtistName)
             albumInfo.appendChild(resultAlbumName)
             albumInfo.appendChild(resultYear)
 
-            albumCoverLink.appendChild(resultAlbumCover)
-            albumInfoLink.appendChild(albumInfo)
 
-            albumResult.appendChild(albumCoverLink)
-            albumResult.appendChild(albumInfoLink)
+            // Place cover and text links into a single result box
+            albumResult.appendChild(resultAlbumCover)
+            albumResult.appendChild(albumInfo)
 
+            albumResult.addEventListener('click', toAlbumPage)
+
+            // Place into overall page
             placement.appendChild(albumResult)
         }
-    }
+    }).catch((error) => {
+        console.log(error)
+    })
 }
 
-displayResults()
+getAlbums()
+
+function toAlbumPage(e) {
+    console.log("Clicked on div")
+    const url = '/viewAlbum';
+
+    const data = {
+      albumID: e.toElement._id
+    }
+
+    // Create our request constructor with all the parameters we need
+    const request = new Request(url, {
+        method: 'post',
+        body: JSON.stringify(data),
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        },
+    });
+
+    fetch(request)
+    .then((res) => {
+      if (res.status === 200) {
+        console.log("view set")
+        window.location = URL+ 'album'
+      }
+    }).catch((error) => {
+      console.log(error)
+    })
+  }

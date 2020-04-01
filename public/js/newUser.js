@@ -53,6 +53,9 @@ function getPhotoURl(e) {
     if (res.status === 200) {
       // If image was added successfully, tell the user.
       console.log("worked")
+      const displayMessage = document.getElementById("displayMessage");
+      displayMessage.appendChild(document.createTextNode("Profile picture submitted!"))
+      displayMessage.appendChild(document.createElement('br'))
       return res.json()
     } else {
       // If server couldn't add the image, tell the user.
@@ -69,7 +72,6 @@ function getPhotoURl(e) {
   })
 }
 
-
 // A function to send a POST request with a new user
 // Using this atm to add our users to the database
 function addUser(e) {
@@ -80,8 +82,12 @@ function addUser(e) {
 
   if( photoURL == null )
   {
+    // displays this warning message in red
     const displayMessage = document.getElementById("displayMessage");
-    displayMessage.appendChild(document.createTextNode("Add a profile picture first! "))
+    const notif = document.createElement('p')
+    notif.className = 'notif'
+    notif.appendChild(document.createTextNode("Submit your profile picture first!"))
+    displayMessage.appendChild(notif)
     return;
   }
 
@@ -123,7 +129,12 @@ function addUser(e) {
           // If student was added successfully, tell the user.
           console.log('Added user')
           const displayMessage = document.getElementById("displayMessage");
-          displayMessage.appendChild(document.createTextNode("User has been made, please login in with " + loginName ))
+          const logInHere = document.createElement('a')
+          logInHere.href = 'https://salty-badlands-60696.herokuapp.com/'
+          logInHere.appendChild(document.createTextNode("HERE"))
+          displayMessage.appendChild(document.createTextNode("User has been created, please log in with the name '" + loginName + "' " ))
+          displayMessage.appendChild(document.createElement('br'))
+          displayMessage.appendChild(logInHere)
       }
 
        else {
@@ -135,17 +146,4 @@ function addUser(e) {
       }
       return res.json();
     })
-      .then((json) => {  // the resolved promise with the JSON body
-        console.log(json)  // log the result in the console for development purposes,
-                          //  users are not expected to see this.
-      console.log(`Error Code: ${json.status}`)
-       console.log(`Error URL: ${json.url}`)
-       console.log(`Error body: ${json.body}`)
-      // console.log(`Error json: ${json}`)
-       const body  = JSON.stringify(json, ' ', 4)
-       console.log(`Error body: ${body}`)
-
-    }).catch((error) => {
-        console.log(error)
-  })
 }

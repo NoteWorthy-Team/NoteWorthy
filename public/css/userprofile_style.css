@@ -125,7 +125,7 @@ font-family: "Montserrat", Helvetica, sans-serif;
 	float: left;
 }
 
-.albumCover {
+.cover {
 	padding-top: 5px;
 	padding-bottom: 3px;
 	height: 150px;
@@ -263,7 +263,7 @@ padding-left: 8px;
 
 }
 
-.collectionAlbumCover {
+.collectioncover {
 	float:left;
 	width: 70px;
 	height: 70px;
