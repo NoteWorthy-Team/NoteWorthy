@@ -21,10 +21,29 @@
 
     <div class="newuser">
       <form class="NewUserForm">
-        <input name="password" type="text" placeholder="Password"><br>
+          <section class="submissionField">
+              <label for="DisplayName">Username:</label>
+              <ul> <!--for styling purposes-->
+                <input name="DisplayName" type="text" placeholder="Username">
+              </ul>
+          </section>
+          <section class="submissionField">
+              <label for="password">Password:</label>
+              <ul> <!--for styling purposes-->
+                <input name="password" type="password" placeholder="Password">
+              </ul>
+          </section>
+          <section class="submissionField">
+              <label for="Bio">Bio:</label>
+              <ul> <!--for styling purposes-->
+                <input name="Bio" type="text" placeholder="Describe yourself in a few words!">
+              </ul>
+          </section>
+        <!--
+          <input name="password" type="text" placeholder="Password"><br>
           <input name="DisplayName" type="text" placeholder="Username"><br>
           <input name="Bio" type="text" placeholder="what are you like?"><br>
-
+-->
           <input type="submit" value="Submit new user">
       </form>
     </div>
