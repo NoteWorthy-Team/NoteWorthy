@@ -100,17 +100,7 @@ function approveAlbum(albumId) {
             }
             return res.json()
         })
-        .then((json) => {  // the resolved promise with the JSON body
-          console.log(json)  // log the result in the console for development purposes,
-                            //  users are not expected to see this.
-        console.log(`Error Code: ${json.status}`)
-         console.log(`Error URL: ${json.url}`)
-         console.log(`Error body: ${json.body}`)
-        // console.log(`Error json: ${json}`)
-         const body  = JSON.stringify(json, ' ', 4)
-         console.log(`Error body: ${body}`)
-
-      }).catch((error) => {
+        .catch((error) => {
           console.log(error)
         })
 }
