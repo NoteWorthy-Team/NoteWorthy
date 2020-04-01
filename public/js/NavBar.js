@@ -1,6 +1,6 @@
 // create custom element for top navigation bar
 
-const URL = 'https://fathomless-gorge-94576.herokuapp.com/'
+const URL = 'https://salty-badlands-60696.herokuapp.com/'
 
 class NavBar extends HTMLElement {
   constructor() {

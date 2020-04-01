@@ -80,7 +80,7 @@ function addUser(e) {
   if( photoURL == null )
   {
     const displayMessage = document.getElementById("displayMessage");
-    displayMessage.appendChild(document.createTextNode("Add a profile picture first! "))
+    displayMessage.appendChild(document.createTextNode("Submit your profile picture first!"))
     return;
   }
 
@@ -122,7 +122,11 @@ function addUser(e) {
           // If student was added successfully, tell the user.
           console.log('Added user')
           const displayMessage = document.getElementById("displayMessage");
-          displayMessage.appendChild(document.createTextNode("User has been made, please login in with " + loginName ))
+          const logInHere = document.createElement('a')
+          logInHere.href = 'https://salty-badlands-60696.herokuapp.com/'
+          logInHere.appendChild(document.createTextNode("HERE"))
+          displayMessage.appendChild(document.createTextNode("User has been made, please log in with " + loginName + " " ))
+          displayMessage.appendChild(logInHere)
       }
 
        else {
