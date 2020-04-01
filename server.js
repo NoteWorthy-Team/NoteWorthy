@@ -707,23 +707,29 @@ app.post('/users', (req, res) => {
     })
   })
 
-  app.get('/pendingAlbumSubmissions', (req, res) => {
-    //TODO: Check session cookie to make sure current user is an admin
-    PendingAlbumSubmission.find().then((albums) => {
-      const summaries = albums.map(function(album) {
-        return {
-          albumId: album._id,
-          title: album.title,
-          artists: album.artists,
-          user: album.user,
-          submissionDate: album.time
-        }
+  app.get('/pendingAlbumSubmissions',isSessionDead, (req, res) => {
+    //Check session cookie to make sure current user is an admin
+    if( req.session.user == adminID) {
+      PendingAlbumSubmission.find().then((albums) => {
+        const summaries = albums.map(function(album) {
+          return {
+            albumId: album._id,
+            title: album.title,
+            artists: album.artists,
+            user: album.user,
+            submissionDate: album.time
+          }
+        })
+        res.send(summaries);
+      }, (error) => {
+        console.log(error);
+        res.status(500).send();
       })
-      res.send(summaries);
-    }, (error) => {
-      console.log(error);
-      res.status(500).send();
-    })
+    } else { 
+      // For security, we don't use code 403 because we don't
+      //  want to tell unauthorized users this is a real route.
+      res.status(404).send();
+    }
   })
 
   // will use an 'environmental variable', process.env.PORT, for deployment.
