@@ -53,6 +53,9 @@ function getPhotoURl(e) {
     if (res.status === 200) {
       // If image was added successfully, tell the user.
       console.log("worked")
+      const displayMessage = document.getElementById("displayMessage");
+      displayMessage.appendChild(document.createTextNode("Profile picture submitted!"))
+      displayMessage.appendChild(document.createElement('br'))
       return res.json()
     } else {
       // If server couldn't add the image, tell the user.
@@ -81,6 +84,7 @@ function addUser(e) {
   {
     const displayMessage = document.getElementById("displayMessage");
     displayMessage.appendChild(document.createTextNode("Submit your profile picture first!"))
+    displayMessage.appendChild(document.createElement('br'))
     return;
   }
 
@@ -125,7 +129,8 @@ function addUser(e) {
           const logInHere = document.createElement('a')
           logInHere.href = 'https://salty-badlands-60696.herokuapp.com/'
           logInHere.appendChild(document.createTextNode("HERE"))
-          displayMessage.appendChild(document.createTextNode("User has been made, please log in with " + loginName + " " ))
+          displayMessage.appendChild(document.createTextNode("User has been created, please log in with the name '" + loginName + "' " ))
+          displayMessage.appendChild(document.createElement('br'))
           displayMessage.appendChild(logInHere)
       }
 
