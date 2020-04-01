@@ -82,9 +82,12 @@ function addUser(e) {
 
   if( photoURL == null )
   {
+    // displays this warning message in red
     const displayMessage = document.getElementById("displayMessage");
-    displayMessage.appendChild(document.createTextNode("Submit your profile picture first!"))
-    displayMessage.appendChild(document.createElement('br'))
+    const notif = document.createElement('p')
+    notif.className = 'notif'
+    notif.appendChild(document.createTextNode("Submit your profile picture first!"))
+    displayMessage.appendChild(notif)
     return;
   }
 
