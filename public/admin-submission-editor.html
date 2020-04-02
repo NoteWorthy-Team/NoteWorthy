@@ -14,7 +14,7 @@
     <section>
         <p id="submissionInfo">Submitted by <a id="submitterName" href=""></a> on <span id="submissionDate"></span></p>
     </section>
-    <form autocomplete="off" action="" method="POST">
+    <form autocomplete="off" action="" method="POST" id="albumForm">
         <div>
         <label for="albumTitle">Title:</label>
         <input type="text" id="albumTitle">
@@ -74,8 +74,8 @@
         </ol>
         </section>
 
-        <input type="submit" value="Save">
-        <input type="submit" value="Save & Approve">
+        <input type="submit" value="Save" id="saveButton">
+        <input type="submit" value="Save & Approve" id="approveButton">
     </form>
 </body>
 <script type="text/javascript" src="./js/AlbumEditor0.js"></script>

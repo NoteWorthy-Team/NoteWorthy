@@ -639,53 +639,7 @@ app.post("/image", multipartMiddleware, (req, res) => {
 })
 
 /// ALBUMS SUBMISSIONS ROUTES
-// A POST request that approves a submitted album
-// id should be the id of a PendingAlbumSubmission
-app.post('/album/:id', (req, res) => {
-  //Check session cookie to make sure current user is an admin
-  if( req.session.user == adminID) {
-    const albumId = req.params.id.slice(1);
-    PendingAlbumSubmission.findById(albumId).then((submission) => {
 
-      if (!submission) {
-        res.status(404).send();
-      } else {
-        // create a new Album from the PendingAlbumSubmission
-        const details = submission.details;
-        const newAlbum = new Album({
-          name: details.name,
-          cover: details.cover,
-          artist: details.artist,
-          producer: details.producer,
-          year: details.year,
-          genre: details.genre,
-          label: details.label,
-          length: details.length,
-          trackList: details.trackList,
-          avgRating: details.avgRating,
-          Reviews: details.Reviews
-        });
-        console.log(newAlbum);
-        newAlbum.save().then((result) => {
-          console.log("Approved album ", newAlbum.name);
-          //Remove the pending submission
-          PendingAlbumSubmission.deleteOne({_id: albumId}, (error) => {
-            console.log(error);
-          })
-          res.send(result)
-        }, (error) => {
-          console.log(error);
-          res.send({"error": error});
-        });
-      }
-    }, (error) => {
-      console.log(error);
-      res.status(500).send(error);
-    })
-  } else {
-    res.status(403).send();
-  }
-})
 
 // posts an album submission to pendingAlbumSubmissions
 app.post('/pendingAlbumSubmissions', (req, res) => {
@@ -744,14 +698,97 @@ app.get('/editSubmission&album=:albumID', isSessionDead, (req, res) => {
   }
 })
 
-app.post('/admin-submission-editor',isSessionDead, (req, res) => {
+function patchSubmission(id, formData) {
+  console.log(formData);
+  PendingAlbumSubmission.findById(id).then((submission) => {
+    submission.details = formData;
+    submission.save();
+  }, (error) => {
+    throw(error);
+  }).catch((error) =>{
+    throw(error);
+  })
+}
+// A PATCH request that saves the changes made to a pending album without approving it.
+app.patch('/pendingAlbumSubmissions/:id',isSessionDead, (req, res) => {
   //Check session cookie to make sure current user is an admin
   if( req.session.user == adminID) {
-    throw "not implemented"
+    const albumId = req.params.id.slice(1);
+    if (!ObjectID.isValid(albumId)){
+      res.status(404).send();
+      return;
+    }
+    patchSubmission(albumId, req.body).then((result) => {
+      res.status(200).send();
+    }, (error) => {
+      res.status(500).send();
+    });
+    
   } else {
     res.status(403).send();
   }
 })
+// A POST request that approves a submitted album
+// id should be the id of a PendingAlbumSubmission
+app.post('/album/:id', (req, res) => {
+  //Check session cookie to make sure current user is an admin
+  if( req.session.user == adminID) {
+
+    const albumId = req.params.id.slice(1);
+    if (!ObjectID.isValid(albumId)){
+      res.status(404).send();
+      return;
+    }
+    patchSubmission(albumId, req.body).then((result) => {
+      approveSubmission(albumId);
+    }, (error) => {
+      res.status(500).send()
+    });
+  } else {
+    res.status(403).send();
+  }
+})
+
+function approveSubmission(albumId) {
+    PendingAlbumSubmission.findById(albumId).then((submission) => {
+
+      if (!submission) {
+        res.status(404).send();
+      } else {
+        // create a new Album from the PendingAlbumSubmission
+        const details = submission.details;
+        const newAlbum = new Album({
+          name: details.name,
+          cover: details.cover,
+          artist: details.artist,
+          producer: details.producer,
+          year: details.year,
+          genre: details.genre,
+          label: details.label,
+          length: details.length,
+          trackList: details.trackList,
+          avgRating: details.avgRating,
+          Reviews: details.Reviews
+        });
+        console.log(newAlbum);
+        newAlbum.save().then((result) => {
+          console.log("Approved album ", newAlbum.name);
+          //Remove the pending submission
+          PendingAlbumSubmission.deleteOne({_id: albumId}, (error) => {
+            console.log(error);
+          })
+          res.send(result)
+        }, (error) => {
+          console.log(error);
+          res.send({"error": error});
+        });
+      }
+    }, (error) => {
+      console.log(error);
+      res.status(500).send();
+    })
+  
+}
 
 app.get('/submissionDetails', isSessionDead, (req, res) => {
   //Check session cookie to make sure current user is an admin

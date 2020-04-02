@@ -1,7 +1,13 @@
 //AlbumEditor.js
 
 //TODO: Show submitted album's cover and let the admin change it
+let dataNotSaved = true;
+window.onbeforeunload = function(){
+    /// Warn the user data might not be saved before closing the page.
+    return dataNotSaved;
+};
 
+const form = document.getElementById("albumForm");
 const addFieldButtons = document.getElementsByClassName("addInputButton");
 const addTrackButton = document.getElementById("addTrackButton");
 addTrackButton.addEventListener("click", addTrack);
@@ -44,6 +50,13 @@ function removeField(e) {
 }
 
 function populateForm(album) {
+    
+    form.albumId = album.albumId;
+    const saveButton = document.getElementById("saveButton");
+    const approveButton = document.getElementById("approveButton");
+    saveButton.addEventListener('click', patchAlbum);
+    approveButton.addEventListener('click', postAlbum);
+
     const submitterNameLink = document.getElementById("submitterName");
     const submissionDateSpan = document.getElementById("submissionDate");
     const submitterNameText = document.createTextNode(album.user.displayName);
@@ -191,9 +204,88 @@ function getAlbumData() {
     })
 }
 
-window.onbeforeunload = function(){
-    /// Warn the user data might not be saved before closing the page.
-    return true;
-};
+// Creates a track from the data in the container
+function getTrack (container) {
+    const nameInput = container.getElementsByClassName("trackTitleInput")[0];
+    const lengthInput = container.getElementsByClassName("trackRuntimeInput")[0];
+    return {
+        name: nameInput.value,
+        length: lengthInput.value
+    }
+}
+// Creates an array of TrackSchema from the form's track list
+function getTrackListData () {
+    const trackContainers = document.getElementsByClassName("trackContainer");
+    const tracks = [];
+    for (let i = 0; i < trackContainers.length; i++) {
+        container = trackContainers[i];
+        tracks.push(getTrack(container));
+    }
+    return tracks;
+}
+
+function getArrayFromListElement(ul) {
+    const data = [];
+    const children = ul.children
+    for (let i=0; i< children.length; i++) {
+        const listChild = children[i];
+        if (listChild.tagName == 'LI') {
+            input = listChild.firstElementChild;
+            data.push(input.value);
+        }
+    }
+    return data;
+}
+
+// Creates an Album from the data currently in the form
+function getFormData (form) {
+
+}
+
+function patchAlbum(e) {
+    const url = '/pendingAlbumSubmissions/' + form.albumId;
+    const body = JSON.stringify(getFormData());
+    const request = new Request(url, {
+        method: 'patch',
+        body: body,
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        }
+    });
+    fetch(request)
+    .then((res) => {
+        if (res.status === 200) {
+            dataNotSaved = false;
+            window.location = URL + 'admin';
+        }
+    }).catch((error) => {
+        console.log(error)
+    })
+}
+
+function postAlbum(e) {
+    const url = '/album/' + form.albumId;
+    const body = JSON.stringify(getFormData());
+    const request = new Request(url, {
+        method: 'post',
+        body: body,
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        }
+    });
+    fetch(request)
+    .then((res) => {
+        if (res.status === 200) {
+            dataNotSaved = false;
+            window.location = URL + 'admin';
+        }
+    }).catch((error) => {
+        console.log(error)
+    })
+}
+
+
 
 document.onload = getAlbumData();
