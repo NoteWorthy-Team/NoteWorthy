@@ -711,7 +711,7 @@ app.post('/pendingAlbumSubmissions', (req, res) => {
     res.send({"error": error})
   })
 })
-
+// Route to list all album submissions pending approval
 app.get('/pendingAlbumSubmissions',isSessionDead, (req, res) => {
   //Check session cookie to make sure current user is an admin
   if( req.session.user == adminID) {
@@ -734,16 +734,20 @@ app.get('/pendingAlbumSubmissions',isSessionDead, (req, res) => {
     res.status(403).send();
   }
 })
-
-app.get('/editSubmission/album=:albumID', isSessionDead, (req, res) => {
-  req.session.album =  req.params.albumID
-  res.redirect('/admin-submission-editor');
+// Route to request the editor page for a pending album
+app.get('/editSubmission&album=:albumID', isSessionDead, (req, res) => {
+  if( req.session.user == adminID) {
+    req.session.album =  req.params.albumID
+    res.sendFile('./public/admin-submission-editor.html', {root: __dirname })
+  } else {
+    res.status(403).send();
+  }
 })
 
-app.get('/admin-submission-editor',isSessionDead, (req, res) => {
+app.post('/admin-submission-editor',isSessionDead, (req, res) => {
   //Check session cookie to make sure current user is an admin
   if( req.session.user == adminID) {
-    res.sendFile('./public/admin-submission-editor.html', {root: __dirname })
+    throw "not implemented"
   } else {
     res.status(403).send();
   }
