@@ -1,5 +1,7 @@
 //AlbumEditor.js
 
+//TODO: Show submitted album's cover and let the admin change it
+
 const addFieldButtons = document.getElementsByClassName("addInputButton");
 const addTrackButton = document.getElementById("addTrackButton");
 addTrackButton.addEventListener("click", addTrack);
@@ -41,26 +43,26 @@ function removeField(e) {
     parentList.removeChild(container);
 }
 
-function populateForm() {
+function populateForm(album) {
     const submitterNameLink = document.getElementById("submitterName");
     const submissionDateSpan = document.getElementById("submissionDate");
-    album = getAlbumData();
-    const submitterNameText = document.createTextNode(album.submitter.name);
+    const submitterNameText = document.createTextNode(album.user.displayName);
     submitterNameLink.appendChild(submitterNameText);
-    submitterNameLink.href='../users/user_viewable_' + album.submitter.userid +'.html'
-    const submissionDateText = document.createTextNode(album.submissionDate);
+    submitterNameLink.href='#'; //TODO: make this link work
+    const submissionDateText = document.createTextNode(album.time);
     submissionDateSpan.appendChild(submissionDateText);
-    populateTitleField(album);
-    populateYearField(album);
-    populateArtistList(album);
-    populateProducerList(album);
-    populateLabelList(album);
-    populateGenreList(album);
-    populateTrackList(album);
+    const albumDetails = album.details;
+    populateTitleField(albumDetails);
+    populateYearField(albumDetails);
+    populateArtistList(albumDetails);
+    populateProducerList(albumDetails);
+    populateLabelList(albumDetails);
+    populateGenreList(albumDetails);
+    populateTrackList(albumDetails);
 }
 function populateTitleField(album) {
     titleField = document.getElementById("albumTitle");
-    titleField.value = album.title;
+    titleField.value = album.name;
 }
 function populateYearField(album) {
     yearField = document.getElementById("albumYear");
@@ -124,13 +126,13 @@ function populateTrackList(album) {
     const albumTrackList = document.getElementById("albumTrackList");
     let i;
     let nextLi = albumTrackList.firstElementChild;
-    for (i = 0; i < album.tracklisting.length; i++){
+    for (i = 0; i < album.trackList.length; i++){
         const titleInput = nextLi.getElementsByClassName("trackTitleInput")[0];
         const runtimeInput = nextLi.getElementsByClassName("trackRuntimeInput")[0];
-        const track = album.tracklisting[i]
+        const track = album.trackList[i]
         titleInput.value = track.name;
-        runtimeInput.value = track.runtime;
-        if (i + 1 < album.tracklisting.length) {
+        runtimeInput.value = track.length;
+        if (i + 1 < album.trackList.length) {
             addTrack();
             nextLi = nextLi.nextElementSibling;
         }
@@ -169,65 +171,29 @@ function populateListElementFromArray(element, data) {
 function getAlbumData() {
     /// Gets album data from server
     // code below requires server call
-    return album1;
+    const url = '/submissionDetails';
+    fetch(url)
+    .then((res) => {
+      if (res.status === 200) {
+        // return a promise that resolves with the JSON body
+        console.log('Got pending album details')
+        return res.json()
+      } else {
+        console.log('Could not get pending album info')
+      }
+    })
+    .then((json) => {  // the resolved promise with the JSON body
+      console.log(json)
+      const albumDetails = json;
+      populateForm(albumDetails);
+    }).catch((error) => {
+      console.log(error)
+    })
 }
+
 window.onbeforeunload = function(){
     /// Warn the user data might not be saved before closing the page.
     return true;
 };
 
-//---------------------------------------------------
-//Sample data for the album editor in lieue of 
-//pulling this information from a database.
-
-//Simple track class
-//The fields here are only what the album editor
-//requires.
-class Track {
-    constructor(name, runtime){
-        this.name = name;
-        this.runtime = runtime;
-    }
-}
-//Simple user class, as above; 
-class User {
-    constructor (userid, name) {
-        this.userid = userid;
-        this.name = name;
-    }
-}
-
-let albumCount = 0;
-class Album {
-    constructor(title, artist, producer, year, genre, label, runtime, tracklisting, submitter) {
-        this.albumId = albumCount;
-        albumCount++;
-        this.title=title;
-        this.artist=artist;
-        this.producer=producer;
-        this.year=year;
-        this.genre=genre;
-        this.label=label;
-        this.runtime=runtime;
-        this.tracklisting=tracklisting;
-        this.avgRating=null;
-        this.submitter = submitter;
-        this.submissionDate = new Date();
-    }
-}
-const trackListing1 = [
-    new Track("Intro", "3:09"),
-    new Track("Markadelic", "2:36"),
-    new Track("Remark Request", "2:53")];
-const trackListing2 = [
-    new Track("Here Comes the Hammer", "4:32"),
-    new Track("U Can't Touch This", "4:17"),
-    new Track("Have You Seen Her", "4:42")];
-const sampleUser1 = new User(1, "csc309");
-const sampleUser2 = new User(2, "emptyuser");
-const album1 = new Album("Bahen...", "NoteWorthy", "NoteWorthy", "2020", "Rock", "MarkUs Records", "29:34", trackListing1, sampleUser1);
-const album2 = new Album("Please Hammer Don't Hurt 'Em", ["MC Hammer"], ["Big Louis Burrel", "MC Hammer", "Scott Folks"], "1990", ["Hip hop"], ["Capitol Records"], "59:04", trackListing2, sampleUser2);
-const sampleSubmissions = [album1, album2];
-//---------------------------------------------------
-
-document.onload = populateForm();
+document.onload = getAlbumData();
