@@ -190,525 +190,485 @@ app.post('/users', (req, res) => {
       res.send(newUser)
     }, (error) => {
       res.send({"error": error})
-    })
+   })
+})
+
+// A GET requests that returns the users within the datebase
+app.get('/users', (req, res) => {
+  User.find().then((users) => {
+    res.send({ users }) // can wrap in object if want to add more properties
+  }, (error) => {
+    res.status(500).send(error) // server error
   })
+})
 
-  // A GET requests that returns the users within the datebase
-  app.get('/users', (req, res) => {
-    User.find().then((users) => {
-      res.send({ users }) // can wrap in object if want to add more properties
-    }, (error) => {
-      res.status(500).send(error) // server error
-    })
-  })
+// A route to login and create a session
+app.post('/users/login', (req, res) => {
+  const username = req.body.username
+  const password = req.body.password
 
-  // A route to login and create a session
-  app.post('/users/login', (req, res) => {
-    const username = req.body.username
-    const password = req.body.password
-
-    // Use the static method on the User model to find a user
-    // by their email and password
-    User.findByUserPassword(username, password).then((user) => {
-      if (!user) {
-        res.redirect('/index');
-      } else {
-        // Add the user's id to the session cookie.
-        // We can check later if this exists to ensure we are logged in.
-        req.session.user = user._id;
-        if( user._id == adminID)  // admin profile
-        {
-          res.redirect('/admin');
-        }
-        else
-        {
-          res.redirect('/dashboard');
-        }
+  // Use the static method on the User model to find a user
+  // by their email and password
+  User.findByUserPassword(username, password).then((user) => {
+    if (!user) {
+      res.redirect('/index');
+    } else {
+      // Add the user's id to the session cookie.
+      // We can check later if this exists to ensure we are logged in.
+      req.session.user = user._id;
+      if( user._id == adminID)  // admin profile
+      {
+        res.redirect('/admin');
       }
-    }).catch((error) => {
-      res.status(400).redirect('/index');
-    })
-  })
-
-  // A POST request that saves the id of the user we are about to view
-  app.post('/viewUser',isSessionDead, (req, res) => {
-    req.session.userviewable  = null
-    if( req.body.userID != req.session.user  ) {
-    req.session.userviewable =  req.body.userID
+      else
+      {
+        res.redirect('/dashboard');
+      }
     }
-    res.status(200).send()
+  }).catch((error) => {
+    res.status(400).redirect('/index');
   })
+})
 
-  // A GET requests that returns the session user
-  app.get('/userinfo', (req, res) => {
-    User.findById( req.session.user ).then((user) => {
-      res.send({ user }) // can wrap in object if want to add more properties
-    }, (error) => {
-      res.status(500).send(error) // server error
+// A POST request that saves the id of the user we are about to view
+app.post('/viewUser',isSessionDead, (req, res) => {
+  req.session.userviewable  = null
+  if( req.body.userID != req.session.user  ) {
+  req.session.userviewable =  req.body.userID
+  }
+  res.status(200).send()
+})
+
+// A GET requests that returns the session user
+app.get('/userinfo', (req, res) => {
+  User.findById( req.session.user ).then((user) => {
+    res.send({ user }) // can wrap in object if want to add more properties
+  }, (error) => {
+    res.status(500).send(error) // server error
+  })
+})
+
+
+// A GET requests that returns the session user + the clicked collection
+app.get('/Collectioninfo', (req, res) => {
+  User.findById( req.session.user ).then((user) => {
+    const collection = user.userCollections[req.session.collectionid]
+    res.send({ collection }) // can wrap in object if want to add more properties
+  }, (error) => {
+    res.status(500).send(error) // server error
+  })
+})
+
+// A GET requests that returns the session user + the clicked collection
+app.get('/viewable_Collectioninfo', (req, res) => {
+  User.findById( req.session.userviewable ).then((user) => {
+    const collection = user.userCollections[req.session.collectionid]
+    res.send({ collection }) // can wrap in object if want to add more properties
+  }, (error) => {
+    res.status(500).send(error) // server error
+  })
+})
+
+// A POST request that saves the id of the user we are about to view
+app.post('/viewCollection',isSessionDead, (req, res) => {
+  req.session.collectionid =  req.body.collectionIndex
+  res.status(200).send( )
+})
+
+
+//ALBUM  INFO ROUTES
+
+// A GET requests that returns the albums within the datebase
+app.get('/albums', (req, res) => {
+  Album.find().then((albums) => {
+    res.send({ albums }) // can wrap in object if want to add more properties
+  }, (error) => {
+    res.status(500).send(error) // server error
+  })
+})
+
+// A POST request that saves the id of the user we are about to view
+app.post('/viewAlbum',isSessionDead, (req, res) => {
+  req.session.album =  req.body.albumID
+  res.status(200).send()
+})
+
+// A GET requests that returns an album
+app.get('/albuminfo', (req, res) => {
+  Album.findById( req.session.album ).then((album) => {
+    res.send({ album }) // can wrap in object if want to add more properties
+  }, (error) => {
+    res.status(500).send(error) // server error
+  })
+})
+
+// ALBUM REVIEW ROUTES
+app.get('/userViewable',  (req, res) => {
+  User.findById( req.session.user ).then((user) => {
+    const userView = new ViewableUser ( {
+      _id:  user._id,
+      displayName: user.displayName,
+      profilePic: user.profilePic
     })
+    res.send( userView ) // can wrap in object if want to add more properties
+  }, (error) => {
+    res.status(500).send(error) // server error
   })
+})
 
+app.post('/saveReviewUser', (req, res) => {
+  User.findById( req.session.user ).then((user) => {
 
-  // A GET requests that returns the session user + the clicked collection
-  app.get('/Collectioninfo', (req, res) => {
-    User.findById( req.session.user ).then((user) => {
-      const collection = user.userCollections[req.session.collectionid]
-      res.send({ collection }) // can wrap in object if want to add more properties
-    }, (error) => {
-      res.status(500).send(error) // server error
-    })
-  })
-
-  // A GET requests that returns the session user + the clicked collection
-  app.get('/viewable_Collectioninfo', (req, res) => {
-    User.findById( req.session.userviewable ).then((user) => {
-      const collection = user.userCollections[req.session.collectionid]
-      res.send({ collection }) // can wrap in object if want to add more properties
-    }, (error) => {
-      res.status(500).send(error) // server error
-    })
-  })
-
-  // A POST request that saves the id of the user we are about to view
-  app.post('/viewCollection',isSessionDead, (req, res) => {
-    req.session.collectionid =  req.body.collectionIndex
-    res.status(200).send( )
-  })
-
-
-  //ALBUM  INFO ROUTES
-
-  // A GET requests that returns the albums within the datebase
-  app.get('/albums', (req, res) => {
-    Album.find().then((albums) => {
-      res.send({ albums }) // can wrap in object if want to add more properties
-    }, (error) => {
-      res.status(500).send(error) // server error
-    })
-  })
-
-  // A POST request that saves the id of the user we are about to view
-  app.post('/viewAlbum',isSessionDead, (req, res) => {
-    req.session.album =  req.body.albumID
-    res.status(200).send()
-  })
-
-  // A GET requests that returns an album
-  app.get('/albuminfo', (req, res) => {
-    Album.findById( req.session.album ).then((album) => {
-      res.send({ album }) // can wrap in object if want to add more properties
-    }, (error) => {
-      res.status(500).send(error) // server error
-    })
-  })
-
-  // ALBUM REVIEW ROUTES
-  app.get('/userViewable',  (req, res) => {
-    User.findById( req.session.user ).then((user) => {
-      const userView = new ViewableUser ( {
-        _id:  user._id,
-        displayName: user.displayName,
-        profilePic: user.profilePic
-      })
-      res.send( userView ) // can wrap in object if want to add more properties
-    }, (error) => {
-      res.status(500).send(error) // server error
-    })
-  })
-
-  app.post('/saveReviewUser', (req, res) => {
-    User.findById( req.session.user ).then((user) => {
-
-      const newAlbum = new savedAlbum ( {
-        _id: req.body._id,
-        name: req.body.name,
-        cover: req.body.cover
-      })
-
-      const newReview = new Review ( {
-        album: newAlbum,
-        user: req.body.user ,
-        dateOfReview:req.body.dateOfReview,
-        reviewBody: req.body.reviewBody,
-        rating: req.body.rating
-      })
-
-      user.userReviews.push(newReview)
-
-      user.save().then((user) => {
-        res.send( {user} )
-      },(error) => {
-        res.status(403).send(error) // server error
-      })
-    }, (error) => {
-      res.status(500).send(error) // server error
-    })
-  })
-
-
-  app.post('/saveReviewAlbum', (req, res) => {
-    Album.findById( req.body._id ).then((album) => {
-
-      const newAlbum = new savedAlbum ( {
-        _id: req.body._id,
-        name: req.body.name,
-        cover: req.body.cover
-      })
-
-      const newReview = new Review ( {
-        album: newAlbum,
-        user: req.body.user ,
-        dateOfReview:req.body.dateOfReview,
-        reviewBody: req.body.reviewBody,
-        rating: req.body.rating
-      })
-
-      let newAvr = 0
-      album.Reviews.push(newReview)
-
-      // getting the average rating
-      for (let i = 0; i <album.Reviews.length; i++ )
-      {
-        newAvr = newAvr + album.Reviews[i].rating
-      }
-
-      newAvr = newAvr/ album.Reviews.length
-      album.avgRating = newAvr
-      album.save().then((album) => {
-        res.send( {album} )
-      },(error) => {
-        res.status(403).send(error) // server error
-      })
-    }, (error) => {
-      res.status(500).send(error) // server error
-    })
-  })
-
-  // FAVOURITE ALBUM FUNCTIONALITY
-  // A GET requests that users if the current users has favoured the album
-  app.get('/albumFavourite', (req, res) => {
-    User.findById( req.session.user ).then((user) => {
-      const favAlbums = user.favAlbums
-      res.send(favAlbums)
-    }, (error) => {
-      res.status(500).send(error) // server error
-    })
-  })
-
-
-  // a POST request that adds a users to the current's users friendslist
-  app.post('/favourAlbum', (req, res) => {
-    const newfavourte = new savedAlbum( {
-      _id:  req.body.albumID,
+    const newAlbum = new savedAlbum ( {
+      _id: req.body._id,
       name: req.body.name,
       cover: req.body.cover
-    } )
+    })
 
-    User.findById( req.session.user ).then((user) => {
-      user.favAlbums.push(newfavourte)
-      // Save the new user
-      user.save().then((user) => {
-        res.send( {user} )
-      }, (error) => {
-        res.send({"error": error})
-      })
+    const newReview = new Review ( {
+      album: newAlbum,
+      user: req.body.user ,
+      dateOfReview:req.body.dateOfReview,
+      reviewBody: req.body.reviewBody,
+      rating: req.body.rating
+    })
+
+    user.userReviews.push(newReview)
+
+    user.save().then((user) => {
+      res.send( {user} )
     },(error) => {
-      res.status(400).send(error) // 400 for bad request
+      res.status(403).send(error) // server error
     })
+  }, (error) => {
+    res.status(500).send(error) // server error
   })
-
-  // a patch request that removes a users to the current's users friendslist
-  app.post('/unfavourAlbum', (req, res) => {
-    const newFavouriteList = []
-
-    User.findById( req.session.user ).then((user) => {
-      for( let i =0; i < user.favAlbums.length; i++ )
-      {
-        if( user.favAlbums[i]._id != req.body.albumID)
-        {
-          newFavouriteList.push(user.favAlbums[i])
-        }
-      }
-      user.favAlbums = newFavouriteList;
-
-      // Save the new user
-      user.save().then((user) => {
-        res.send( {user} )
-      }, (error) => {
-        res.status(404).send({"error": error})
-      })
-    },(error) => {
-      res.status(400).send(error) // 400 for bad request
-    })
-  })
+})
 
 
-  //LISTENED ALBUM FUNCTIONALITY
-  // A GET requests that users if the current users has marked this album to listen to
-  app.get('/albumListened', (req, res) => {
-    User.findById( req.session.user ).then((user) => {
-      const userListened = user.userCollections[0].albums
-      res.send(userListened)
-    }, (error) => {
-      res.status(500).send(error) // server error
-    })
-  })
+app.post('/saveReviewAlbum', (req, res) => {
+  Album.findById( req.body._id ).then((album) => {
 
-
-  // a POST request that adds an album to "To listen"
-  app.post('/addListenedAlbum', (req, res) => {
-    const newListen= new savedAlbum( {
-      _id:  req.body.albumID,
+    const newAlbum = new savedAlbum ( {
+      _id: req.body._id,
       name: req.body.name,
       cover: req.body.cover
-    } )
-
-    User.findById( req.session.user ).then((user) => {
-      user.userCollections[0].albums.push(newListen)
-      user.save().then((user) => {
-        res.send( {user} )
-      }, (error) => {
-        res.send({"error": error})
-      })
-    },(error) => {
-      res.status(400).send(error) // 400 for bad request
     })
-  })
 
-  // a patch request that removes an album to the current's users to listen
-  app.post('/removeFromListened', (req, res) => {
-    const newToListened = []
-
-    User.findById( req.session.user ).then((user) => {
-      const userCollection = user.userCollections[0].albums
-      for( let i =0; i < userCollection.length; i++ )
-      {
-        if( userCollection[i]._id != req.body.albumID)
-        {
-          newToListened.push(userCollection[i])
-        }
-      }
-      user.userCollections[0].albums= newToListened;
-
-      // Save the new user
-      user.save().then((user) => {
-        res.send( {user} )
-      }, (error) => {
-        res.status(404).send({"error": error})
-      })
-    },(error) => {
-      res.status(400).send(error) // 400 for bad request
+    const newReview = new Review ( {
+      album: newAlbum,
+      user: req.body.user ,
+      dateOfReview:req.body.dateOfReview,
+      reviewBody: req.body.reviewBody,
+      rating: req.body.rating
     })
-  })
 
+    let newAvr = 0
+    album.Reviews.push(newReview)
 
-  //TO LISTEN ALBUM FUNCTIONALITY
-  // A GET requests that users if the current users has marked this album to listen to
-  app.get('/albumtoListen', (req, res) => {
-    User.findById( req.session.user ).then((user) => {
-      const userToListen = user.userToListen
-      res.send(userToListen)
-    }, (error) => {
-      res.status(500).send(error) // server error
-    })
-  })
-
-  // a POST request that adds an album to "To listen"
-  app.post('/toListenAlbum', (req, res) => {
-    const newListen= new savedAlbum( {
-      _id:  req.body.albumID,
-      name: req.body.name,
-      cover: req.body.cover
-    } )
-
-    User.findById( req.session.user ).then((user) => {
-      user.userToListen.push(newListen)
-      user.save().then((user) => {
-        res.send( {user} )
-      }, (error) => {
-        res.send({"error": error})
-      })
-    },(error) => {
-      res.status(400).send(error) // 400 for bad request
-    })
-  })
-
-  // a patch request that removes an album to the current's users to listen
-  app.post('/removeToList', (req, res) => {
-    const newToList = []
-
-    User.findById( req.session.user ).then((user) => {
-      for( let i =0; i < user.userToListen.length; i++ )
-      {
-        if( user.userToListen[i]._id != req.body.albumID)
-        {
-          newToList.push(user.userToListen[i])
-        }
-      }
-      user.userToListen = newToList;
-
-      // Save the new user
-      user.save().then((user) => {
-        res.send( {user} )
-      }, (error) => {
-        res.status(404).send({"error": error})
-      })
-    },(error) => {
-      res.status(400).send(error) // 400 for bad request
-    })
-  })
-
-  // VIEWING, FOLLOWING AND UNFOLLOWING ANOTHER USER
-  // Rouets that handle the above tasks
-
-  // A GET requests that returns the current user and the user they are viewing
-  app.get('/userviewableinfo', (req, res) => {
-    User.findById( req.session.userviewable ).then((user) => {
-      res.send({ "currentUserid":req.session.user,  user })
-    }, (error) => {
-      res.status(500).send(error) // server error
-    })
-  })
-
-  // A GET requests that users if the current users follows the user who
-  // they are currently viewing
-  app.get('/userFollowing', (req, res) => {
-    User.findById( req.session.user ).then((user) => {
-      const friendList = user.friendList
-      res.send(friendList)
-    }, (error) => {
-      res.status(500).send(error) // server error
-    })
-  })
-
-
-  // a POST request that adds a users to the current's users friendslist
-  app.post('/followUser', (req, res) => {
-    const newFriend = new ViewableUser( {
-      _id:  req.body.userID,
-      displayName: req.body.displayName,
-      profilePic: req.body.profilePic
-    } )
-
-    User.findById( req.session.user ).then((user) => {
-      user.friendList.push(newFriend)
-      // Save the new user
-      user.save().then((user) => {
-        res.send( {user} )
-      }, (error) => {
-        res.send({"error": error})
-      })
-    },(error) => {
-      res.status(400).send(error) // 400 for bad request
-    })
-  })
-
-  // a patch request that removes a users to the current's users friendslist
-  app.post('/unfollowUser', (req, res) => {
-    const newFriendList = []
-
-    User.findById( req.session.user ).then((user) => {
-      for( let i =0; i < user.friendList.length; i++ )
-      {
-        if( user.friendList[i]._id != req.body.userID)
-        {
-          newFriendList.push(user.friendList[i])
-        }
-      }
-      user.friendList = newFriendList;
-
-      // Save the new user
-      user.save().then((user) => {
-        res.send( {user} )
-      }, (error) => {
-        res.status(404).send({"error": error})
-      })
-    },(error) => {
-      res.status(400).send(error) // 400 for bad request
-    })
-  })
-
-  //// IMAGE HANDLING
-  // a POST route to *create* an image
-  // returns the image
-  app.post("/image", multipartMiddleware, (req, res) => {
-    // Use uploader.upload API to upload image to cloudinary server.
-    cloudinary.uploader.upload(  req.files.photo.path,  function (result) {
-      res.send( result )
-    })
-  })
-
-  /// ALBUMS SUBMISSIONS ROUTES
-  // A POST request that approves a submitted album
-  // id should be the id of a PendingAlbumSubmission
-  app.post('/album/:id', (req, res) => {
-    const albumId = req.params.id.slice(1);
-    PendingAlbumSubmission.findById(albumId).then((submission) => {
-
-      if (!submission) {
-        res.status(404).send();
-      } else {
-        // create a new Album from the PendingAlbumSubmission
-        const details = submission.details;
-        const newAlbum = new Album({
-          name: details.name,
-          cover: details.cover,
-          artist: details.artist,
-          producer: details.producer,
-          year: details.year,
-          genre: details.genre,
-          label: details.label,
-          length: details.length,
-          trackList: details.trackList,
-          avgRating: details.avgRating,
-          Reviews: details.Reviews
-        });
-        console.log(newAlbum);
-        newAlbum.save().then((result) => {
-          console.log("Approved album ", newAlbum.name);
-          //Remove the pending submission
-          PendingAlbumSubmission.deleteOne({_id: albumId}, (error) => {
-            console.log(error);
-          })
-          res.send(result)
-        }, (error) => {
-          console.log(error);
-          res.send({"error": error});
-        });
-      }
-    }, (error) => {
-      console.log(error);
-      res.status(500).send(error);
-    })
-  })
-
-  // posts an album submission to pendingAlbumSubmissions
-  app.post('/pendingAlbumSubmissions', (req, res) => {
-    if (! req.session.user )
+    // getting the average rating
+    for (let i = 0; i <album.Reviews.length; i++ )
     {
-      res.status(400).send ({Error: "No user connected "})
-      return
+      newAvr = newAvr + album.Reviews[i].rating
     }
 
-    const newSubmission = new PendingAlbumSubmission({
-      title: req.body.title,
-      cover: req.body.cover,
-      artists: req.body.artists,
-      user: req.session.user,
-      time: req.body.time,
-      details: req.body.details
+    newAvr = newAvr/ album.Reviews.length
+    album.avgRating = newAvr
+    album.save().then((album) => {
+      res.send( {album} )
+    },(error) => {
+      res.status(403).send(error) // server error
     })
-    // Save the new pending album submission
-    newSubmission.save().then((newSubmission) => {
-      res.redirect('/dashboard')
+  }, (error) => {
+    res.status(500).send(error) // server error
+  })
+})
+
+// FAVOURITE ALBUM FUNCTIONALITY
+// A GET requests that users if the current users has favoured the album
+app.get('/albumFavourite', (req, res) => {
+  User.findById( req.session.user ).then((user) => {
+    const favAlbums = user.favAlbums
+    res.send(favAlbums)
+  }, (error) => {
+    res.status(500).send(error) // server error
+  })
+})
+
+
+// a POST request that adds a users to the current's users friendslist
+app.post('/favourAlbum', (req, res) => {
+  const newfavourte = new savedAlbum( {
+    _id:  req.body.albumID,
+    name: req.body.name,
+    cover: req.body.cover
+  } )
+
+  User.findById( req.session.user ).then((user) => {
+    user.favAlbums.push(newfavourte)
+    // Save the new user
+    user.save().then((user) => {
+      res.send( {user} )
     }, (error) => {
-      console.log(error)
       res.send({"error": error})
     })
+  },(error) => {
+    res.status(400).send(error) // 400 for bad request
   })
+})
 
-  app.get('/pendingAlbumSubmissions', (req, res) => {
-    //TODO: Check session cookie to make sure current user is an admin
+// a patch request that removes a users to the current's users friendslist
+app.post('/unfavourAlbum', (req, res) => {
+  const newFavouriteList = []
+
+  User.findById( req.session.user ).then((user) => {
+    for( let i =0; i < user.favAlbums.length; i++ )
+    {
+      if( user.favAlbums[i]._id != req.body.albumID)
+      {
+        newFavouriteList.push(user.favAlbums[i])
+      }
+    }
+    user.favAlbums = newFavouriteList;
+
+    // Save the new user
+    user.save().then((user) => {
+      res.send( {user} )
+    }, (error) => {
+      res.status(404).send({"error": error})
+    })
+  },(error) => {
+    res.status(400).send(error) // 400 for bad request
+  })
+})
+
+
+//LISTENED ALBUM FUNCTIONALITY
+// A GET requests that users if the current users has marked this album to listen to
+app.get('/albumListened', (req, res) => {
+  User.findById( req.session.user ).then((user) => {
+    const userListened = user.userCollections[0].albums
+    res.send(userListened)
+  }, (error) => {
+    res.status(500).send(error) // server error
+  })
+})
+
+
+// a POST request that adds an album to "To listen"
+app.post('/addListenedAlbum', (req, res) => {
+  const newListen= new savedAlbum( {
+    _id:  req.body.albumID,
+    name: req.body.name,
+    cover: req.body.cover
+  } )
+
+  User.findById( req.session.user ).then((user) => {
+    user.userCollections[0].albums.push(newListen)
+    user.save().then((user) => {
+      res.send( {user} )
+    }, (error) => {
+      res.send({"error": error})
+    })
+  },(error) => {
+    res.status(400).send(error) // 400 for bad request
+  })
+})
+
+// a patch request that removes an album to the current's users to listen
+app.post('/removeFromListened', (req, res) => {
+  const newToListened = []
+
+  User.findById( req.session.user ).then((user) => {
+    const userCollection = user.userCollections[0].albums
+    for( let i =0; i < userCollection.length; i++ )
+    {
+      if( userCollection[i]._id != req.body.albumID)
+      {
+        newToListened.push(userCollection[i])
+      }
+    }
+    user.userCollections[0].albums= newToListened;
+
+    // Save the new user
+    user.save().then((user) => {
+      res.send( {user} )
+    }, (error) => {
+      res.status(404).send({"error": error})
+    })
+  },(error) => {
+    res.status(400).send(error) // 400 for bad request
+  })
+})
+
+
+//TO LISTEN ALBUM FUNCTIONALITY
+// A GET requests that users if the current users has marked this album to listen to
+app.get('/albumtoListen', (req, res) => {
+  User.findById( req.session.user ).then((user) => {
+    const userToListen = user.userToListen
+    res.send(userToListen)
+  }, (error) => {
+    res.status(500).send(error) // server error
+  })
+})
+
+// a POST request that adds an album to "To listen"
+app.post('/toListenAlbum', (req, res) => {
+  const newListen= new savedAlbum( {
+    _id:  req.body.albumID,
+    name: req.body.name,
+    cover: req.body.cover
+  } )
+
+  User.findById( req.session.user ).then((user) => {
+    user.userToListen.push(newListen)
+    user.save().then((user) => {
+      res.send( {user} )
+    }, (error) => {
+      res.send({"error": error})
+    })
+  },(error) => {
+    res.status(400).send(error) // 400 for bad request
+  })
+})
+
+// a patch request that removes an album to the current's users to listen
+app.post('/removeToList', (req, res) => {
+  const newToList = []
+
+  User.findById( req.session.user ).then((user) => {
+    for( let i =0; i < user.userToListen.length; i++ )
+    {
+      if( user.userToListen[i]._id != req.body.albumID)
+      {
+        newToList.push(user.userToListen[i])
+      }
+    }
+    user.userToListen = newToList;
+
+    // Save the new user
+    user.save().then((user) => {
+      res.send( {user} )
+    }, (error) => {
+      res.status(404).send({"error": error})
+    })
+  },(error) => {
+    res.status(400).send(error) // 400 for bad request
+  })
+})
+
+// VIEWING, FOLLOWING AND UNFOLLOWING ANOTHER USER
+// Rouets that handle the above tasks
+
+// A GET requests that returns the current user and the user they are viewing
+app.get('/userviewableinfo', (req, res) => {
+  User.findById( req.session.userviewable ).then((user) => {
+    res.send({ "currentUserid":req.session.user,  user })
+  }, (error) => {
+    res.status(500).send(error) // server error
+  })
+})
+
+// A GET requests that users if the current users follows the user who
+// they are currently viewing
+app.get('/userFollowing', (req, res) => {
+  User.findById( req.session.user ).then((user) => {
+    const friendList = user.friendList
+    res.send(friendList)
+  }, (error) => {
+    res.status(500).send(error) // server error
+  })
+})
+
+
+// a POST request that adds a users to the current's users friendslist
+app.post('/followUser', (req, res) => {
+  const newFriend = new ViewableUser( {
+    _id:  req.body.userID,
+    displayName: req.body.displayName,
+    profilePic: req.body.profilePic
+  } )
+
+  User.findById( req.session.user ).then((user) => {
+    user.friendList.push(newFriend)
+    // Save the new user
+    user.save().then((user) => {
+      res.send( {user} )
+    }, (error) => {
+      res.send({"error": error})
+    })
+  },(error) => {
+    res.status(400).send(error) // 400 for bad request
+  })
+})
+
+// a patch request that removes a users to the current's users friendslist
+app.post('/unfollowUser', (req, res) => {
+  const newFriendList = []
+
+  User.findById( req.session.user ).then((user) => {
+    for( let i =0; i < user.friendList.length; i++ )
+    {
+      if( user.friendList[i]._id != req.body.userID)
+      {
+        newFriendList.push(user.friendList[i])
+      }
+    }
+    user.friendList = newFriendList;
+
+    // Save the new user
+    user.save().then((user) => {
+      res.send( {user} )
+    }, (error) => {
+      res.status(404).send({"error": error})
+    })
+  },(error) => {
+    res.status(400).send(error) // 400 for bad request
+  })
+})
+
+//// IMAGE HANDLING
+// a POST route to *create* an image
+// returns the image
+app.post("/image", multipartMiddleware, (req, res) => {
+  // Use uploader.upload API to upload image to cloudinary server.
+  cloudinary.uploader.upload(  req.files.photo.path,  function (result) {
+    res.send( result )
+  })
+})
+
+/// ALBUMS SUBMISSIONS ROUTES
+
+
+// posts an album submission to pendingAlbumSubmissions
+app.post('/pendingAlbumSubmissions', (req, res) => {
+  if (! req.session.user )
+  {
+    res.status(400).send ({Error: "No user connected "})
+    return
+  }
+
+  const newSubmission = new PendingAlbumSubmission({
+    title: req.body.title,
+    cover: req.body.cover,
+    artists: req.body.artists,
+    user: req.session.user,
+    time: req.body.time,
+    details: req.body.details
+  })
+  // Save the new pending album submission
+  newSubmission.save().then((newSubmission) => {
+    res.redirect('/dashboard')
+  }, (error) => {
+    console.error(error)
+    res.send({"error": error})
+  })
+})
+// Route to list all album submissions pending approval
+app.get('/pendingAlbumSubmissions',isSessionDead, (req, res) => {
+  //Check session cookie to make sure current user is an admin
+  if( req.session.user == adminID) {
     PendingAlbumSubmission.find().then((albums) => {
       const summaries = albums.map(function(album) {
         return {
@@ -721,13 +681,132 @@ app.post('/users', (req, res) => {
       })
       res.send(summaries);
     }, (error) => {
-      console.log(error);
+      console.error(error);
       res.status(500).send();
     })
-  })
+  } else { 
+    res.status(403).send();
+  }
+})
+// Route to request the editor page for a pending album
+app.get('/editSubmission&album=:albumID', isSessionDead, (req, res) => {
+  if( req.session.user == adminID) {
+    req.session.album =  req.params.albumID
+    res.sendFile('./public/admin-submission-editor.html', {root: __dirname })
+  } else {
+    res.status(403).send();
+  }
+})
 
-  // will use an 'environmental variable', process.env.PORT, for deployment.
-  const port = process.env.PORT || 5000
-  app.listen(port, () => {
-    console.log(`Listening on port ${port}...`)
+function patchSubmission(id, formData) {
+  return PendingAlbumSubmission.findById(id).then((submission) => {
+    submission.details = formData;
+    submission.title = submission.details.name;
+    return submission.save();
+  }, (error) => {
+    throw(error);
+  }).catch((error) =>{
+    throw(error);
   })
+}
+// A PATCH request that saves the changes made to a pending album without approving it.
+app.patch('/pendingAlbumSubmissions/:id',isSessionDead, (req, res) => {
+  //Check session cookie to make sure current user is an admin
+  if( req.session.user == adminID) {
+    const albumId = req.params.id;
+    if (!ObjectID.isValid(albumId)){
+      res.status(404).send();
+      return;
+    }
+    patchSubmission(albumId, req.body).then((result) => {
+      res.status(200).send();
+    }, (error) => {
+      res.status(500).send();
+    });
+    
+  } else {
+    res.status(403).send();
+  }
+})
+// A POST request that approves a submitted album
+// id should be the id of a PendingAlbumSubmission
+app.post('/album/:id', (req, res) => {
+  //Check session cookie to make sure current user is an admin
+  if( req.session.user == adminID) {
+    const albumId = req.params.id;
+    if (!ObjectID.isValid(albumId)){
+      res.status(404).send();
+      return;
+    }
+    patchSubmission(albumId, req.body).then((result) => {
+      //Approve the submission
+      PendingAlbumSubmission.findById(albumId).then((submission) => {
+        if (!submission) {
+          res.status(404).send();
+        } else {
+          // create a new Album from the PendingAlbumSubmission
+          const details = submission.details;
+          const newAlbum = new Album({
+            name: details.name,
+            cover: details.cover,
+            artist: details.artist,
+            producer: details.producer,
+            year: details.year,
+            genre: details.genre,
+            label: details.label,
+            length: details.length,
+            trackList: details.trackList,
+            avgRating: details.avgRating,
+            Reviews: details.Reviews
+          });
+          newAlbum.save().then((result) => {
+            //Remove the pending submission
+            PendingAlbumSubmission.deleteOne({_id: albumId}, (error) => {
+              console.error(error);
+            }).then((result) => {
+              res.status(200).send();
+            })
+            //res.send(result)
+          }, (error) => {
+            console.error(error);
+            //res.send({"error": error});
+          });
+        }
+      }, (error) => {
+        console.error(error);
+        //res.status(500).send();
+      })
+    }, (error) => {
+      res.status(500).send()
+    });
+  } else {
+    res.status(403).send();
+  }
+})
+
+function approveSubmission(albumId) {
+    
+  
+}
+
+app.get('/submissionDetails', isSessionDead, (req, res) => {
+  //Check session cookie to make sure current user is an admin
+  if( req.session.user == adminID) {
+    if (req.session.album === undefined) {
+      res.status(404).send();
+      return;
+    } else {
+      PendingAlbumSubmission.findById(req.session.album).then((pendingAlbum) => {
+        res.send(pendingAlbum);
+        return;
+      })
+    }
+  } else {
+    res.status(403).send();
+  }
+})
+// will use an 'environmental variable', process.env.PORT, for deployment.
+const port = process.env.PORT || 5000
+app.listen(port, () => {
+  console.log(`Listening on port ${port}...`)
+})

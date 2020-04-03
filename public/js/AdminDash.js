@@ -51,7 +51,7 @@ function addAlbumToTable(album, table) {
       artistCell.appendChild(artistText);
     }
 
-    // need to fix these links
+    // TODO: need to fix these links
     const submitterCell = newRow.insertCell();
     const submitDiv = document.createElement("div");
     submitDiv._id = album.user
@@ -63,21 +63,15 @@ function addAlbumToTable(album, table) {
     const submissionDateCell = newRow.insertCell();
     const submissionDateText = document.createTextNode(album.submissionDate);
     submissionDateCell.appendChild(submissionDateText);
-
-    const approveButtonCell = newRow.insertCell();
-    const approveButton = document.createElement("button");
-    approveButton.type="submit";
-    const buttonText = document.createTextNode("Approve");
-    approveButton.appendChild(buttonText);
-    approveButton.addEventListener("click", function(e) {approveAlbum(album.albumId)});
-    approveButtonCell.appendChild(approveButton);
-    //const detailsLinkCell = newRow.insertCell();
-    //const detailsLink = document.createElement("a");
-    //detailsLink.href = "./admin-album-editor" + album.albumId + ".html";
-    //const detailsText = document.createTextNode("+");
-    //detailsLink.appendChild(detailsText);
-    //detailsLinkCell.appendChild(detailsLink);
-
+    
+    const detailsLinkCell = newRow.insertCell();
+    const detailsLink = document.createElement("a");
+    detailsLink.href = '/editSubmission&album=' + album.albumId; 
+    //detailsLink.albumId = album.albumId;
+    //detailsLink.addEventListener('click', toSubmissionEditor);
+    const detailsText = document.createTextNode("+");
+    detailsLink.appendChild(detailsText);
+    detailsLinkCell.appendChild(detailsLink);
 }
 
 function approveAlbum(albumId) {
@@ -100,17 +94,7 @@ function approveAlbum(albumId) {
             }
             return res.json()
         })
-        .then((json) => {  // the resolved promise with the JSON body
-          console.log(json)  // log the result in the console for development purposes,
-                            //  users are not expected to see this.
-        console.log(`Error Code: ${json.status}`)
-         console.log(`Error URL: ${json.url}`)
-         console.log(`Error body: ${json.body}`)
-        // console.log(`Error json: ${json}`)
-         const body  = JSON.stringify(json, ' ', 4)
-         console.log(`Error body: ${body}`)
-
-      }).catch((error) => {
+        .catch((error) => {
           console.log(error)
         })
 }
@@ -132,7 +116,6 @@ function getAlbumSubmissions() {
     })
     .then((json) => {  // the resolved promise with the JSON body
       console.log(json)
-      //currentUser = json.user
       const pendingAlbums = json;
       populateSubmissionsTable(pendingAlbums);
     }).catch((error) => {
@@ -142,7 +125,6 @@ function getAlbumSubmissions() {
 }
 
 document.onload = displayAlbumSubmissions();
-
 
 function toToUserPage(e) {
   console.log("Clicked on div")
