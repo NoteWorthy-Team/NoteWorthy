@@ -1,6 +1,42 @@
 //AlbumEditor.js
 
-//TODO: Show submitted album's cover and let the admin change it
+let photoURL = "";
+const newAlbumCover = document.getElementsByClassName("newPhotoForm")[0];
+newAlbumCover.addEventListener('submit', getPhotoURl);
+function getPhotoURl(e) {
+    e.preventDefault(); // prevent default form action
+    const url = "/image";
+  
+    // The data we are going to send in our request
+    const imageData = new FormData(e.target);
+  
+    // Create our request constructor with all the parameters we need
+    const request = new Request(url, {
+      method: "post",
+      body: imageData,
+    });
+  
+    // Send the request with fetch()
+    fetch(request)
+    .then(function (res) {
+      // Handle response we get from the API.
+      // Usually check the error codes to see what happened.
+      if (res.status === 200) {
+        // If image was added successfully, tell the user.
+        return res.json()
+      } else {
+        // If server couldn't add the image, tell the user.
+        // Here we are adding a generic message, but you could be more specific in your app.
+      }
+    })
+    .then((json) => {  // the resolved promise with the JSON body
+      photoURL = json.url;
+      showCoverImage(photoURL);
+    }).catch((error) => {
+      console.log(error)
+    })
+  }
+
 let dataNotSaved = true;
 window.onbeforeunload = function(){
     /// Warn the user data might not be saved before closing the page.
@@ -57,6 +93,7 @@ function populateForm(album) {
     saveButton.addEventListener('click', patchAlbum);
     approveButton.addEventListener('click', postAlbum);
 
+    
     const submitterNameLink = document.getElementById("submitterName");
     const submissionDateSpan = document.getElementById("submissionDate");
     const submitterNameText = document.createTextNode(album.user.displayName);
@@ -65,6 +102,9 @@ function populateForm(album) {
     const submissionDateText = document.createTextNode(album.time);
     submissionDateSpan.appendChild(submissionDateText);
     const albumDetails = album.details;
+    photoURL = albumDetails.cover;
+
+    showCoverImage(photoURL);
     populateTitleField(albumDetails);
     populateYearField(albumDetails);
     populateArtistList(albumDetails);
@@ -72,6 +112,11 @@ function populateForm(album) {
     populateLabelList(albumDetails);
     populateGenreList(albumDetails);
     populateTrackList(albumDetails);
+}
+
+function showCoverImage(source) {
+    const coverImg = document.getElementById("albumCover");
+    coverImg.src = source;
 }
 function populateTitleField(album) {
     titleField = document.getElementById("albumTitle");
@@ -189,14 +234,12 @@ function getAlbumData() {
     .then((res) => {
       if (res.status === 200) {
         // return a promise that resolves with the JSON body
-        console.log('Got pending album details')
         return res.json()
       } else {
         console.log('Could not get pending album info')
       }
     })
     .then((json) => {  // the resolved promise with the JSON body
-      console.log(json)
       const albumDetails = json;
       populateForm(albumDetails);
     }).catch((error) => {
@@ -247,6 +290,7 @@ function getFormData () {
     const labelList = document.getElementById("labelList");
     album = {
         name: nameField.value,
+        cover: photoURL,
         year: yearField.value,
         artist: getArrayFromListElement(artistList),
         producer: getArrayFromListElement(producerList),
