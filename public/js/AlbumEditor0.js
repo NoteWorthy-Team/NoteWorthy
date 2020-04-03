@@ -51,7 +51,7 @@ function removeField(e) {
 
 function populateForm(album) {
     
-    form.albumId = album.albumId;
+    form.albumId = album._id;
     const saveButton = document.getElementById("saveButton");
     const approveButton = document.getElementById("approveButton");
     saveButton.addEventListener('click', patchAlbum);
@@ -238,15 +238,31 @@ function getArrayFromListElement(ul) {
 }
 
 // Creates an Album from the data currently in the form
-function getFormData (form) {
-
+function getFormData () {
+    const nameField = document.getElementById("albumTitle");
+    const yearField = document.getElementById("albumYear");
+    const artistList = document.getElementById("artistList");
+    const producerList = document.getElementById("producerList");
+    const genreList = document.getElementById("genreList");
+    const labelList = document.getElementById("labelList");
+    album = {
+        name: nameField.value,
+        year: yearField.value,
+        artist: getArrayFromListElement(artistList),
+        producer: getArrayFromListElement(producerList),
+        genre: getArrayFromListElement(genreList),
+        label: getArrayFromListElement(labelList),
+        trackList: getTrackListData()
+    }
+    return album;
 }
 
 function patchAlbum(e) {
+    e.preventDefault();
     const url = '/pendingAlbumSubmissions/' + form.albumId;
     const body = JSON.stringify(getFormData());
     const request = new Request(url, {
-        method: 'patch',
+        method: 'PATCH',
         body: body,
         headers: {
             'Accept': 'application/json, text/plain, */*',
@@ -265,6 +281,7 @@ function patchAlbum(e) {
 }
 
 function postAlbum(e) {
+    e.preventDefault();
     const url = '/album/' + form.albumId;
     const body = JSON.stringify(getFormData());
     const request = new Request(url, {
