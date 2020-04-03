@@ -5,23 +5,8 @@ body {
 	font-family: "Montserrat", Helvetica, sans-serif;
 }
 
-.nav-bar {
-	background: rgba(0, 0, 0, 0.5);
-	overflow: hidden;
-}
-
-.nav-bar a {
-	color: white;
-	padding: 15px;
-	float: right;
-	display: block;
-	text-align: center;
-	text-decoration: none;
-	font-size: 17px;
-}
-
-.nav-bar form {
-    display: none;
+.blankdiv {
+	height: 50px;
 }
 
 .newPhotoForm {
@@ -72,19 +57,6 @@ input[type=submit] {
 
 input[type=submit]:hover {
     background-color: #d5198e;
-}
-
-#uploadPicButton {
-	min-width: 75px;
-	padding: 12px;
-	border-radius: 4px;
-	font-size: 17px;
-	line-height: 20px;
-	float: left;
-	background-color: #ef2288;
-	border: none;
-    color: white;
-	cursor: pointer;
 }
 
 .notif {
