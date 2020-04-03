@@ -24,6 +24,14 @@ body {
     display: none;
 }
 
+.newPhotoForm {
+    padding: 10px 10px 50px 10px;
+	margin: auto;
+	width: 50%;
+	min-width: 600px;
+	background: whitesmoke;
+}
+
 /* need extra padding on the bottom because of 
 positioning of #addTrackButton */
 .submissionForm {
@@ -42,15 +50,12 @@ positioning of #addTrackButton */
 }
 
 input[type=submit] {
-	min-width: 75px;
 	padding: 12px;
 	border: solid 1px gray;
 	border-radius: 4px;
 	font-size: 17px;
 	line-height: 20px;
 	float: right;
-	width: 10%;
-	min-width: 75px;
 	background-color: #ef2288;
 	border: none;
     color: white;

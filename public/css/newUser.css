@@ -53,7 +53,6 @@ positioning of submit button */
 }
 
 input[type=submit] {
-	min-width: 160px;
 	padding: 12px;
 	border: solid 1px gray;
 	border-radius: 4px;
