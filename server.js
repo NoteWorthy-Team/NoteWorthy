@@ -127,6 +127,10 @@ app.get('/submitalbum', isSessionDead,(req, res) => {
   res.sendFile('./public/albumSubmissionPage.html', {root: __dirname })
 })
 
+app.get('/submitalbum-success', (req, res) => {
+  res.sendFile('/public/albumSubmittedPage.html', {root: __dirname })
+})
+
 app.get('/dashboard_viewable',isSessionDead, (req, res) => {
   if(!req.session.userviewable)
   {

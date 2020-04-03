@@ -152,12 +152,9 @@ function handleFormSubmit(e) {
                 console.log('Could not submit album')
             }
             return res.json()
-        }).then(function() {
-            // alert indicating submission suceeded
-            alert("Album Submitted!");
         })
     // ---------------------
-    window.location = URL + 'dashboard'
+    window.location = URL + 'submitalbum-success'
 }
 
 // code for fields of submission form
