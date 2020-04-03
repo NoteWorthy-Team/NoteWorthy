@@ -661,7 +661,7 @@ app.post('/pendingAlbumSubmissions', (req, res) => {
   newSubmission.save().then((newSubmission) => {
     res.redirect('/dashboard')
   }, (error) => {
-    console.log(error)
+    console.error(error)
     res.send({"error": error})
   })
 })
@@ -681,7 +681,7 @@ app.get('/pendingAlbumSubmissions',isSessionDead, (req, res) => {
       })
       res.send(summaries);
     }, (error) => {
-      console.log(error);
+      console.error(error);
       res.status(500).send();
     })
   } else { 
@@ -699,7 +699,6 @@ app.get('/editSubmission&album=:albumID', isSessionDead, (req, res) => {
 })
 
 function patchSubmission(id, formData) {
-  console.log(formData);
   return PendingAlbumSubmission.findById(id).then((submission) => {
     submission.details = formData;
     submission.title = submission.details.name;
@@ -712,7 +711,6 @@ function patchSubmission(id, formData) {
 }
 // A PATCH request that saves the changes made to a pending album without approving it.
 app.patch('/pendingAlbumSubmissions/:id',isSessionDead, (req, res) => {
-  console.log("got the patch request")
   //Check session cookie to make sure current user is an admin
   if( req.session.user == adminID) {
     const albumId = req.params.id;
@@ -733,10 +731,8 @@ app.patch('/pendingAlbumSubmissions/:id',isSessionDead, (req, res) => {
 // A POST request that approves a submitted album
 // id should be the id of a PendingAlbumSubmission
 app.post('/album/:id', (req, res) => {
-  console.log("got the post request")
   //Check session cookie to make sure current user is an admin
   if( req.session.user == adminID) {
-    console.log(req.params.id)
     const albumId = req.params.id;
     if (!ObjectID.isValid(albumId)){
       res.status(404).send();
@@ -763,23 +759,21 @@ app.post('/album/:id', (req, res) => {
             avgRating: details.avgRating,
             Reviews: details.Reviews
           });
-          console.log(newAlbum);
           newAlbum.save().then((result) => {
-            console.log("Approved album ", newAlbum.name);
             //Remove the pending submission
             PendingAlbumSubmission.deleteOne({_id: albumId}, (error) => {
-              console.log(error);
+              console.error(error);
             }).then((result) => {
               res.status(200).send();
             })
             //res.send(result)
           }, (error) => {
-            console.log(error);
+            console.error(error);
             //res.send({"error": error});
           });
         }
       }, (error) => {
-        console.log(error);
+        console.error(error);
         //res.status(500).send();
       })
     }, (error) => {
