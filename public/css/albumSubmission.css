@@ -88,6 +88,10 @@ input[type=submit]:hover {
 	width: 50%;
 }
 
+.notif {
+	color: red;
+}
+
 ul {
 	list-style-type: inside;
 }

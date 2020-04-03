@@ -6,7 +6,6 @@ submitButton.addEventListener("click", handleFormSubmit)
 
 const newProfilePhoto = document.getElementsByClassName("newPhotoForm")[0];
 newProfilePhoto.addEventListener('submit', getPhotoURl);
-console.log(newProfilePhoto)
 
 function getPhotoURl(e) {
   e.preventDefault(); // prevent default form action
@@ -46,6 +45,17 @@ function getPhotoURl(e) {
 
 function handleFormSubmit(e) {
     e.preventDefault();
+
+    if( photoURL === "" ){
+        // displays this warning message in red
+        const displayMessage = document.getElementById("displayMessage");
+        const notif = document.createElement('p')
+        notif.className = 'notif'
+        notif.appendChild(document.createTextNode("Submit your profile picture first!"))
+        displayMessage.appendChild(notif)
+        return;
+    }
+
     const albumTitle = document.querySelector('#albumTitle').value
     const albumYear = document.querySelector('#albumYear').value
     // all artists of album
@@ -87,7 +97,6 @@ function handleFormSubmit(e) {
         tracks.push(track)
     }
 
-    const submissionDate = new Date()
     // new album, no ratings, no reviews
     const albumInfo = {
         name: albumTitle,
