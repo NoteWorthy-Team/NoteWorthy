@@ -45,17 +45,28 @@ function getPhotoURl(e) {
 
 function handleFormSubmit(e) {
     e.preventDefault();
+    const displayMessage = document.getElementById("displayMessage");
+    const notif = document.createElement('p')
+    notif.className = 'notif'
 
+    // makes sure there is a photoURL before submitting
     if( photoURL === "" ){
         // displays this warning message in red
-        const displayMessage = document.getElementById("displayMessage");
-        const notif = document.createElement('p')
-        notif.className = 'notif'
         notif.appendChild(document.createTextNode("Submit your profile picture first!"))
         displayMessage.appendChild(notif)
         return;
     }
 
+    // makes sure there are no empty fields before submitting
+    const inputList = document.querySelectorAll("input[type=text]")
+    for (let i = 0; i < inputList.length; i++) {
+        if (inputList[i].name != "albumName" && inputList[i].value === "") {
+            // displays this warning message in red
+            notif.appendChild(document.createTextNode("Fill out all fields first!"))
+            displayMessage.appendChild(notif)
+            return;
+        }
+    }
     const albumTitle = document.querySelector('#albumTitle').value
     const albumYear = document.querySelector('#albumYear').value
     // all artists of album
@@ -83,7 +94,7 @@ function handleFormSubmit(e) {
         genres.push(genreInputs[i].value)
     }
     // getting the length of the album
-  const albumLength = document.querySelector('#albumLength').value
+    const albumLength = document.querySelector('#albumLength').value
 
     // all tracks of album
     let tracks = []
@@ -156,7 +167,7 @@ function handleFormSubmit(e) {
           console.log(error)
         })
     // ---------------------
-    window.location = URL + 'dashboard'
+    // window.location = URL + 'dashboard'
 }
 
 // code for fields of submission form
