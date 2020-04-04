@@ -94,16 +94,15 @@ function populateForm(album) {
     approveButton.addEventListener('click', postAlbum);
 
     
-    const submitterNameLink = document.getElementById("submitterName");
+    
     const submissionDateSpan = document.getElementById("submissionDate");
-    const submitterNameText = document.createTextNode(album.user.displayName);
-    submitterNameLink.appendChild(submitterNameText);
-    submitterNameLink.href='#'; //TODO: make this link work
+
     const submissionDateText = document.createTextNode(album.time);
     submissionDateSpan.appendChild(submissionDateText);
     const albumDetails = album.details;
     photoURL = albumDetails.cover;
 
+    getUserInfo(album.user);
     showCoverImage(photoURL);
     populateTitleField(albumDetails);
     populateYearField(albumDetails);
@@ -113,6 +112,41 @@ function populateForm(album) {
     populateGenreList(albumDetails);
     populateTrackList(albumDetails);
 }
+
+function getUserInfo(user) {
+    const url = '/viewUser';
+
+  const data = {
+    userID: user
+  }
+
+  // Create our request constructor with all the parameters we need
+  const request = new Request(url, {
+    method: 'post',
+    body: JSON.stringify(data),
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    },
+  });
+    fetch(request)
+    .then((res) => {
+        if (res.status === 200) {
+            const url2 = '/userviewableinfo';
+            fetch(url2)
+            .then((res) => {
+                if (res.status === 200) {
+                    return res.json();
+                }
+            }).then((json) => {
+                const submitterNameLink = document.getElementById("submitterName");
+                const submitterNameText = document.createTextNode(json.user.displayName);
+                submitterNameLink.appendChild(submitterNameText);
+            })
+            }
+        });
+}
+
 
 function showCoverImage(source) {
     const coverImg = document.getElementById("albumCover");
