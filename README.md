@@ -15,7 +15,7 @@ Key to NoteWorthy is that the albums and album information are crowd-sourced. If
 To see whether we here at NoteWorthy have an album or not, users of course can use the search bar on the navigation bar on the top of the page.
 
 ## User Instructions
-To begin using the regular user portion of NoteWorthy, access the site through the site URL (TBC). You will be greeted with a login screen. For the login credentials please use: 
+To begin using the regular user portion of NoteWorthy, access the site through the site URL (https://intense-scrubland-22709.herokuapp.com/). You will be greeted with a login screen. For the login credentials please use: 
 
 __user:__ user
 
