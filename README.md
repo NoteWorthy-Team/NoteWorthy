@@ -15,36 +15,35 @@ Key to NoteWorthy is that the albums and album information are crowd-sourced. If
 To see whether we here at NoteWorthy have an album or not, users of course can use the search bar on the navigation bar on the top of the page.
 
 ## User Instructions
-To begin using NoteWorthy, access the site through opening the index.html page. You will be greeted with a login screen. For the login credentials please use: 
+To begin using the regular user portion of NoteWorthy, access the site through the site URL (TBC). You will be greeted with a login screen. For the login credentials please use: 
 
 __user:__ user
 
 __password:__ user
 
-Once you login you will be greeted with the user page associated with that account--in this case our friend tonybaloney. On the left hand side of this page you will find a user's name, profile picture, biography, and a list of the users they are following. You can see  a full friend list by clicking "See full friend list". Clicking on a user's profile picture in this section brings you to their profile. On user pages that are not your own there is a "follow" or "unfollow" button on the top right of their page. In the central part of the page you will find a user's favourite albums under the "Top Albums" heading. Under that you will find a space with three seperate tabs. Clicking the "Reviews" tab will display the latest reviews that that user has written. Clicking the "Collections" tab shows what list of albums that user has created (by default every user has a "Listened" collection). You can further explore the these collections by clicking their title headings. Finally, the "To Listen" tab displays the albums the user has chosen to queue up on their listening list. Clicking the album art in the "Top Albums", "Reviews", or "To Listen" page will bring you to this section brings you to that album's page. 
+Once you login you will be greeted with the user page associated with that account--in this case our friend tonybaloney. On the left hand side of this page you will find a user's name, profile picture, biography, and a list of the users they are following. You can see  a full friend list by clicking "See full friend list". Clicking on a user's profile picture in this section brings you to their profile. On user pages that are not your own there is a "follow" or "unfollow" button on the top right of their page. In the central part of the page you will find a user's favourite albums under the "Top Albums" heading. Under that you will find a space with three seperate tabs. Clicking the "Reviews" tab will display the latest reviews that that user has written. Clicking the "Collections" tab shows what list of albums that user has created (by default every user has a "Listened" collection). You can further explore the these collections by clicking them. Finally, the "To Listen" tab displays the albums the user has chosen to queue up on their listening list. Clicking the album art in the "Top Albums", "Reviews", or "To Listen" page will bring you to this section brings you to that album's page. 
 
-Another way for searching for albums is to use the search field in the navigation bar. Currently there are three albums in the database to be searched for: MC Hammer's "Please Hammer Don't Hurt 'Em", The Beatles' "Help!", and NoteWorthy's in-house album "Bahen...". The search will bring the user a results page. Once on an album page you will find basic information on the album as well as album art and tracklist. Moreover, on the central portion of the page, there are the most recent reviews that users have written. The average rating for the album is displayed on the bottom left of the page. There is also a text box under the recent reviews that allows users to write their own reviews and rate the album. Found under the album art is a "Add to Favourites" button which adds the album to a user's "Top Albums" as well as buttons to add the album to their "Listened" and "To Listen" lists.
+Another way for searching for albums is to use the search field in the navigation bar. Currently there are three albums in the database to be searched for: MC Hammer's "Please Hammer Don't Hurt 'Em", The Beatles' "Help!", and NoteWorthy's in-house album "Bahen...". The search will bring the user a results page. Once on an album page you will find basic information on the album as well as album art and tracklist. Moreover, on the central portion of the page, there are the most recent reviews that users have written. The average rating for the album is displayed on the bottom left of the page. There is also a text box under the recent reviews that allows users to write their own reviews and rate the album. Found under the album art are options for adding/removing items from your "Top Albums", "Listened to", and "To Listen" lists. 
 
-If there is an album that a user would like to see added to the database, the "Submit Album" link is located on the top right of the navigation bar. Once on this page, the user will be asked to fill out a form with all the information required for an album to be displayed on NoteWorthy. 
+If there is an album that a user would like to see added to the database, the "Submit Album" link is located on the top right of the navigation bar. Once on this page, the user will be asked to fill out a form with all the information required for an album to be displayed on NoteWorthy. A user must submit an album art cover for a submission to go through. When the submission is completed a NoteWorthy admin will review and confirm that the album information is correct and add it into the database.
 
-Other than the search bar and the "Submit Album" link, the navigation bar also contains a link back to the profile of the user.
+Other than the search bar and the "Submit Album" link, the navigation bar also contains a link back to the profile of currently logged in user.
 
-With all of that you now have all the skills to navigate the phase 1 user portion of NoteWorthy!
+With all of that you now have all the skills to navigate the phase 2 user portion of NoteWorthy!
+
+## New User Instructions
+To create a new user on NoteWorthy, access the site through the site URL (TBC). You will be presented with a login screen. Click the "New User" button on the top left hand corner of the page. You will be brought to a form that requires all the information needed for a new user such as a profile picture, username, password, and a short biography. Once you've finished your registration by clicking the "Register" button, you can click the "Home" button the navigation bar to head to the login screen once again. Now with the information you just used to register you can login to NoteWorthy and begin your musical journey!
 
 ## Admin Instructions
-To begin using NoteWorthy, access the site through opening the index.html page. You will be greeted with a login screen. For the login credentials please use: 
+To begin using the admin portion of NoteWorthy, access the site through the site URL (TBC). You will be greeted with a login screen. For the login credentials please use: 
 
 __user:__ admin
 
 __password:__ admin
 
-When logged in the Adminstrator Dashboard will be displayed. Here an admin can find the list of albums requesting to be added into the database under the "Pending Submssions" link. Each album is given an unique ID and shows which user has submitted the album and when. Clicking on the details of the album the admin is able to edit the information of an album such as the title, artist, and tracklist. Once an admin confirms the information they can hit the "Save and Approve" button to display it onto NoteWorthy, if they feel like they want to further confirm information they may just hit the "Save" button and finish working on the request later. Also available on the dashboard is the "User Ticket" link, which displays changes that a user may want to do to their profiles such a user deletion. As with the user version of the site, there is a navigation bar on the top of the page that allows you to navigate NoteWorthy.
+When logged in the Adminstrator Dashboard will be displayed. Here an admin can find the list of albums requesting to be added into the database under the "Pending Submssions" link. Each album is given an unique ID and shows which user has submitted the album and when. Clicking on the details of the album the admin is able to edit the information of an album such as the title, artist, and tracklist. Once an admin confirms the information they can hit the "Save and Approve" button to display it onto NoteWorthy, if they feel like they want to further confirm information they may just hit the "Save" button and finish working on the request later. Also available on the dashboard is the "User Ticket" link, which displays changes that a user may want to do to their profiles such a user deletion. As with the user version of the site, there is a navigation bar on the top of the page that allows you to navigate NoteWorthy with the regular user experience. For more information on the regular user experience please refer to the "User Instructions" portion of this README.
 
-With all of that you now have all the skills to navigate the phase 1 admin portion of NoteWorthy!
-
-
-web URL: 
-https://vast-bayou-63071.herokuapp.com/
+With all of that you now have all the skills to navigate the phase 2 admin portion of NoteWorthy!
 
 ## Technical Overview of Middleware & Routes
 ### Session Handling
