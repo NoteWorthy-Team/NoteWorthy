@@ -788,11 +788,6 @@ app.post('/album/:id', (req, res) => {
   }
 })
 
-function approveSubmission(albumId) {
-    
-  
-}
-
 app.get('/submissionDetails', isSessionDead, (req, res) => {
   //Check session cookie to make sure current user is an admin
   if( req.session.user == adminID) {
