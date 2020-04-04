@@ -310,27 +310,27 @@ function updateUserPanel(user)  {
   // add collection divs
   else if (isDisplayingCollections ) {
     if( user.userCollections.length != 0) {
-      for(let i = 0; i< 3 && i < user.userCollections.length ; i++)
+      for(let i = 0; i < user.userCollections.length ; i++)
       {
         let currentCollections = user.userCollections[i]
+        let index = i
 
         let albumList  = currentCollections.albums;
         let collNameText = currentCollections.collectionName;
         let collDesText = currentCollections.description;
 
-
         let collAlbumDiv = document.createElement('div');
-        collAlbumDiv.index = i
+        collAlbumDiv.index = index
         collAlbumDiv.className = 'collectionAlbumDiv'
 
         // loading in the album covers
-        for(let i =0; i < 4; i++) {
+        for(let j =0; j < 4; j++) {
           let currentcoverImg = document.createElement('img')
-          currentcoverImg.index = i
           currentcoverImg.className = 'collectioncover'
-          if( i < albumList.length )
+          currentcoverImg.index = index
+          if( j < albumList.length )
           {
-            currentcoverImg.src = albumList[i].cover
+            currentcoverImg.src = albumList[j].cover
           }
           else
           {
@@ -338,17 +338,18 @@ function updateUserPanel(user)  {
           }
           collAlbumDiv.appendChild(currentcoverImg)
         }
+
         let collectionNameHead = document.createElement('h1');
         collectionNameHead.appendChild(document.createTextNode(collNameText))
-        collectionNameHead.index = i
+        collectionNameHead.index = index
 
         let collectionDisPara = document.createElement('p');
         collectionDisPara.appendChild(document.createTextNode(collDesText))
-        collectionDisPara.index = i
+        collectionDisPara.index = index
 
         let collDiv = document.createElement('div');
         collDiv.className = 'collectionDiv'
-        collDiv.index = i
+        collDiv.index = index
 
         collDiv.appendChild(collAlbumDiv)
         collDiv.appendChild(collectionNameHead)
@@ -405,9 +406,6 @@ function updateUserPanel(user)  {
         userPanel.appendChild(albumdiv);
       }
 
-      // Add a link down here to bring the user to a screen where they can edit their collections
-      // Be able to expand the collections
-
     }
     // Shows a message telling user to write some reviews
     else
@@ -425,8 +423,11 @@ function updateUserPanel(user)  {
 }
 
 function toCollectionPage(e) {
+  console.log("Collection page")
   const url = '/viewCollection';
-  console.log(e.toElement.index)
+  let index = e.toElement.index
+
+  console.log(index)
 
   const data = {
     collectionIndex: e.toElement.index
