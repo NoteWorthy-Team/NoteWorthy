@@ -187,22 +187,32 @@ function addTrack() {
     const albumTrackList = document.getElementById("albumTrackList");
     const newLi = document.createElement("li");
     newLi.className = "trackContainer";
+
+    const titleContainer = document.createElement('div');
+    titleContainer.className = "titleContainer";
     const titleLabel = document.createElement("label");
     const titleLabelText = document.createTextNode("Title: ");
     titleLabel.appendChild(titleLabelText);
     const titleInput = document.createElement("input")
     titleInput.type = "text";
     titleInput.className = "trackTitleInput";
+    titleContainer.appendChild(titleLabel);
+    titleContainer.appendChild(titleInput);
+
+    const trackRuntimeContainer = document.createElement('div');
+    trackRuntimeContainer.className = "trackRuntimeContainer";
     const runtimeLabel = document.createElement("label");
     const runtimeLabelText = document.createTextNode("Running time:");
     runtimeLabel.appendChild(runtimeLabelText);
     const runtimeInput = document.createElement("input")
     runtimeInput.type = "text";
     runtimeInput.className = "trackRuntimeInput";
-    newLi.appendChild(titleLabel);
-    newLi.appendChild(titleInput);
-    newLi.appendChild(runtimeLabel);
-    newLi.appendChild(runtimeInput);
+    trackRuntimeContainer.appendChild(runtimeLabel);
+    trackRuntimeContainer.appendChild(runtimeInput);
+
+    newLi.appendChild(titleContainer);
+    newLi.appendChild(trackRuntimeContainer);
+
     const plusButton = document.getElementById("addTrackButton");
     albumTrackList.insertBefore(newLi, plusButton);
 

@@ -23,33 +23,36 @@
         </form>
       </div>
     <form autocomplete="off" action="" id="albumForm">
-        <div>
+        <div>   
         <label for="albumTitle">Title:</label>
-        <input type="text" id="albumTitle">
-        <label for="albumYear">Year:</label>
-        <input type="text" id="albumYear">
-    </div>
+            <ul> <!--for styling purposes-->
+                <input type="text" id="albumTitle">
+            </ul>
+            <label for="albumYear">Year:</label>
+            <ul> <!--for styling purposes-->
+                <input type="text" id="albumYear">
+            </ul>
+        </div> 
         <div>
-        <section id="artists">
-            <label for="artistList">Artist:</label>
-            <ul id="artistList">
-                <li class="inputContainer">
-                    <input type="text" class="albumInfoInput">
-                </li>
-                <button type="button" class="addInputButton" id="addArtistButton">+</button>
-            </ul>
-        </section>
-        <section id="producers">
-            <label for="producerList">Producer: </label>
-            <ul id="producerList">
-                <li class="inputContainer">
-                    <input type="text" class="albumInfoInput">
-                </li>
-                <button type="button" class="addInputButton" id="addProducerButton">+</button>
-            </ul>
-        </section>
-    </div>
-    <div>
+            <section id="artists">
+                <label for="artistList">Artist:</label>
+                <ul id="artistList">
+                    <li class="inputContainer">
+                        <input type="text" class="albumInfoInput">
+                    </li>
+                    <button type="button" class="addInputButton" id="addArtistButton">+</button>
+                </ul>
+            </section>
+            <section id="producers">
+                <label for="producerList">Producer: </label>
+                <ul id="producerList">
+                    <li class="inputContainer">
+                        <input type="text" class="albumInfoInput">
+                    </li>
+                    <button type="button" class="addInputButton" id="addProducerButton">+</button>
+                </ul>
+            </section>
+        </div> 
         <section id="albumLabels">
             <label for="labelList">Label:</label>
             <ul id="labelList">
@@ -68,22 +71,22 @@
                 <button type="button" class="addInputButton" id="addGenreButton">+</button>
             </ul>
         </section>
-    </div>
+
         <section>
-        <label for="albumTrackList">Track List</label>
-        <ol id="albumTrackList">
-            <li class="trackContainer">
-                <div class="titleContainer">
-                    <label>Title:</label>
-                    <input type="text" class="trackTitleInput">
-                </div>
-                <div class="trackRuntimeContainer">
-                    <label>Running time:</label>
-                    <input type="text" class="trackRuntimeInput">
-                </div>
-            </li>
-            <button type="button" id="addTrackButton">+</button>
-        </ol>
+            <label for="albumTrackList">Track List</label>
+            <ol id="albumTrackList">
+                <li class="trackContainer">
+                    <div class="titleContainer">
+                        <label>Title:</label>
+                        <input type="text" class="trackTitleInput">
+                    </div>
+                    <div class="trackRuntimeContainer">
+                        <label>Running time:</label>
+                        <input type="text" class="trackRuntimeInput">
+                    </div>
+                </li>
+                <button type="button" id="addTrackButton">+</button>
+            </ol>
         </section>
         <input type="submit" value="Save & Approve" id="approveButton">
         <input type="submit" value="Save" id="saveButton">

@@ -110,7 +110,3 @@ input[type=submit]:hover {
 ul {
 	list-style-type: inside;
 }
-
-section {
-    display: inline-block;
-}
