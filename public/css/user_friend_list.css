@@ -82,3 +82,7 @@ a {
 #users {
     margin-left: 10px;
 }
+
+#pending-submissions {
+	display: none;
+}

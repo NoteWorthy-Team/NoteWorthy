@@ -52,6 +52,10 @@ body {
     line-height: 20px
 }
 
+#pending-submissions {
+	display: none;
+}
+
 #albumName {
   font-size:12px;
   margin-left: 30px;

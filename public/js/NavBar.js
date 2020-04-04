@@ -24,6 +24,7 @@ class NavBar extends HTMLElement {
 
     const pendingSubmissions = document.createElement('a')
     const pendingSubmissionsLinkText = document.createTextNode('Pending Submissions')
+    pendingSubmissions.id = 'pending-submissions'
     pendingSubmissions.appendChild(pendingSubmissionsLinkText)
     pendingSubmissions.href = URL + 'admin'
 

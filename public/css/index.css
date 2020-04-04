@@ -25,6 +25,10 @@ body {
 	display: inline-block;
 }
 
+#pending-submissions {
+	display: none;
+}
+
 .middle-container {
 	position: absolute;
 	top: 50%;

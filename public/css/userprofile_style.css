@@ -10,6 +10,10 @@ font-family: "Montserrat", Helvetica, sans-serif;
 	overflow: hidden;
 }
 
+#pending-submissions {
+	display: none;
+}
+
 .nav-bar a {
 	color: white;
 	padding: 15px;
@@ -51,6 +55,7 @@ font-family: "Montserrat", Helvetica, sans-serif;
     font-size: 17px;
     line-height: 20px
 }
+
 
 #followDiv {
 	margin-top: 0px;
