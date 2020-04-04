@@ -1,0 +1,120 @@
+body {
+	background-color: rgb(255, 199, 130);
+	margin: 0;
+	padding: 0;
+	font-family: "Montserrat", Helvetica, sans-serif;
+}
+
+.nav-bar {
+	background: rgba(0, 0, 0, 0.5);
+	overflow: hidden;
+}
+
+.nav-bar a {
+	color: white;
+	padding: 15px;
+	float: right;
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	font-size: 17px;
+}
+
+.nav-bar form {
+    width: 50%;
+    display: inline-block;
+}
+
+.nav-bar input[type=text] {
+	width: 50%;
+	min-width: 75px;
+	padding: 12px;
+	border: solid 1px gray;
+	border-radius: 4px;
+	margin: 4px;
+	opacity: 0.8;
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 17px;
+	line-height: 20px
+}
+
+.newPhotoForm {
+    padding: 10px 10px 50px 10px;
+	margin: auto;
+	width: 50%;
+	min-width: 600px;
+	background: whitesmoke;
+}
+
+/* need extra padding on the bottom because of 
+positioning of #addTrackButton */
+.submissionForm {
+    padding: 10px 10px 60px 10px;
+	margin: auto;
+	width: 50%;
+	min-width: 600px;
+	background: whitesmoke;
+}
+
+.submissionForm input[type=text]{
+	width: 40%;
+	border: solid 1px gray;
+	border-radius: 4px;
+	padding: 5px;
+}
+
+input[type=submit] {
+	padding: 12px;
+	border: solid 1px gray;
+	border-radius: 4px;
+	font-size: 17px;
+	line-height: 20px;
+	float: right;
+	background-color: #ef2288;
+	border: none;
+    color: white;
+	cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #d5198e;
+}
+
+.trackListContainer {
+	width: 100%;
+}
+
+.titleContainer {
+	display: inline-block;
+	width: 50%;
+}
+
+.trackRuntimeContainer {
+	display: inline-block;
+	width: 30%;
+}
+
+#trackTitleInput {
+	width: 80%;
+}
+
+#trackRuntimeInput {
+	width: 50%;
+}
+
+.notif {
+	color: red;
+}
+
+ul {
+	list-style-type: inside;
+}
+
+section {
+    display: inline-block;
+}
+
+table, td, th {
+	border: 1px solid black;
+}

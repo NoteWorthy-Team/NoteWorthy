@@ -21,12 +21,12 @@ body {
 }
 
 .nav-bar form {
-width: 80%;
-display: inline-block;
+    width: 50%;
+    display: inline-block;
 }
 
 .nav-bar input[type=text] {
-width: 80%;
+width: 50%;
 min-width: 75px;
 padding: 12px;
 border: solid 1px gray;
