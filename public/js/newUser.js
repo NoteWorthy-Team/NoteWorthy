@@ -1,5 +1,5 @@
 // JS for page to add new user
-let URL = 'https://intense-scrubland-22709.herokuapp.com/'  // Website url 
+let URL = 'https://lit-dawn-95381.herokuapp.com/'  // Website url 
 
 // Runs certain functions once the page is loaded
 let numberOfUsers = null;
@@ -131,7 +131,7 @@ function addUser(e) {
           console.log('Added user')
           const displayMessage = document.getElementById("displayMessage");
           const logInHere = document.createElement('a')
-          logInHere.href = URL 
+          logInHere.href = URL
           logInHere.appendChild(document.createTextNode("HERE"))
           displayMessage.appendChild(document.createTextNode("User has been created, please log in with the name '" + loginName + "' " ))
           displayMessage.appendChild(document.createElement('br'))

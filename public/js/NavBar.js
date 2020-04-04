@@ -1,6 +1,6 @@
 // create custom element for top navigation bar
 
-const URL = "https://intense-scrubland-22709.herokuapp.com/"
+const URL = "https://lit-dawn-95381.herokuapp.com/"
 
 class NavBar extends HTMLElement {
   constructor() {
@@ -21,7 +21,7 @@ class NavBar extends HTMLElement {
     const albumSubmissionLinkText = document.createTextNode('Submit Album')
     albumSubmission.appendChild(albumSubmissionLinkText)
     albumSubmission.href = URL + 'submitalbum'
-    
+
 
     const searchForm = document.createElement('form')
     const loc = window.location.pathname.split('/')
