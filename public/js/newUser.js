@@ -130,7 +130,7 @@ function addUser(e) {
           console.log('Added user')
           const displayMessage = document.getElementById("displayMessage");
           const logInHere = document.createElement('a')
-          logInHere.href = 'https://salty-badlands-60696.herokuapp.com/'
+          logInHere.href = 'https://intense-scrubland-22709.herokuapp.com/'
           logInHere.appendChild(document.createTextNode("HERE"))
           displayMessage.appendChild(document.createTextNode("User has been created, please log in with the name '" + loginName + "' " ))
           displayMessage.appendChild(document.createElement('br'))
