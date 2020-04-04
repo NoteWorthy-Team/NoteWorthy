@@ -15,7 +15,7 @@ Key to NoteWorthy is that the albums and album information are crowd-sourced. If
 To see whether we here at NoteWorthy have an album or not, users of course can use the search bar on the navigation bar on the top of the page.
 
 ## User Instructions
-To begin using the regular user portion of NoteWorthy, access the site through the site URL (TBC). You will be greeted with a login screen. For the login credentials please use: 
+To begin using the regular user portion of NoteWorthy, access the site through the site URL (https://lit-dawn-95381.herokuapp.com/ ). You will be greeted with a login screen. For the login credentials please use: 
 
 __user:__ user
 
@@ -32,10 +32,10 @@ Other than the search bar and the "Submit Album" link, the navigation bar also c
 With all of that you now have all the skills to navigate the phase 2 user portion of NoteWorthy!
 
 ## New User Instructions
-To create a new user on NoteWorthy, access the site through the site URL (TBC). You will be presented with a login screen. Click the "New User" button on the top left hand corner of the page. You will be brought to a form that requires all the information needed for a new user such as a profile picture, username, password, and a short biography. Once you've finished your registration by clicking the "Register" button, you can click the "Home" button the navigation bar to head to the login screen once again. Now with the information you just used to register you can login to NoteWorthy and begin your musical journey!
+To create a new user on NoteWorthy, access the site through the site URL (https://lit-dawn-95381.herokuapp.com/ ). You will be presented with a login screen. Click the "New User" button on the top left hand corner of the page. You will be brought to a form that requires all the information needed for a new user such as a profile picture, username, password, and a short biography. Once you've finished your registration by clicking the "Register" button, you can click the "Home" button the navigation bar to head to the login screen once again. Now with the information you just used to register you can login to NoteWorthy and begin your musical journey!
 
 ## Admin Instructions
-To begin using the admin portion of NoteWorthy, access the site through the site URL (TBC). You will be greeted with a login screen. For the login credentials please use: 
+To begin using the admin portion of NoteWorthy, access the site through the site URL (https://lit-dawn-95381.herokuapp.com/ ). You will be greeted with a login screen. For the login credentials please use: 
 
 __user:__ admin
 
