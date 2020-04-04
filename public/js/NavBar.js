@@ -21,12 +21,7 @@ class NavBar extends HTMLElement {
     const albumSubmissionLinkText = document.createTextNode('Submit Album')
     albumSubmission.appendChild(albumSubmissionLinkText)
     albumSubmission.href = URL + 'submitalbum'
-
-    const pendingSubmissions = document.createElement('a')
-    const pendingSubmissionsLinkText = document.createTextNode('Pending Submissions')
-    pendingSubmissions.id = 'pending-submissions'
-    pendingSubmissions.appendChild(pendingSubmissionsLinkText)
-    pendingSubmissions.href = URL + 'admin'
+    
 
     const searchForm = document.createElement('form')
     const loc = window.location.pathname.split('/')
@@ -60,8 +55,24 @@ class NavBar extends HTMLElement {
     navBar.appendChild(searchForm)
     navBar.appendChild(profile)
     navBar.appendChild(albumSubmission)
-    navBar.appendChild(pendingSubmissions)
-
+    // Determine whether to render Pending Submissions link
+    const isAdminURL = '/userIsAdmin';
+    fetch(isAdminURL).then((res) => {
+      if (res.status === 200) {
+        // return a promise that resolves with the JSON body
+        return res.json()
+      }
+    })
+    .then((json) => {
+      if (json.userIsAdmin) {
+        const pendingSubmissions = document.createElement('a')
+        const pendingSubmissionsLinkText = document.createTextNode('Pending Submissions')
+        pendingSubmissions.id = 'pending-submissions'
+        pendingSubmissions.appendChild(pendingSubmissionsLinkText)
+        pendingSubmissions.href = URL + 'admin'
+        navBar.appendChild(pendingSubmissions)
+      }
+    })
     document.body.appendChild(navBar)
   }
 }

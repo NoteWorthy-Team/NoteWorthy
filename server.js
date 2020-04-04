@@ -804,6 +804,14 @@ app.get('/submissionDetails', isSessionDead, (req, res) => {
     res.status(403).send();
   }
 })
+
+app.get('/userIsAdmin', isSessionDead, (req, res) => {
+  if( req.session.user == adminID) {
+    res.status(200).send({userIsAdmin: true});
+  } else {
+    res.status(200).send({userIsAdmin: false});
+  }
+})
 // will use an 'environmental variable', process.env.PORT, for deployment.
 const port = process.env.PORT || 5000
 app.listen(port, () => {

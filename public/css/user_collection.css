@@ -56,10 +56,6 @@ a {
     line-height: 20px
 }
 
-#pending-submissions {
-	display: none;
-}
-
 .albumCover {
     display: inline-block;
     vertical-align: middle;
