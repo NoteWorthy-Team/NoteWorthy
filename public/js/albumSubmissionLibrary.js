@@ -4,10 +4,10 @@ let photoURL = "";
 const submitButton = document.getElementById("submitButton")
 submitButton.addEventListener("click", handleFormSubmit)
 
-const newProfilePhoto = document.getElementsByClassName("newPhotoForm")[0];
-newProfilePhoto.addEventListener('submit', getPhotoURl);
+const newAlbumCover = document.getElementsByClassName("newPhotoForm")[0];
+newAlbumCover.addEventListener('submit', getPhotoUrl);
 
-function getPhotoURl(e) {
+function getPhotoUrl(e) {
   e.preventDefault(); // prevent default form action
   const url = "/image";
 
@@ -52,7 +52,7 @@ function handleFormSubmit(e) {
     // makes sure there is a photoURL before submitting
     if( photoURL === "" ){
         // displays this warning message in red
-        notif.appendChild(document.createTextNode("Submit your profile picture first!"))
+        notif.appendChild(document.createTextNode("Submit your album cover first!"))
         displayMessage.appendChild(notif)
         return;
     }

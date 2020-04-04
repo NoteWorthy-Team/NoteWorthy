@@ -2,8 +2,8 @@
 
 let photoURL = "";
 const newAlbumCover = document.getElementsByClassName("newPhotoForm")[0];
-newAlbumCover.addEventListener('submit', getPhotoURl);
-function getPhotoURl(e) {
+newAlbumCover.addEventListener('submit', getPhotoUrl);
+function getPhotoUrl(e) {
     e.preventDefault(); // prevent default form action
     const url = "/image";
   

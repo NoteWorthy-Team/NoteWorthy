@@ -7,7 +7,7 @@ const newuserForm = document.getElementsByClassName("NewUserForm")[0];
 newuserForm.addEventListener('submit', addUser);
 
 const newProfilePhoto = document.getElementsByClassName("newPhotoForm")[0];
-newProfilePhoto.addEventListener('submit', getPhotoURl);
+newProfilePhoto.addEventListener('submit', getPhotoUrl);
 
 window.onload = function() {
   // the URL for the request
@@ -32,7 +32,7 @@ window.onload = function() {
 }
 
 
-function getPhotoURl(e) {
+function getPhotoUrl(e) {
   e.preventDefault(); // prevent default form action
   const url = "/image";
 
