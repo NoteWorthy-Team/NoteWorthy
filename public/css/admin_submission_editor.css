@@ -49,7 +49,7 @@ body {
 
 /* need extra padding on the bottom because of 
 positioning of #addTrackButton */
-.submissionForm {
+#albumForm {
     padding: 10px 10px 60px 10px;
 	margin: auto;
 	width: 50%;
@@ -57,7 +57,7 @@ positioning of #addTrackButton */
 	background: whitesmoke;
 }
 
-.submissionForm input[type=text]{
+#albumForm input[type=text]{
 	width: 40%;
 	border: solid 1px gray;
 	border-radius: 4px;
@@ -113,8 +113,4 @@ ul {
 
 section {
     display: inline-block;
-}
-
-table, td, th {
-	border: 1px solid black;
 }

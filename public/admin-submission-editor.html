@@ -19,7 +19,7 @@
         <img src="" id="albumCover">
         <form class="newPhotoForm">
           <input name="photo" type="file" > <br>
-            <input type="submit" value="Upload album cover">
+          <input type="submit" value="Upload album cover">
         </form>
       </div>
     <form autocomplete="off" action="" id="albumForm">
@@ -73,17 +73,20 @@
         <label for="albumTrackList">Track List</label>
         <ol id="albumTrackList">
             <li class="trackContainer">
-                <label>Title:</label>
-                <input type="text" class="trackTitleInput">
-                <label>Running time:</label>
-                <input type="text" class="trackRuntimeInput">
+                <div class="titleContainer">
+                    <label>Title:</label>
+                    <input type="text" class="trackTitleInput">
+                </div>
+                <div class="trackRuntimeContainer">
+                    <label>Running time:</label>
+                    <input type="text" class="trackRuntimeInput">
+                </div>
             </li>
             <button type="button" id="addTrackButton">+</button>
         </ol>
         </section>
-
-        <input type="submit" value="Save" id="saveButton">
         <input type="submit" value="Save & Approve" id="approveButton">
+        <input type="submit" value="Save" id="saveButton">
     </form>
 </body>
 <script type="text/javascript" src="./js/AlbumEditor0.js"></script>
