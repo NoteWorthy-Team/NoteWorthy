@@ -69,7 +69,7 @@ function addAlbumToTable(album, table) {
     detailsLink.href = '/editSubmission&album=' + album.albumId; 
     //detailsLink.albumId = album.albumId;
     //detailsLink.addEventListener('click', toSubmissionEditor);
-    const detailsText = document.createTextNode("+");
+    const detailsText = document.createTextNode("View Details");
     detailsLink.appendChild(detailsText);
     detailsLinkCell.appendChild(detailsLink);
 }

@@ -1,5 +1,6 @@
 /*admin.css*/
 body {
+    background-color: rgb(255, 199, 130);
     background-position: center;
     margin: 0;
     font-family: "Montserrat", Helvetica, sans-serif;
@@ -26,36 +27,44 @@ body {
 }
 
 .nav-bar input[type=text] {
-width: 80%;
-min-width: 75px;
-padding: 12px;
-border: solid 1px gray;
-border-radius: 4px;
-margin: 4px;
-opacity: 0.8;
-display: inline-block;
-vertical-align: middle;
-font-size: 17px;
-line-height: 20px;
+    width: 80%;
+    min-width: 75px;
+    padding: 12px;
+    border: solid 1px gray;
+    border-radius: 4px;
+    margin: 4px;
+    opacity: 0.8;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 17px;
+    line-height: 20px;
 }
 
 .nav-bar input[type=submit] {
-width: 10%;
-min-width: 75px;
-padding: 12px;
-border: solid 1px gray;
-border-radius: 4px;
-opacity: 0.8;
-display: inline-block;
-vertical-align: middle;
-font-size: 17px;
-line-height: 20px;
+    width: 10%;
+    min-width: 75px;
+    padding: 12px;
+    border: solid 1px gray;
+    border-radius: 4px;
+    opacity: 0.8;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 17px;
+    line-height: 20px;
 }
+
 section {
     display: inline-block;
 }
 
-
 table, td, th {
 	border: 1px solid black;
+}
+
+#adminDashboard {
+    padding: 10px 10px 60px 10px;
+	margin: auto;
+	width: 50%;
+	min-width: 700px;
+	background: whitesmoke;
 }
